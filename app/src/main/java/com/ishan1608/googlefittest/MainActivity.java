@@ -18,6 +18,8 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.Scope;
 import com.google.android.gms.fitness.Fitness;
 import com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks;
+import com.google.android.gms.plus.Plus;
+import com.google.android.gms.plus.model.people.Person;
 
 
 public class MainActivity extends Activity {
@@ -107,6 +109,8 @@ public class MainActivity extends Activity {
         // Create the Google API Client
         mClient = new GoogleApiClient.Builder(this)
                 .addApi(Fitness.SENSORS_API)
+                // Adding Plus API
+                .addApi(Plus.API)
                 .addScope(new Scope(Scopes.FITNESS_LOCATION_READ))
                 .addScope(new Scope(Scopes.FITNESS_LOCATION_READ_WRITE))
                 .addScope(new Scope(Scopes.FITNESS_ACTIVITY_READ))
@@ -176,8 +180,21 @@ public class MainActivity extends Activity {
     }
 
     private void invokeFitnessAPIs() {
-        Toast.makeText(getApplicationContext(), "Now I can make my calls and get things moving.", Toast.LENGTH_LONG).show();
-        logStatus("Now I can make my calls and get things moving.");
+        Toast.makeText(getApplicationContext(), "Got the user info.\nNow I can make my calls and get things moving.", Toast.LENGTH_LONG).show();
+        logStatus("Got the user info.\nNow I can make my calls and get things moving.");
+
+        // Getting user information
+        // This works fine
+        String currentAccountName = Plus.AccountApi.getAccountName(mClient);
+        Log.d(TAG, currentAccountName);
+        logStatus(currentAccountName);
+
+        // This is giving null object reference error
+        Person currentPerson = Plus.PeopleApi.getCurrentPerson(mClient);
+        String currentPersonName = currentPerson.getDisplayName();
+        Log.d(TAG, currentPersonName);
+        logStatus(currentPersonName);
+
     }
 
     private void logStatus(String status) {
