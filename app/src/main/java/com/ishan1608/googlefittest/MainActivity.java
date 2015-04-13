@@ -7,7 +7,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.content.IntentSender;
 
 
@@ -128,7 +127,7 @@ public class MainActivity extends Activity {
                                 // Now you can make calls to the Fitness APIs.
                                 // Put application specific code here.
                                 // Just displaying successful connection message
-                                Toast.makeText(getApplicationContext(), "Connected successfully", Toast.LENGTH_LONG).show();
+//                                Toast.makeText(getApplicationContext(), "Connected successfully", Toast.LENGTH_LONG).show();
                                 logStatus("Connected successfully");
 
                                 // Calling function to invoke APIs
@@ -185,7 +184,7 @@ public class MainActivity extends Activity {
     }
 
     private void invokeFitnessAPIs() {
-        Toast.makeText(getApplicationContext(), "Got the user info.\nNow I can make my calls and get things moving.", Toast.LENGTH_LONG).show();
+//        Toast.makeText(getApplicationContext(), "Got the user info.\nNow I can make my calls and get things moving.", Toast.LENGTH_LONG).show();
         logStatus("Got the user info.\nNow I can make my calls and get things moving.");
 
         // Getting user information
@@ -194,11 +193,13 @@ public class MainActivity extends Activity {
         Log.d(TAG, currentAccountName);
         logStatus(currentAccountName);
 
-        // This is giving null object reference error
+        // Getting the name of the user as given on Google Plus profile
         Person currentPerson = Plus.PeopleApi.getCurrentPerson(mClient);
-        String currentPersonName = currentPerson.getDisplayName();
-        Log.d(TAG, currentPersonName);
-        logStatus(currentPersonName);
+        if(currentPerson != null) {
+            String currentPersonName = currentPerson.getDisplayName();
+            Log.d(TAG, currentPersonName);
+            logStatus(currentPersonName);
+        }
 
     }
 
