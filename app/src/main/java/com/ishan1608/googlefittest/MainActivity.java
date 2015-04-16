@@ -33,11 +33,18 @@ public class MainActivity extends Activity {
     private static final String TAG = "FIT-TEST";
     private boolean authInProgress = false;
 
-    private GoogleApiClient mClient = null;
+    private GoogleApiClient newSignInClient = null;
 
     // Initialize Button
-    Button initializeButton;
-    TextView statusTextView;
+    private Button initializeButton;
+    private TextView statusTextView;
+
+    // already signed in case
+    private  static final String SIGNINTAG = "SINGED-IN-TEST";
+    private GoogleApiClient alreadySignedInClient = null;
+
+    // Client to work with
+//    private GoogleApiClient workingClient = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,13 +56,17 @@ public class MainActivity extends Activity {
             authInProgress = savedInstanceState.getBoolean(AUTH_PENDING);
         }
 
-        buildFitnessClient();
+        // Testing if the user is already signed in and if that's true directly moving to next activity
+        buildAlreadySignedInFitnessClient();
+        alreadySignedInClient.connect();
 
+        // Initialize button for the case when user is not already signed in
         initializeButton = (Button) findViewById(R.id.initialize_button);
         initializeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mClient.connect();
+                buildNewSignInFitnessClient();
+                newSignInClient.connect();
             }
         });
     }
@@ -63,17 +74,27 @@ public class MainActivity extends Activity {
     @Override
     protected void onStart() {
         super.onStart();
-        // Connect to the Fitness API
-        Log.i(TAG, "Connecting...");
-        logStatus("Connecting...");
-        mClient.connect();
+        if(newSignInClient != null) {
+            // Connect to the Fitness API
+            Log.i(TAG, "Connecting...");
+            logStatus("Connecting...");
+            newSignInClient.connect();
+        }
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        if (mClient.isConnected()) {
-            mClient.disconnect();
+        if (newSignInClient != null && newSignInClient.isConnected()) {
+            newSignInClient.disconnect();
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(alreadySignedInClient != null && alreadySignedInClient.isConnected()) {
+            alreadySignedInClient.disconnect();
         }
     }
 
@@ -83,8 +104,8 @@ public class MainActivity extends Activity {
             authInProgress = false;
             if (resultCode == RESULT_OK) {
                 // Make sure the app is not already connected or attempting to connect
-                if (!mClient.isConnecting() && !mClient.isConnected()) {
-                    mClient.connect();
+                if (!newSignInClient.isConnecting() && !newSignInClient.isConnected()) {
+                    newSignInClient.connect();
                 }
             }
         }
@@ -104,9 +125,81 @@ public class MainActivity extends Activity {
      *  can address. Examples of this include the user never having signed in before, or having
      *  multiple accounts on the device and needing to specify which account to use, etc.
      */
-    private void buildFitnessClient() {
+    private void buildAlreadySignedInFitnessClient() {
         // Create the Google API Client
-        mClient = new GoogleApiClient.Builder(this)
+        alreadySignedInClient = new GoogleApiClient.Builder(this)
+                // Adding Fitness Sensor API
+                .addApi(Fitness.SENSORS_API)
+                        // Adding Plus API
+                .addApi(Plus.API)
+                        // Adding Fitness Scopes
+                .addScope(new Scope(Scopes.FITNESS_LOCATION_READ))
+                .addScope(new Scope(Scopes.FITNESS_LOCATION_READ_WRITE))
+                .addScope(new Scope(Scopes.FITNESS_ACTIVITY_READ))
+                .addScope(new Scope(Scopes.FITNESS_ACTIVITY_READ_WRITE))
+                        // Adding Plus Scopes
+                .addScope(Plus.SCOPE_PLUS_LOGIN)
+                .addScope(Plus.SCOPE_PLUS_PROFILE)
+                .addConnectionCallbacks(
+                        new GoogleApiClient.ConnectionCallbacks() {
+                            @Override
+                            public void onConnected(Bundle bundle) {
+                                Log.i(SIGNINTAG, "alreadySignedInClient Connected!!!");
+                                // Now you can make calls to the Fitness APIs.
+                                // Put application specific code here.
+                                // Just displaying successful connection message
+//                                Toast.makeText(getApplicationContext(), "Connected successfully", Toast.LENGTH_LONG).show();
+                                logStatus("alreadySignedInClient Connected successfully");
+
+                                // Going to next Activity
+                                goToNextActivity();
+                            }
+
+                            @Override
+                            public void onConnectionSuspended(int i) {
+                                // If your connection to the sensor gets lost at some point,
+                                // you'll be able to determine the reason and react to it here.
+                                if (i == ConnectionCallbacks.CAUSE_NETWORK_LOST) {
+                                    Log.i(SIGNINTAG, "Connection lost.  Cause: Network Lost.");
+                                    logStatus("Connection lost.  Cause: Network Lost.");
+                                } else if (i == ConnectionCallbacks.CAUSE_SERVICE_DISCONNECTED) {
+                                    Log.i(SIGNINTAG, "Connection lost.  Reason: Service Disconnected");
+                                    logStatus("Connection lost.  Reason: Service Disconnected");
+                                }
+                            }
+                        }
+                )
+                .addOnConnectionFailedListener(
+                        new GoogleApiClient.OnConnectionFailedListener() {
+                            // Called whenever the API client fails to connect.
+
+                            @Override
+                            public void onConnectionFailed(ConnectionResult result) {
+                                Log.i(SIGNINTAG, "Connection failed. Cause: " + result.toString() + "\nEnabling login button.");
+                                logStatus("Connection failed. Cause: " + result.toString() + "\nEnabling login button.");
+                                // Enabling the login button
+                                initializeButton.setEnabled(true);
+                            }
+                        }
+                )
+                .build();
+    }
+
+
+    /**
+     *  Build a {@link GoogleApiClient} that will authenticate the user and allow the application
+     *  to connect to Fitness APIs. The scopes included should match the scopes your app needs
+     *  (see documentation for details). Authentication will occasionally fail intentionally,
+     *  and in those cases, there will be a known resolution, which the OnConnectionFailedListener()
+     *  can address. Examples of this include the user never having signed in before, or having
+     *  multiple accounts on the device and needing to specify which account to use, etc.
+     */
+    private void buildNewSignInFitnessClient() {
+        Log.d(TAG, "buildNewSignInFitnessClient called.");
+        logStatus("buildNewSignInFitnessClient called.");
+
+        // Create the Google API Client
+        newSignInClient = new GoogleApiClient.Builder(this)
                 // Adding Fitness Sensor API
                 .addApi(Fitness.SENSORS_API)
                 // Adding Plus API
@@ -130,8 +223,8 @@ public class MainActivity extends Activity {
 //                                Toast.makeText(getApplicationContext(), "Connected successfully", Toast.LENGTH_LONG).show();
                                 logStatus("Connected successfully");
 
-                                // Calling function to invoke APIs
-                                invokeFitnessAPIs();
+                                // Registering and going to next Activity
+                                registerAndNext();
                             }
 
                             @Override
@@ -183,24 +276,43 @@ public class MainActivity extends Activity {
                 .build();
     }
 
-    private void invokeFitnessAPIs() {
-//        Toast.makeText(getApplicationContext(), "Got the user info.\nNow I can make my calls and get things moving.", Toast.LENGTH_LONG).show();
-        logStatus("Got the user info.\nNow I can make my calls and get things moving.");
-
+    private void registerAndNext(){
+        Log.d(TAG, "Called registerAndNext");
+        logStatus("Called registerAndNext");
         // Getting user information
-        // This works fine
-        String currentAccountName = Plus.AccountApi.getAccountName(mClient);
+        String currentAccountName = Plus.AccountApi.getAccountName(newSignInClient);
         Log.d(TAG, currentAccountName);
         logStatus(currentAccountName);
 
         // Getting the name of the user as given on Google Plus profile
-        Person currentPerson = Plus.PeopleApi.getCurrentPerson(mClient);
+        Person currentPerson = Plus.PeopleApi.getCurrentPerson(newSignInClient);
         if(currentPerson != null) {
             String currentPersonName = currentPerson.getDisplayName();
             Log.d(TAG, currentPersonName);
             logStatus(currentPersonName);
         }
 
+        // Check the server for the availability of user and if not available then register
+        Log.d(TAG, "Checking and registering user.");
+        logStatus("Checking and registering user.");
+
+        // Can skip now to next activity
+        Log.d(TAG, "User registered move to next activity.");
+        logStatus("User registered move to next activity.");
+
+    }
+
+    private void goToNextActivity() {
+        // Disabling the initialize button
+        Log.d(TAG, "Disabling login button.");
+        logStatus("Disabling login button.");
+        initializeButton.setEnabled(false);
+
+        logStatus("I can move now to next Activity.\nHave to make a new GoogleAPIClient there.");
+
+        // Can skip now to next activity
+        Log.d(TAG, "Can skip now to next activity, because user logged in");
+        logStatus("Can skip now to next activity because user logged in");
     }
 
     private void logStatus(String status) {
