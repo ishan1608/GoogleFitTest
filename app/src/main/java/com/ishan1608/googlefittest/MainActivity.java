@@ -1,11 +1,22 @@
 package com.ishan1608.googlefittest;
 
 import android.app.Activity;
+import android.app.Fragment;
+import android.app.FragmentManager;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.v13.app.FragmentStatePagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.content.IntentSender;
 
@@ -19,6 +30,9 @@ import com.google.android.gms.fitness.Fitness;
 import com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks;
 import com.google.android.gms.plus.Plus;
 import com.google.android.gms.plus.model.people.Person;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 
 public class MainActivity extends Activity {
@@ -43,8 +57,8 @@ public class MainActivity extends Activity {
     private  static final String SIGNINTAG = "SINGED-IN-TEST";
     private GoogleApiClient alreadySignedInClient = null;
 
-    // Client to work with
-//    private GoogleApiClient workingClient = null;
+    // WelcomePager
+    ViewPager welcomePager = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +83,28 @@ public class MainActivity extends Activity {
                 newSignInClient.connect();
             }
         });
+
+        // Welcome pager showing some welcome Pager
+        welcomePager = (ViewPager) findViewById(R.id.welcome_pager);
+        welcomePager.setAdapter(new welcomeScreenAdapter(getFragmentManager()));
+        // Automatically switching welcome Pager
+        Timer welcomePagerTimer = new Timer();
+
+        welcomePagerTimer.scheduleAtFixedRate(new TimerTask() {
+            int pageCount = 0;
+            @Override
+            public void run() {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        welcomePager.setCurrentItem(pageCount, true);
+                    }
+                });
+                pageCount = pageCount + 1;
+                pageCount = pageCount % 3;
+            }
+        }, 0, 2000);
+
     }
 
     @Override
@@ -296,6 +332,31 @@ public class MainActivity extends Activity {
         Log.d(TAG, "Checking and registering user.");
         logStatus("Checking and registering user.");
 
+        // Check user existence
+        ConnectivityManager connMgr = (ConnectivityManager)
+                getSystemService(getApplicationContext().CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+        if (networkInfo != null && networkInfo.isConnected()) {
+            // fetch data
+            logStatus("Internet connected");
+            // Hiding Welcome pager
+            welcomePager.setVisibility(View.GONE);
+
+
+        } else {
+            // display error
+            logStatus("Not Connected to internet");
+            // Hiding Welcome pager
+            welcomePager.setVisibility(View.GONE);
+            // Displaying error
+            TextView errorTextView = (TextView) findViewById(R.id.error_message);
+            errorTextView.setText("Internet not Connected.\nPlease connect to internet first before continuing.");
+            RelativeLayout errorScreen = (RelativeLayout) findViewById(R.id.error_screen);
+            errorScreen.setVisibility(View.VISIBLE);
+        }
+
+
+
         // Can skip now to next activity
         Log.d(TAG, "User registered move to next activity.");
         logStatus("User registered move to next activity.");
@@ -318,5 +379,63 @@ public class MainActivity extends Activity {
     private void logStatus(String status) {
         statusTextView = (TextView) findViewById(R.id.status_text_view);
         statusTextView.append(status + "\n");
+    }
+
+    private class welcomeScreenAdapter extends FragmentStatePagerAdapter {
+
+        public welcomeScreenAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        /**
+         * Return the Fragment associated with a specified position.
+         *
+         * @param position
+         */
+        @Override
+        public Fragment getItem(int position) {
+            switch (position) {
+                case 0:
+                    return new Fragment() {
+                        @Nullable
+                        @Override
+                        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+                            ImageView localImageView = new ImageView(getApplicationContext());
+                            localImageView.setImageResource(R.drawable.welcome_screen1);
+                            return localImageView;
+                        }
+                    };
+                case 1:
+                    return new Fragment() {
+                        @Nullable
+                        @Override
+                        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+                            ImageView localImageView = new ImageView(getApplicationContext());
+                            localImageView.setImageResource(R.drawable.welcome_screen2);
+                            return localImageView;
+                        }
+                    };
+                case 2:
+                    return new Fragment() {
+                        @Nullable
+                        @Override
+                        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+                            ImageView localImageView = new ImageView(getApplicationContext());
+                            localImageView.setImageResource(R.drawable.welcome_screen3);
+                            return localImageView;
+                        }
+                    };
+                default:
+                    return null;
+            }
+        }
+
+        /**
+         * Return the number of views available.
+         */
+        @Override
+        public int getCount() {
+            return 3;
+        }
     }
 }
