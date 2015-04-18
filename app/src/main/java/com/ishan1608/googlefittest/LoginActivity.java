@@ -756,8 +756,9 @@ public class LoginActivity extends Activity {
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    // Prompting to register by displaying registration form
-                                    registerAndNext();
+                                    // Prompting to register by creating newSignInClient
+                                    buildNewSignInFitnessClient();
+                                    newSignInClient.connect();
                                 }
                             });
                         } else {
