@@ -770,8 +770,9 @@ public class LoginActivity extends Activity {
                                     logStatus("Can skip now to next activity because user logged in");
 
                                     // Going to main activity
-                                    Intent mainActivityIntent = new Intent(LoginActivity.this, MainActivity.class);
+                                    Intent mainActivityIntent = new Intent(getApplicationContext(), MainActivity.class);
                                     startActivity(mainActivityIntent);
+                                    finish();
                                 }
                             });
                         }
