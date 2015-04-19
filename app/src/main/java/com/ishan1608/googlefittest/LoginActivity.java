@@ -71,7 +71,7 @@ public class LoginActivity extends Activity {
 
     // already signed in case
     private static final String SIGNINTAG = "SINGED-IN-TEST";
-    private GoogleApiClient alreadySignedInClient = null;
+    public GoogleApiClient alreadySignedInClient = null;
 
     // WelcomePager
     ViewPager welcomePager = null;
@@ -771,6 +771,11 @@ public class LoginActivity extends Activity {
 
                                     // Going to main activity
                                     Intent mainActivityIntent = new Intent(getApplicationContext(), MainActivity.class);
+                                    // Adding user info to bundle
+                                    Bundle userInfoBundle = new Bundle();
+                                    // Adding Email
+                                    userInfoBundle.putString("email", userEmail);
+                                    mainActivityIntent.putExtra("user-info", userInfoBundle);
                                     startActivity(mainActivityIntent);
                                     finish();
                                 }
