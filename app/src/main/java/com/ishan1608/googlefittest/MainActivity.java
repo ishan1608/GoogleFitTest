@@ -194,7 +194,8 @@ public class MainActivity extends Activity {
                                         public void onLoadingComplete(String imageUri, View view, Bitmap userImage) {
                                             super.onLoadingComplete(imageUri, view, userImage);
                                             userImageHero.setImageBitmap(userImage);
-                                            // TODO: Have to make it circular after downloading the image
+
+                                            // Making the image circular
                                             defaultUserImage = ((BitmapDrawable)userImageHero.getDrawable()).getBitmap();
                                             defaultUserImageRounded = getRoundedShape(defaultUserImage);
                                             userImageHero.setImageBitmap(defaultUserImageRounded);
