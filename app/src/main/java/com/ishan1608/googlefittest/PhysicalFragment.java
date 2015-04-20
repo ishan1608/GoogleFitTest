@@ -242,6 +242,7 @@ public class PhysicalFragment extends Fragment {
                     logStatus("Detected DataPoint field: " + field.getName());
                     Log.i(TAG, "Detected DataPoint value: " + val);
                     logStatus("Detected DataPoint value: " + val);
+                    countSteps(val.asInt());
                 }
             }
         };
