@@ -15,7 +15,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -31,8 +31,6 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
-
-import org.w3c.dom.Text;
 
 
 public class MainActivity extends Activity {
@@ -73,6 +71,10 @@ public class MainActivity extends Activity {
         // Getting the GoogleAPI Client
         builduserInfoFitnessClient();
         userInfoFitnessClient.connect();
+
+        // Filling list of features on the navigation drawer
+        ListView featuresList = (ListView) findViewById(R.id.features_list);
+        featuresList.setAdapter(new FeaturesListAdapter(this));
     }
 
     @Override

@@ -1,4 +1,5 @@
 <android.support.v4.widget.DrawerLayout
+    android:id="@+id/features_drawer_layout"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -61,10 +62,10 @@
                 android:layout_marginBottom="5dp"
                 android:text="user@example.com"/>
             </RelativeLayout>
-        <TextView
+        <ListView
+            android:id="@+id/features_list"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="The list of options"/>
+            android:layout_height="wrap_content"></ListView>
 
         </LinearLayout>
 
