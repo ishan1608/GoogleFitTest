@@ -1,12 +1,10 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.ishan1608.googlefittest.PhysicalFragment">
+    android:layout_height="match_parent" tools:context="com.ishan1608.googlefittest.HomeFragment">
 
     <TextView
-        android:id="@+id/physical_fragment_status"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Hello Physical Fragment" />
+        android:text="Hello from Home Fragment" />
 
 </FrameLayout>

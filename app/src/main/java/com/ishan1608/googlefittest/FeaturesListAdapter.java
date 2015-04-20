@@ -11,6 +11,7 @@ import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 /**
  * Created by ishan on 4/20/15.
@@ -21,7 +22,6 @@ public class FeaturesListAdapter extends BaseAdapter implements ListAdapter {
     private TextView featureTitleTextView;
     private LinearLayout featuresListItem;
     private DrawerLayout featuresDrawerLayout;
-    private Fragment featureFragment;
 
     public FeaturesListAdapter(Activity activity) {
         super();
@@ -44,7 +44,7 @@ public class FeaturesListAdapter extends BaseAdapter implements ListAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup viewGroup) {
+    public View getView(final int position, View convertView, ViewGroup viewGroup) {
         if(convertView == null) {
             convertView = activity.getLayoutInflater().inflate(R.layout.features_list_item, null);
         }
@@ -58,26 +58,42 @@ public class FeaturesListAdapter extends BaseAdapter implements ListAdapter {
 
         // Setting click listener
         featuresListItem = (LinearLayout) convertView.findViewById(R.id.features_list_item);
-
         switch (position) {
+            case 0:
+                featuresListItem.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        FragmentTransaction featureTransaction = activity.getFragmentManager().beginTransaction();
+                        featureTransaction.replace(R.id.main_container, new HomeFragment());
+                        featureTransaction.commit();
+                        featuresDrawerLayout.closeDrawer(Gravity.LEFT);
+                    }
+                });
+                break;
             case 3:
-                featureFragment = new PhysicalFragment();
+                featuresListItem.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        FragmentTransaction featureTransaction = activity.getFragmentManager().beginTransaction();
+                        featureTransaction.replace(R.id.main_container, new PhysicalFragment());
+                        featureTransaction.commit();
+                        featuresDrawerLayout.closeDrawer(Gravity.LEFT);
+                    }
+                });
                 break;
             default:
-                featureFragment = PlaceHolderFragment.newInstance();
+                featuresListItem.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Toast.makeText(activity, "on click called with " + position, Toast.LENGTH_SHORT).show();
+                        FragmentTransaction featureTransaction = activity.getFragmentManager().beginTransaction();
+                        featureTransaction.replace(R.id.main_container, PlaceHolderFragment.newInstance());
+                        featureTransaction.commit();
+                        featuresDrawerLayout.closeDrawer(Gravity.LEFT);
+                    }
+                });
                 break;
         }
-
-        featuresListItem.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                FragmentTransaction featureTransaction = activity.getFragmentManager().beginTransaction();
-
-                featureTransaction.replace(R.id.main_container, featureFragment);
-                featureTransaction.commit();
-                featuresDrawerLayout.closeDrawer(Gravity.LEFT);
-            }
-        });
         return convertView;
     }
 }

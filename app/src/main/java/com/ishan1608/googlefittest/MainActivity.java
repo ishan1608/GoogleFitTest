@@ -1,6 +1,8 @@
 package com.ishan1608.googlefittest;
 
 import android.app.Activity;
+import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.graphics.Bitmap;
@@ -75,6 +77,13 @@ public class MainActivity extends Activity {
         // Filling list of features on the navigation drawer
         ListView featuresList = (ListView) findViewById(R.id.features_list);
         featuresList.setAdapter(new FeaturesListAdapter(this));
+
+        // Default going to home fragment
+        Fragment homeFragment = new HomeFragment();
+        FragmentTransaction featureTransaction = getFragmentManager().beginTransaction();
+
+        featureTransaction.replace(R.id.main_container, homeFragment);
+        featureTransaction.commit();
     }
 
     @Override
