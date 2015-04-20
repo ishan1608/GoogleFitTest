@@ -1,7 +1,6 @@
 package com.ishan1608.googlefittest;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.view.Gravity;
@@ -11,7 +10,6 @@ import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
 
 /**
  * Created by ishan on 4/20/15.
@@ -85,7 +83,6 @@ public class FeaturesListAdapter extends BaseAdapter implements ListAdapter {
                 featuresListItem.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Toast.makeText(activity, "on click called with " + position, Toast.LENGTH_SHORT).show();
                         FragmentTransaction featureTransaction = activity.getFragmentManager().beginTransaction();
                         featureTransaction.replace(R.id.main_container, PlaceHolderFragment.newInstance());
                         featureTransaction.commit();

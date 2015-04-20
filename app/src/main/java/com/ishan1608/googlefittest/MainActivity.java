@@ -173,6 +173,8 @@ public class MainActivity extends Activity {
                 .addScope(new Scope(Scopes.FITNESS_LOCATION_READ_WRITE))
                 .addScope(new Scope(Scopes.FITNESS_ACTIVITY_READ))
                 .addScope(new Scope(Scopes.FITNESS_ACTIVITY_READ_WRITE))
+                .addScope(new Scope(Scopes.FITNESS_BODY_READ))
+                .addScope(new Scope(Scopes.FITNESS_BODY_READ_WRITE))
                         // Adding Plus Scopes
                 .addScope(Plus.SCOPE_PLUS_LOGIN)
                 .addScope(Plus.SCOPE_PLUS_PROFILE)

@@ -11,15 +11,27 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.Scopes;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Scope;
+import com.google.android.gms.common.api.Status;
 import com.google.android.gms.fitness.Fitness;
+import com.google.android.gms.fitness.data.DataPoint;
+import com.google.android.gms.fitness.data.DataSource;
+import com.google.android.gms.fitness.data.DataType;
+import com.google.android.gms.fitness.data.Field;
+import com.google.android.gms.fitness.data.Value;
+import com.google.android.gms.fitness.request.DataSourcesRequest;
+import com.google.android.gms.fitness.request.OnDataPointListener;
+import com.google.android.gms.fitness.request.SensorRequest;
+import com.google.android.gms.fitness.result.DataSourcesResult;
 import com.google.android.gms.plus.Plus;
+
+import java.util.concurrent.TimeUnit;
 
 public class PhysicalFragment extends Fragment {
 
@@ -36,6 +48,15 @@ public class PhysicalFragment extends Fragment {
     private View returnView;
     private GoogleApiClient physicalFitnessClient;
 
+    // [START mListener_variable_reference]
+    // Need to hold a reference to this listener, as it's passed into the "unregister"
+    // method in order to stop all sensors from sending data to this listener.
+    private OnDataPointListener mListener;
+    private TextView physicalFragmentStatus;
+    private TextView totalStepsTextView;
+    private int totalSteps;
+    // [END mListener_variable_reference]
+
     public PhysicalFragment() {
         // Required empty public constructor
     }
@@ -43,6 +64,7 @@ public class PhysicalFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        totalSteps = 0;
     }
 
     @Override
@@ -50,6 +72,10 @@ public class PhysicalFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         returnView = inflater.inflate(R.layout.fragment_physical, container, false);
+
+        physicalFragmentStatus = (TextView) returnView.findViewById(R.id.physical_fragment_status);
+
+        totalStepsTextView = (TextView) returnView.findViewById(R.id.step_count);
 
         // Making and registering a GoogleFit client to get fitness data
         buildPhysicalFitnessClient();
@@ -69,6 +95,10 @@ public class PhysicalFragment extends Fragment {
                 }
             }
         }
+    }
+
+    void logStatus(String message) {
+        physicalFragmentStatus.append("\n" + message);
     }
 
     /**
@@ -93,6 +123,8 @@ public class PhysicalFragment extends Fragment {
                 .addScope(new Scope(Scopes.FITNESS_LOCATION_READ_WRITE))
                 .addScope(new Scope(Scopes.FITNESS_ACTIVITY_READ))
                 .addScope(new Scope(Scopes.FITNESS_ACTIVITY_READ_WRITE))
+                .addScope(new Scope(Scopes.FITNESS_BODY_READ))
+                .addScope(new Scope(Scopes.FITNESS_BODY_READ_WRITE))
                         // Adding Plus Scopes
                 .addScope(Plus.SCOPE_PLUS_LOGIN)
                 .addScope(Plus.SCOPE_PLUS_PROFILE)
@@ -155,7 +187,90 @@ public class PhysicalFragment extends Fragment {
     }
 
     private void doCoolStuff() {
-        TextView physicalFragmentStatus = (TextView) returnView.findViewById(R.id.physical_fragment_status);
-        physicalFragmentStatus.append("\nReady to do some cool stuff");
+        logStatus("Reday to do some cool stuff");
+        // [START find_data_sources]
+        Fitness.SensorsApi.findDataSources(physicalFitnessClient, new DataSourcesRequest.Builder()
+                // At least one datatype must be specified.
+//                .setDataTypes(DataType.TYPE_LOCATION_SAMPLE)
+                        .setDataTypes(DataType.TYPE_STEP_COUNT_DELTA)
+                        // Can specify whether data type is raw or derived.
+//                .setDataSourceTypes(DataSource.TYPE_RAW)
+                .build())
+                .setResultCallback(new ResultCallback<DataSourcesResult>() {
+                    @Override
+                    public void onResult(DataSourcesResult dataSourcesResult) {
+                        Log.i(TAG, "Result: " + dataSourcesResult.getStatus().toString());
+                        logStatus("Result: " + dataSourcesResult.getStatus().toString());
+                        for (DataSource dataSource : dataSourcesResult.getDataSources()) {
+                            Log.i(TAG, "Data source found: " + dataSource.toString());
+                            logStatus("Data source found: " + dataSource.toString());
+                            Log.i(TAG, "Data Source type: " + dataSource.getDataType().getName());
+                            logStatus("Data Source type: " + dataSource.getDataType().getName());
+
+                            //Let's register a listener to receive Activity data!
+//                            if (dataSource.getDataType().equals(DataType.TYPE_LOCATION_SAMPLE)
+//                                    && mListener == null) {
+//                                Log.i(TAG, "Data source for LOCATION_SAMPLE found!  Registering.");
+//                                logStatus("Data source for LOCATION_SAMPLE found!  Registering.");
+//                                registerFitnessDataListener(dataSource,
+//                                        DataType.TYPE_LOCATION_SAMPLE);
+//                            }
+                            if (dataSource.getDataType().equals(DataType.TYPE_STEP_COUNT_DELTA) && mListener == null) {
+                                Log.i(TAG, "Data source for STEP_COUNT_DELTA found!  Registering.");
+                                logStatus("Data source for STEP_COUNT_DELTA found!  Registering.");
+                                registerFitnessDataListener(dataSource, DataType.TYPE_STEP_COUNT_DELTA);
+                            }
+                        }
+                    }
+                });
+        // [END find_data_sources]
+    }
+
+    /**
+     * Register a listener with the Sensors API for the provided {@link DataSource} and
+     * {@link DataType} combo.
+     */
+    private void registerFitnessDataListener(DataSource dataSource, DataType dataType) {
+        logStatus("registerFitnessDataListener called");
+        // [START register_data_listener]
+        mListener = new OnDataPointListener() {
+            @Override
+            public void onDataPoint(DataPoint dataPoint) {
+                for (Field field : dataPoint.getDataType().getFields()) {
+                    Value val = dataPoint.getValue(field);
+                    Log.i(TAG, "Detected DataPoint field: " + field.getName());
+                    logStatus("Detected DataPoint field: " + field.getName());
+                    Log.i(TAG, "Detected DataPoint value: " + val);
+                    logStatus("Detected DataPoint value: " + val);
+                }
+            }
+        };
+
+        Fitness.SensorsApi.add(
+                physicalFitnessClient,
+                new SensorRequest.Builder()
+                        .setDataSource(dataSource) // Optional but recommended for custom data sets.
+                        .setDataType(dataType) // Can't be omitted.
+                        .setSamplingRate(1, TimeUnit.SECONDS)
+                        .build(),
+                mListener)
+                .setResultCallback(new ResultCallback<Status>() {
+                    @Override
+                    public void onResult(Status status) {
+                        if (status.isSuccess()) {
+                            Log.i(TAG, "Listener registered!");
+                            logStatus("Listener registered!");
+                        } else {
+                            Log.i(TAG, "Listener not registered.");
+                            logStatus("Listener not registered.");
+                        }
+                    }
+                });
+        // [END register_data_listener]
+    }
+
+    void countSteps(int newSteps) {
+        totalSteps += newSteps;
+        totalStepsTextView.setText("Total Steps : " + totalSteps);
     }
 }
