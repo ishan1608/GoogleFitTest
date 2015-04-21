@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -80,6 +81,33 @@ public class PhysicalFragment extends Fragment {
         // Making and registering a GoogleFit client to get fitness data
         buildPhysicalFitnessClient();
         physicalFitnessClient.connect();
+
+        // Starting the service on click of button
+        Button stepCountNowButton = (Button) returnView.findViewById(R.id.step_count_now_button);
+        stepCountNowButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Creates a new Intent to start the step count now IntentService.
+                Intent stepCountNowIntent;
+                stepCountNowIntent = new Intent(getActivity(), GoogleFitService.class);
+                stepCountNowIntent.setAction(GoogleFitService.STEP_COUNT_NOW);
+                getActivity().startService(stepCountNowIntent);
+            }
+        });
+
+        Button stepCountTodayButton = (Button) returnView.findViewById(R.id.step_count_today_button);
+        stepCountTodayButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Creates a new Intent to start the step count today IntentService.
+                Intent stepCountTodayIntent;
+                stepCountTodayIntent = new Intent(getActivity(), GoogleFitService.class);
+                stepCountTodayIntent.setAction(GoogleFitService.STEP_COUNT_TODAY);
+                getActivity().startService(stepCountTodayIntent);
+            }
+        });
+
+
 
         return returnView;
     }
