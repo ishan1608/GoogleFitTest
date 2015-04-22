@@ -38,8 +38,6 @@ import java.util.concurrent.TimeUnit;
  * An {@link IntentService} subclass for handling asynchronous task requests in
  * a service on a separate handler thread.
  * <p/>
- * TODO: Initialize a GoogleFitnessAPI client here
- * TODO: Initialize the actions required for STEPS_PER_SECOND_COUNT STEP_COUNT_TODAY
  */
 public class GoogleFitService extends IntentService {
 
@@ -153,28 +151,32 @@ public class GoogleFitService extends IntentService {
         Log.d(TAG, "onHandleIntent called");
         if (intent != null) {
             final String action = intent.getAction();
-            if (STEPS_PER_SECOND_COUNT.equals(action)) {
-                handleActionStepsPerSecond();
-            } else if (STEP_COUNT_TODAY.equals(action)) {
-                // Broadcasting this information every 2 seconds
-                TimerTask stepCountTodayBroadcastTask = new TimerTask() {
-                    @Override
-                    public void run() {
-                        handleActionStepCountToday();
-                    }
-                };
-                Timer stepCountTodayTimer = new Timer("stepCountTodayTimer");
-                stepCountTodayTimer.scheduleAtFixedRate(stepCountTodayBroadcastTask, 0, 2000);
-            } else if (MILES_COUNT_TODAY.equals(action)) {
-                // Broadcasting this information every 2 seconds
-                TimerTask milesCountTodayBroadcastTask = new TimerTask() {
-                    @Override
-                    public void run() {
-                        handleActionMilesCountToday();
-                    }
-                };
-                Timer milesCountTodayTimer = new Timer("milesCountTodayTimer");
-                milesCountTodayTimer.scheduleAtFixedRate(milesCountTodayBroadcastTask, 0, 2000);
+            switch (action) {
+                case STEPS_PER_SECOND_COUNT:
+                    handleActionStepsPerSecond();
+                    break;
+                case STEP_COUNT_TODAY:
+                    // Broadcasting this information every 2 seconds
+                    TimerTask stepCountTodayBroadcastTask = new TimerTask() {
+                        @Override
+                        public void run() {
+                            handleActionStepCountToday();
+                        }
+                    };
+                    Timer stepCountTodayTimer = new Timer("stepCountTodayTimer");
+                    stepCountTodayTimer.scheduleAtFixedRate(stepCountTodayBroadcastTask, 0, 2000);
+                    break;
+                case MILES_COUNT_TODAY:
+                    // Broadcasting this information every 2 seconds
+                    TimerTask milesCountTodayBroadcastTask = new TimerTask() {
+                        @Override
+                        public void run() {
+                            handleActionMilesCountToday();
+                        }
+                    };
+                    Timer milesCountTodayTimer = new Timer("milesCountTodayTimer");
+                    milesCountTodayTimer.scheduleAtFixedRate(milesCountTodayBroadcastTask, 0, 2000);
+                    break;
             }
         }
     }
@@ -184,10 +186,7 @@ public class GoogleFitService extends IntentService {
      * parameters.
      */
     private void handleActionStepsPerSecond() {
-        // TODO: Get step count
         Log.d(TAG, "Counting steps as of now.");
-
-        // TODO: Getting the step count every second
 
         // [START find_data_sources]
         Fitness.SensorsApi.findDataSources(physicalFitnessClient, new DataSourcesRequest.Builder()
