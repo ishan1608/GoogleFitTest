@@ -2,6 +2,7 @@ package com.ishan1608.googlefittest;
 
 import android.app.IntentService;
 import android.content.Intent;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -15,9 +16,11 @@ import android.widget.Toast;
  */
 public class GoogleFitService extends IntentService {
 
+    private static final String TAG = "GOOGLE-FIT-SERVICE";
     public static final String STEP_COUNT_NOW = "com.ishan1608.googlefittest.action.STEP_COUNT_NOW";
     public static final String STEP_COUNT_TODAY = "com.ishan1608.googlefittest.action.STEP_COUNT_TODAY";
-    private static final String TAG = "GOOGLE-FIT-SERVICE";
+    public static final String STEP_COUNT_TODAY_RESULT = "com.ishan1608.googlefittest.action.STEP_COUNT_TODAY_RESULT";
+    public static final String STEP_COUNT_NOW_RESULT = "com.ishan1608.googlefittest.action.STEP_COUNT_NOW_RESULT";
 
     // Will use these as bundle parameters if requires and will rename them
 //    public static final String EXTRA_PARAM1 = "com.ishan1608.googlefittest.extra.PARAM1";
@@ -53,6 +56,16 @@ public class GoogleFitService extends IntentService {
     private void handleActionStepCountNow() {
         // TODO: Handle action STEP_COUNT_NOW
         Log.d(TAG, "Counting steps as of now.");
+        /*
+        * Creates a new Intent containing a Uri object
+        * BROADCAST_ACTION is a custom Intent action
+        */
+        Intent stepCountNowResultIntent =
+                new Intent(GoogleFitService.STEP_COUNT_NOW)
+                        // Puts the status into the Intent
+                        .putExtra(GoogleFitService.STEP_COUNT_NOW_RESULT, "10");
+        // Broadcasts the Intent to receivers in this app.
+        LocalBroadcastManager.getInstance(this).sendBroadcast(stepCountNowResultIntent);
     }
 
     /**
@@ -62,5 +75,15 @@ public class GoogleFitService extends IntentService {
     private void handleActionStepCountToday() {
         // TODO: Handle action STEP_COUNT_TODAY
         Log.d(TAG, "Counting steps for today.");
+        /*
+        * Creates a new Intent containing a Uri object
+        * BROADCAST_ACTION is a custom Intent action
+        */
+        Intent stepCountTodayResultIntent =
+                new Intent(GoogleFitService.STEP_COUNT_TODAY)
+                        // Puts the status into the Intent
+                        .putExtra(GoogleFitService.STEP_COUNT_TODAY_RESULT, "100");
+        // Broadcasts the Intent to receivers in this app.
+        LocalBroadcastManager.getInstance(this).sendBroadcast(stepCountTodayResultIntent);
     }
 }

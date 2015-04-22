@@ -2,16 +2,22 @@ package com.ishan1608.googlefittest;
 
 
 import android.app.Activity;
+import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.IntentSender;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
@@ -56,6 +62,8 @@ public class PhysicalFragment extends Fragment {
     private TextView physicalFragmentStatus;
     private TextView totalStepsTextView;
     private int totalSteps;
+    private TextView stepCountTodayTextView;
+    private TextView stepCountNowTextView;
     // [END mListener_variable_reference]
 
     public PhysicalFragment() {
@@ -77,6 +85,10 @@ public class PhysicalFragment extends Fragment {
         physicalFragmentStatus = (TextView) returnView.findViewById(R.id.physical_fragment_status);
 
         totalStepsTextView = (TextView) returnView.findViewById(R.id.step_count);
+
+        stepCountNowTextView = (TextView) returnView.findViewById(R.id.step_count_now_text_view);
+        stepCountTodayTextView = (TextView) returnView.findViewById(R.id.step_count_today_text_view);
+
 
         // Making and registering a GoogleFit client to get fitness data
         buildPhysicalFitnessClient();
@@ -107,7 +119,9 @@ public class PhysicalFragment extends Fragment {
             }
         });
 
-
+        // Registering broadcast receiver
+        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(stepCountTodayReceiver, new IntentFilter(GoogleFitService.STEP_COUNT_TODAY));
+        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(stepCountNowReceiver, new IntentFilter(GoogleFitService.STEP_COUNT_NOW));
 
         return returnView;
     }
@@ -298,8 +312,49 @@ public class PhysicalFragment extends Fragment {
         // [END register_data_listener]
     }
 
+    // Counting steps and displaying it
     void countSteps(int newSteps) {
         totalSteps += newSteps;
         totalStepsTextView.setText("Total Steps : " + totalSteps);
     }
+
+    // Broadcast receiver for total number of steps today
+    private BroadcastReceiver stepCountTodayReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent resultIntent) {
+            // Get extra data included in the Intent
+            if (resultIntent.hasExtra(GoogleFitService.STEP_COUNT_TODAY_RESULT)) {
+                //Recreate the connection result
+                String stepCountTodayResultString = resultIntent.getStringExtra(GoogleFitService.STEP_COUNT_TODAY_RESULT);
+                Log.d(TAG, "Received result " + stepCountTodayResultString);
+//                Toast.makeText(getActivity(), "Received result " + stepCountTodayResultString, Toast.LENGTH_SHORT).show();
+                stepCountTodayTextView.setText("Received result " + stepCountTodayResultString);
+            } else {
+                // Display the error
+                Log.d(TAG, "Didn't received anything.");
+//                Toast.makeText(getActivity(), "Didn't received anything.", Toast.LENGTH_SHORT).show();
+                stepCountTodayTextView.setText("Didn't received anything.");
+            }
+        }
+    };
+
+    // Broadcast receiver for total number of steps now
+    private BroadcastReceiver stepCountNowReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent resultIntent) {
+            // Get extra data included in the Intent
+            if (resultIntent.hasExtra(GoogleFitService.STEP_COUNT_NOW_RESULT)) {
+                //Recreate the connection result
+                String stepCountNowResultString = resultIntent.getStringExtra(GoogleFitService.STEP_COUNT_NOW_RESULT);
+                Log.d(TAG, "Received result " + stepCountNowResultString);
+//                Toast.makeText(getActivity(), "Received result " + stepCountNowResultString, Toast.LENGTH_SHORT).show();
+                stepCountNowTextView.setText("Received result " + stepCountNowResultString);
+            } else {
+                // Display the error
+                Log.d(TAG, "Didn't received anything.");
+//                Toast.makeText(getActivity(), "Didn't received anything.", Toast.LENGTH_SHORT).show();
+                stepCountNowTextView.setText("Didn't received anything.");
+            }
+        }
+    };
 }

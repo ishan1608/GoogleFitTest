@@ -20,11 +20,19 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Total Steps : 0"/>
+    <TextView
+        android:id="@+id/step_count_now_text_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
     <Button
         android:id="@+id/step_count_now_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Step Count NOW"/>
+    <TextView
+        android:id="@+id/step_count_today_text_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
     <Button
         android:id="@+id/step_count_today_button"
         android:layout_width="match_parent"
