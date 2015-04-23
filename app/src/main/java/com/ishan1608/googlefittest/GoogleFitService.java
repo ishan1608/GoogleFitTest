@@ -48,6 +48,8 @@ public class GoogleFitService extends IntentService {
     public static final String STEPS_PER_SECOND_COUNT_RESULT = "com.ishan1608.googlefittest.action.STEPS_PER_SECOND_COUNT_RESULT";
     public static final String MILES_COUNT_TODAY = "com.ishan1608.googlefittest.action.MILES_COUNT_TODAY";
     public static final String MILES_TODAY_COUNT_RESULT = "com.ishan1608.googlefittest.action.MILES_TODAY_COUNT_RESULT";
+    public static final String CALORIES_EXPENDED_TODAY = "com.ishan1608.googlefittest.action.CALORIES_EXPENDED_TODAY";
+    public static final String CALORIES_EXPENDED_TODAY_RESULT = "com.ishan1608.googlefittest.action.CALORIES_EXPENDED_TODAY_RESULT";
 
     private GoogleApiClient physicalFitnessClient;
     private OnDataPointListener mListener;
@@ -76,6 +78,8 @@ public class GoogleFitService extends IntentService {
         handleActionStepCountToday();
         // Counting and broadcasting miles count for today
         handleActionMilesCountToday();
+        // Counting and broadcasting calories expended for today
+        handleActionCaloriesExpendedToday();
     }
 
     /**
@@ -176,6 +180,17 @@ public class GoogleFitService extends IntentService {
                     };
                     Timer milesCountTodayTimer = new Timer("milesCountTodayTimer");
                     milesCountTodayTimer.scheduleAtFixedRate(milesCountTodayBroadcastTask, 0, 2000);
+                    break;
+                case CALORIES_EXPENDED_TODAY:
+                    // Broadcasting this information every 2 seconds
+                    TimerTask caloriesExpendedTodayBroadcastTask = new TimerTask() {
+                        @Override
+                        public void run() {
+                            handleActionCaloriesExpendedToday();
+                        }
+                    };
+                    Timer caloriesExpendedTodayTimer = new Timer("caloriesExpendedTodayTimer");
+                    caloriesExpendedTodayTimer.scheduleAtFixedRate(caloriesExpendedTodayBroadcastTask, 0, 2000);
                     break;
             }
         }
@@ -315,7 +330,7 @@ public class GoogleFitService extends IntentService {
                 // Broadcasts the Intent to receivers in this app.
                 LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(stepCountTodayResultIntent);
             }
-        },2, TimeUnit.SECONDS);
+        });
     }
 
     private void handleActionMilesCountToday() {
@@ -363,6 +378,54 @@ public class GoogleFitService extends IntentService {
                 // Broadcasts the Intent to receivers in this app.
                 LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(milesCountTodayResultIntent);
             }
-        }, 1, TimeUnit.SECONDS);
+        });
+    }
+
+    private void handleActionCaloriesExpendedToday() {
+        Log.d(TAG, "Counting miles for today.");
+        Calendar cal = Calendar.getInstance();
+        Date now = new Date();
+        cal.setTime(now);
+        long endTime = cal.getTimeInMillis();
+        cal.set(Calendar.HOUR_OF_DAY, 0);
+        cal.set(Calendar.MINUTE, 0);
+        cal.set(Calendar.SECOND, 0);
+        long startTime = cal.getTimeInMillis();
+
+        final DataReadRequest caloriesExpendedTodayReadRequest = new DataReadRequest.Builder()
+                .read(DataType.TYPE_CALORIES_EXPENDED)
+                .setTimeRange(startTime, endTime, TimeUnit.MILLISECONDS)
+                .build();
+
+        Fitness.HistoryApi.readData(physicalFitnessClient, caloriesExpendedTodayReadRequest).setResultCallback(new ResultCallback<DataReadResult>() {
+            @Override
+            public void onResult(DataReadResult dataReadResult) {
+                // Getting calories expended for today
+                Log.d(TAG, "Getting calories expended data for today");
+                DataSet caloriesData = dataReadResult.getDataSet(DataType.TYPE_CALORIES_EXPENDED);
+
+                float totalCalories = 0;
+
+                for (DataPoint dp : caloriesData.getDataPoints()) {
+                    for(Field field : dp.getDataType().getFields()) {
+                        float calories = dp.getValue(field).asFloat();
+                        totalCalories += calories;
+                    }
+                }
+
+                totalCalories = totalCalories / 1000;
+                totalCalories = (float) (Math.round(totalCalories * 100.0) / 100.0);
+
+                // Broadcasting total miles for today
+                Log.d(TAG, "Broadcasting total calories for today.");
+                Intent caloriesExpendedTodayResultIntent =
+                        new Intent(GoogleFitService.CALORIES_EXPENDED_TODAY)
+                                // Puts the status into the Intent
+                                .putExtra(GoogleFitService.CALORIES_EXPENDED_TODAY_RESULT, totalCalories);
+                Log.d(TAG, "Miles count today result " + totalCalories);
+                // Broadcasts the Intent to receivers in this app.
+                LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(caloriesExpendedTodayResultIntent);
+            }
+        });
     }
 }

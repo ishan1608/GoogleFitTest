@@ -1,10 +1,8 @@
 <resources>
-    <string name="app_name">GoogleFitTest</string>
+    <string name="app_name">Healthify+</string>
     <string name="action_settings">Settings</string>
-    <string name="title_activity_main">MainActivity</string>
+    <string name="title_activity_main">Healthify+</string>
 
     <string name="hello_world">Hello world!</string>
-
-<!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

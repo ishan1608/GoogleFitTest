@@ -15,7 +15,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/wallet_holo_blue_light"
-            android:text="@string/app_name"/>
+            android:text="@string/app_name"
+            android:visibility="gone"/>
         </LinearLayout>
     <LinearLayout android:id="@+id/left_drawer"
         android:layout_width="240dp"

@@ -10,9 +10,10 @@
         android:id="@+id/steps_banner"
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        android:background="#ffee96ae"
+        android:background="#ff309b93"
         android:layout_alignParentTop="true">
         <ImageView
+            android:id="@+id/steps_banner_image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"

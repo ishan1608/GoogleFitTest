@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.gms.fitness.request.OnDataPointListener;
@@ -38,6 +39,7 @@ public class PhysicalFragment extends Fragment {
     private TextView stepCountTodayTextView;
     private TextView milesCountTodayTextView;
     private TextView stepsPerSecondTextView;
+    private ImageView stepsBannerImageView;
     // [END mListener_variable_reference]
 
     public PhysicalFragment() {
@@ -60,6 +62,9 @@ public class PhysicalFragment extends Fragment {
         milesCountTodayTextView = (TextView) returnView.findViewById(R.id.miles_count_today);
         stepsPerSecondTextView = (TextView) returnView.findViewById(R.id.steps_per_second);
 
+        // Displaying top image
+        stepsBannerImageView = (ImageView) returnView.findViewById(R.id.steps_banner_image);
+        stepsBannerImageView.setImageResource(R.drawable.steps_icon);
 
 
         // Making and registering a GoogleFit client to get fitness data
@@ -71,7 +76,10 @@ public class PhysicalFragment extends Fragment {
         Intent stepCountNowIntent;
         stepCountNowIntent = new Intent(getActivity(), GoogleFitService.class);
         stepCountNowIntent.setAction(GoogleFitService.STEPS_PER_SECOND_COUNT);
-        getActivity().startService(stepCountNowIntent);
+        // Calling it twice in the hope that the first count will be erased
+        for(int i = 0; i < 2; i++) {
+            getActivity().startService(stepCountNowIntent);
+        }
 
         // Creates a new Intent to start the step count today IntentService.
         Intent stepCountTodayIntent;
