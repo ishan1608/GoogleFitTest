@@ -1,0 +1,733 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"
+
+    android:background="#ff067518" >
+    <!--android:id="@+id/event_details_fragment_container"-->
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:context="com.gallery.MainActivity"
+        tools:ignore="MergeRootFrame" >
+
+        <LinearLayout
+            android:id="@+id/hygiene_event_details_container"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:baselineAligned="false"
+            android:orientation="vertical"
+            android:layout_weight="1"
+            android:layout_gravity="center_horizontal"
+            android:background="#ff067518"
+            android:padding="5dp"
+            android:layout_margin="10dp" >
+            <LinearLayout
+                android:orientation="vertical"
+                android:background="#ff7ded7e"
+                android:id="@+id/hygiene_question_set2"
+                style="@style/event_details_heading"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:text="Question set2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_gravity="center_horizontal"
+                    style="@style/event_details_heading_text" />
+            </LinearLayout>
+            <LinearLayout
+                android:orientation="vertical"
+                style="@style/event_details_heading"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:background="#ff7ded7e"
+                    android:id="@+id/hygiene_question1_heading"
+                    style="@style/event_details_heading"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:text="Question 1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="@dimen/activity_vertical_margin"
+                        android:paddingLeft="@dimen/activity_horizontal_margin"
+                        android:paddingRight="@dimen/activity_horizontal_margin"
+                        android:paddingTop="@dimen/activity_vertical_margin"
+                        android:layout_weight="1"
+                        android:layout_gravity="center_horizontal"
+                        style="@style/event_details_heading_text" />
+                </LinearLayout>
+                <TextView
+                    android:id="@+id/hygiene_question1_content"
+                    android:text="Do you exercise regularly?"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="15sp"
+                    android:padding="10dp" />
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:background="#ff7ded7e"
+                    android:id="@+id/hygiene_options1_heading"
+                    style="@style/event_details_heading"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" >
+                    <TextView
+                        android:text="Options"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_gravity="center_horizontal"
+                        style="@style/event_details_heading_text" />
+                </LinearLayout>
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:id="@+id/hygiene_option1_content"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content">
+
+                    <RadioGroup
+                        android:id="@+id/hygiene_radio_group1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+                        <RadioButton
+                            android:id="@+id/hygiene_option1_radio1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Not really, but I try to walk everywhere I go"
+                            android:textSize="15sp"
+                            android:textStyle="italic"
+                            android:textColor="#669900"
+                            />
+                        <RadioButton
+                            android:id="@+id/hygiene_option1_radio2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Yes, I work out at the gym everyday"
+                            android:textSize="15sp"
+                            android:textStyle="italic"
+                            android:textColor="#669900"
+                            />
+                        <RadioButton
+                            android:id="@+id/hygiene_option1_radio3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text=" I have a sports practice a few times a week"
+                            android:textSize="15sp"
+                            android:textStyle="italic"
+                            android:textColor="#669900"
+                            />
+                        <RadioButton
+                            android:id="@+id/hygiene_option1_radio4"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="I take a dance lesson once a week"
+                            android:textSize="15sp"
+                            android:textStyle="italic"
+                            android:textColor="#669900"
+                            />
+                    </RadioGroup>
+                    <Button
+                        android:id="@+id/hygiene_radio_submit_group1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="submit"
+                        android:textSize="15sp"
+                        android:textStyle="italic"
+                        android:textColor="#669900"
+                        />
+
+                </LinearLayout>
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:background="#ff7ded7e"
+                    android:id="@+id/hygiene_question2_heading"
+                    style="@style/event_details_heading"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" >
+                    <TextView
+                        android:text="Question 2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_gravity="center_horizontal"
+                        style="@style/event_details_heading_text" />
+                </LinearLayout>
+                <TextView
+                    android:id="@+id/hygiene_question2_content"
+                    android:text="Do you take time for yourself and to relax? "
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/event_details_content" />
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:background="#ff7ded7e"
+                    android:id="@+id/hygiene_option2_heading"
+                    style="@style/event_details_heading"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" >
+                    <TextView
+                        android:text="Options"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_gravity="center_horizontal"
+                        style="@style/event_details_heading_text" />
+                </LinearLayout>
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:id="@+id/hygiene_option2_content"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content">
+                    <RadioGroup
+                        android:id="@+id/hygiene_radio_group2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+                        <RadioButton
+                            android:id="@+id/hygiene_option2_radio1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Everyday I take time for myself to do something relaxing like yoga"
+                            android:textSize="15sp"
+                            android:textStyle="italic"
+                            android:textColor="#ffadc019"
+                            />
+                        <RadioButton
+                            android:id="@+id/hygiene_option2_radio2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="No, I'm too busy"
+                            android:textSize="15sp"
+                            android:textStyle="italic"
+                            android:textColor="#ffadc019"
+                            />
+                        <RadioButton
+                            android:id="@+id/hygiene_option2_radio3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="I go for a massage once in a while"
+                            android:textSize="15sp"
+                            android:textStyle="italic"
+                            android:textColor="#ffadc019"
+                            />
+                        <RadioButton
+                            android:id="@+id/hygiene_option2_radio4"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Every chance I get, I read or watch a movie"
+                            android:textSize="15sp"
+                            android:textStyle="italic"
+                            android:textColor="#ffadc019"
+                            />
+
+                    </RadioGroup>
+                    <Button
+                        android:id="@+id/hygiene_radio_submit_group2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="submit"
+                        android:textSize="15sp"
+                        android:textStyle="italic"
+                        android:textColor="#ffadc019"
+                        />
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/hygiene_question3_heading"
+                    android:background="#ff7ded7e"
+                    android:orientation="vertical"
+                    style="@style/event_details_heading"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" >
+                    <TextView
+                        android:text="Question 3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_gravity="center_horizontal"
+                        style="@style/event_details_heading_text" />
+                </LinearLayout>
+                <TextView
+                    android:id="@+id/hygiene_question3_content"
+                    android:text="What do you eat? "
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/event_details_content" />
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:background="#ff7ded7e"
+                    android:id="@+id/hygiene_option3_heading"
+                    style="@style/event_details_heading"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" >
+                    <TextView
+                        android:text="Options"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        style="@style/event_details_heading_text" />
+                </LinearLayout>
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:id="@+id/hygiene_option3_content"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content">
+                    <RadioGroup
+                        android:id="@+id/hygiene_radio_group3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+                        <RadioButton
+                            android:id="@+id/hygiene_option3_radio1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="159 or lower "
+                            android:textSize="15sp"
+                            android:textStyle="italic"
+                            android:textColor="#ffadc019"
+                            />
+                        <RadioButton
+                            android:id="@+id/hygiene_option3_radio2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Lots of fruits, veggies and whole grains"
+                            android:textSize="15sp"
+                            android:textStyle="italic"
+                            android:textColor="#ffadc019"
+                            />
+                        <RadioButton
+                            android:id="@+id/hygiene_option3_radio3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Anything fast and simple"
+                            android:textSize="15sp"
+                            android:textStyle="italic"
+                            android:textColor="#ffadc019"
+                            />
+                        <RadioButton
+                            android:id="@+id/hygiene_option3_radio4"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="I'm a picky eater but try to stay away from junk food"
+                            android:textSize="15sp"
+                            android:textStyle="italic"
+                            android:textColor="#ffadc019"
+                            />
+
+
+                    </RadioGroup>
+                    <Button
+                        android:id="@+id/hygiene_radio_submit_group3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="submit"
+                        android:textSize="15sp"
+                        android:textStyle="italic"
+                        android:textColor="#ffadc019"
+                        />
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/hygiene_question4_heading"
+                    android:background="#ff7ded7e"
+                    android:orientation="vertical"
+                    style="@style/event_details_heading"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" >
+                    <TextView
+                        android:text="Question 4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_gravity="center_horizontal"
+                        style="@style/event_details_heading_text" />
+                </LinearLayout>
+                <TextView
+                    android:id="@+id/hygiene_question4_content"
+                    android:text="Do you eat breakfast?"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/event_details_content" />
+                <LinearLayout
+                    android:id="@+id/hygiene_option4_heading"
+                    android:background="#ff7ded7e"
+                    android:orientation="vertical"
+                    style="@style/event_details_heading"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" >
+                    <TextView
+                        android:text="Options"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_gravity="center_horizontal"
+                        style="@style/event_details_heading_text" />
+                </LinearLayout>
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:id="@+id/hygiene_option4_content"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content">
+                    <RadioGroup
+                        android:id="@+id/hygiene_radio_group4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+                        <RadioButton
+                            android:id="@+id/hygiene_option4_radio1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="I drink coffee or juice"
+                            android:textSize="15sp"
+                            android:textStyle="italic"
+                            android:textColor="#ffadc019"
+                            />
+                        <RadioButton
+                            android:id="@+id/hygiene_option4_radio2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Yes, I eat a full breakfast with eggs, toast, fruits"
+                            android:textSize="15sp"
+                            android:textStyle="italic"
+                            android:textColor="#ffadc019"
+                            />
+                        <RadioButton
+                            android:id="@+id/hygiene_option4_radio3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Yes, I eat something like cereal or a toast"
+                            android:textSize="15sp"
+                            android:textStyle="italic"
+                            android:textColor="#ffadc019"
+                            />
+                        <RadioButton
+                            android:id="@+id/hygiene_option4_radio4"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="No, I'm never hungry in the morning"
+                            android:textSize="15sp"
+                            android:textStyle="italic"
+                            android:textColor="#ffadc019"
+                            />
+                    </RadioGroup>
+                    <Button
+                        android:id="@+id/hygiene_radio_submit_group4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="submit"
+                        android:textSize="15sp"
+                        android:textStyle="italic"
+                        android:textColor="#ffadc019"
+                        />
+                </LinearLayout>
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:background="#ff7ded7e"
+                    android:id="@+id/hygiene_question5_heading"
+                    style="@style/event_details_heading"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" >
+                    <TextView
+                        android:layout_gravity="center_horizontal"
+                        android:text="Question 5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        style="@style/event_details_heading_text" />
+                </LinearLayout>
+                <TextView
+                    android:id="@+id/hygiene_question5_content"
+                    android:text="Do you have any hobbies?"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/event_details_content" />
+                <LinearLayout
+                    android:id="@+id/hygiene_option5_heading"
+                    android:background="#ff7ded7e"
+                    android:orientation="vertical"
+                    style="@style/event_details_heading"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" >
+                    <TextView
+                        android:text="Options"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_gravity="center_horizontal"
+                        style="@style/event_details_heading_text" />
+                </LinearLayout>
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:id="@+id/hygiene_option5_content"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content">
+                    <RadioGroup
+                        android:id="@+id/hygiene_radio_group5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+                        <RadioButton
+                            android:id="@+id/hygiene_option5_radio1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="I play music or do arts"
+                            android:textSize="15sp"
+                            android:textStyle="italic"
+                            android:textColor="#ffadc019"
+                            />
+                        <RadioButton
+                            android:id="@+id/hygiene_option5_radio2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="I play sports, read, do yoga"
+                            android:textSize="15sp"
+                            android:textStyle="italic"
+                            android:textColor="#ffadc019"
+                            />
+                        <RadioButton
+                            android:id="@+id/hygiene_option5_radio3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Shopping with my friends or go to the beach"
+                            android:textSize="15sp"
+                            android:textStyle="italic"
+                            android:textColor="#ffadc019"
+                            />
+                        <RadioButton
+                            android:id="@+id/hygiene_option5_radio4"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="I'm too busy for hobbies"
+                            android:textSize="15sp"
+                            android:textStyle="italic"
+                            android:textColor="#ffadc019"
+                            />
+                    </RadioGroup>
+                    <Button
+                        android:id="@+id/hygiene_radio_submit_group5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="submit"
+                        android:textSize="15sp"
+                        android:textStyle="italic"
+                        android:textColor="#ffadc019"
+                        />
+                </LinearLayout>
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:background="#ff7ded7e"
+                    android:id="@+id/hygiene_question6_heading"
+                    style="@style/event_details_heading"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" >
+                    <TextView
+                        android:text="Question 6"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        style="@style/event_details_heading_text" />
+                </LinearLayout>
+                <TextView
+                    android:id="@+id/hygiene_question6_content"
+                    android:text="What does your night routine looks like?"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/event_details_content" />
+                <LinearLayout
+                    android:id="@+id/hygiene_option6_heading"
+                    android:background="#ff7ded7e"
+                    android:orientation="vertical"
+                    style="@style/event_details_heading"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" >
+                    <TextView
+                        android:text="Options"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_gravity="center_horizontal"
+                        style="@style/event_details_heading_text" />
+                </LinearLayout>
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:id="@+id/hygiene_option6_content"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content">
+                    <RadioGroup
+                        android:id="@+id/hygiene_radio_group6"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+                        <RadioButton
+                            android:id="@+id/hygiene_option6_radio1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="I remove my makeup and brush my teeth"
+                            android:textSize="15sp"
+                            android:textStyle="italic"
+                            android:textColor="#ffadc019"
+                            />
+                        <RadioButton
+                            android:id="@+id/hygiene_option6_radio2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="I shower, moisturize, remove my makeup and brush my teeth"
+                            android:textSize="15sp"
+                            android:textStyle="italic"
+                            android:textColor="#ffadc019"
+                            />
+                        <RadioButton
+                            android:id="@+id/hygiene_option6_radio3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="I go straight to bed"
+                            android:textSize="15sp"
+                            android:textStyle="italic"
+                            android:textColor="#ffadc019"
+                            />
+                        <RadioButton
+                            android:id="@+id/hygiene_option6_radio4"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="I brush my teeth"
+                            android:textSize="15sp"
+                            android:textStyle="italic"
+                            android:textColor="#ffadc019"
+                            />
+
+                    </RadioGroup>
+                    <Button
+                        android:id="@+id/hygiene_radio_submit_group6"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="submit"
+                        android:textSize="15sp"
+                        android:textStyle="italic"
+                        android:textColor="#ffadc019"
+                        />
+                </LinearLayout>
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:background="#ff7ded7e"
+                    android:id="@+id/hygiene_question7_heading"
+                    style="@style/event_details_heading"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" >
+                    <TextView
+                        android:text="Question 7"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        style="@style/event_details_heading_text" />
+                </LinearLayout>
+                <TextView
+                    android:id="@+id/hygiene_question7_content"
+                    android:text="How much sleep do you usually get?"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/event_details_content" />
+                <LinearLayout
+                    android:id="@+id/hygiene_option7_heading"
+                    android:background="#ff7ded7e"
+                    android:orientation="vertical"
+                    style="@style/event_details_heading"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" >
+                    <TextView
+                        android:text="Options"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_gravity="center_horizontal"
+                        style="@style/event_details_heading_text" />
+                </LinearLayout>
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:id="@+id/hygiene_option7_content"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content">
+                    <RadioGroup
+                        android:id="@+id/hygiene_radio_group7"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+                        <RadioButton
+                            android:id="@+id/hygiene_option7_radio1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="4 to 5"
+                            android:textSize="15sp"
+                            android:textStyle="italic"
+                            android:textColor="#ffadc019"
+                            />
+                        <RadioButton
+                            android:id="@+id/hygiene_option7_radio2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="6 to 7"
+                            android:textSize="15sp"
+                            android:textStyle="italic"
+                            android:textColor="#ffadc019"
+                            />
+                        <RadioButton
+                            android:id="@+id/hygiene_option7_radio3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Less than 4"
+                            android:textSize="15sp"
+                            android:textStyle="italic"
+                            android:textColor="#ffadc019"
+                            />
+                        <RadioButton
+                            android:id="@+id/hygiene_option7_radio4"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="8 or more"
+                            android:textSize="15sp"
+                            android:textStyle="italic"
+                            android:textColor="#ffadc019"
+                            />
+                    </RadioGroup>
+                    <Button
+                        android:id="@+id/hygiene_radio_submit_group7"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="submit"
+                        android:textSize="15sp"
+                        android:textStyle="italic"
+                        android:textColor="#e478a255"
+                        />
+                </LinearLayout>
+
+            </LinearLayout>
+            <Button
+                android:id="@+id/hygiene_event_registration_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/activity_vertical_margin"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin"
+                android:paddingTop="@dimen/activity_vertical_margin"
+                android:background="#6040c2"
+                android:textSize="20sp"
+                android:text="Next"
+                android:textColor="#ffadc019"
+                android:layout_weight="1"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="10dp" >
+            </Button>
+        </LinearLayout>
+    </ScrollView>
+
+</RelativeLayout>

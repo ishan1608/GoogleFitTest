@@ -40,11 +40,16 @@
             android:exported="false" >
         </service>
 
-        <receiver android:name=".GoogleFitAutoStart">
+        <receiver android:name=".GoogleFitAutoStart" >
             <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
+
+        <activity
+            android:name=".DialogActivity"
+            android:label="@string/title_activity_dialog" >
+        </activity>
     </application>
 
 </manifest>

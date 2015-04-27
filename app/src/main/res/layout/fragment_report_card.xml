@@ -1,9 +1,19 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.ishan1608.googlefittest.ReportCardFragment">
+    android:orientation="vertical">
 
-    <TextView android:layout_width="match_parent" android:layout_height="match_parent"
-        android:text="Report Card Fragment" />
+    <com.ishan1608.googlefittest.SlidingTabLayout
+        android:id="@+id/report_sliding_tabs"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
-</FrameLayout>
+    <android.support.v4.view.ViewPager
+        android:id="@+id/report_view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="0px"
+        android:layout_weight="1"
+        android:background="@android:color/white" />
+
+</LinearLayout>
