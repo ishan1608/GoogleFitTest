@@ -3,7 +3,9 @@ package com.ishan1608.googlefittest;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -198,14 +200,16 @@ public class LoginActivity extends Activity {
         alreadySignedInClient = new GoogleApiClient.Builder(this)
                 // Adding Fitness Sensor API
                 .addApi(Fitness.SENSORS_API)
+                .addApi(Fitness.RECORDING_API)
+                .addApi(Fitness.HISTORY_API)
                         // Adding Plus API
                 .addApi(Plus.API)
                         // Adding Fitness Scopes
-                .addScope(new Scope(Scopes.FITNESS_LOCATION_READ))
+//                .addScope(new Scope(Scopes.FITNESS_LOCATION_READ))
                 .addScope(new Scope(Scopes.FITNESS_LOCATION_READ_WRITE))
-                .addScope(new Scope(Scopes.FITNESS_ACTIVITY_READ))
+//                .addScope(new Scope(Scopes.FITNESS_ACTIVITY_READ))
                 .addScope(new Scope(Scopes.FITNESS_ACTIVITY_READ_WRITE))
-                .addScope(new Scope(Scopes.FITNESS_BODY_READ))
+//                .addScope(new Scope(Scopes.FITNESS_BODY_READ))
                 .addScope(new Scope(Scopes.FITNESS_BODY_READ_WRITE))
                         // Adding Plus Scopes
                 .addScope(Plus.SCOPE_PLUS_LOGIN)
@@ -274,14 +278,16 @@ public class LoginActivity extends Activity {
         newSignInClient = new GoogleApiClient.Builder(this)
                 // Adding Fitness Sensor API
                 .addApi(Fitness.SENSORS_API)
+                .addApi(Fitness.RECORDING_API)
+                .addApi(Fitness.HISTORY_API)
                         // Adding Plus API
                 .addApi(Plus.API)
                         // Adding Fitness Scopes
-                .addScope(new Scope(Scopes.FITNESS_LOCATION_READ))
+//                .addScope(new Scope(Scopes.FITNESS_LOCATION_READ))
                 .addScope(new Scope(Scopes.FITNESS_LOCATION_READ_WRITE))
-                .addScope(new Scope(Scopes.FITNESS_ACTIVITY_READ))
+//                .addScope(new Scope(Scopes.FITNESS_ACTIVITY_READ))
                 .addScope(new Scope(Scopes.FITNESS_ACTIVITY_READ_WRITE))
-                .addScope(new Scope(Scopes.FITNESS_BODY_READ))
+//                .addScope(new Scope(Scopes.FITNESS_BODY_READ))
                 .addScope(new Scope(Scopes.FITNESS_BODY_READ_WRITE))
                         // Adding Plus Scopes
                 .addScope(Plus.SCOPE_PLUS_LOGIN)
@@ -584,6 +590,7 @@ public class LoginActivity extends Activity {
     }
 
     private void registerUserOnServer(final String userEmail, final String userName, final String userGender, final String userPassword) {
+        Log.d(TAG, "registerUserOnServer called");
         Thread userRegistrationThread = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -654,10 +661,22 @@ public class LoginActivity extends Activity {
                                 }
                             });
                         } else {
-                            // User registered successfully continue to main app activity
+                            // User registered successfully
+                            // continue to main app activity
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
+//                                    Log.d(TAG, "After registration on server email is " + registerAppUserJSONObject.getString("user"));
+                                    // Storing registered user email locally
+                                    // Preference Manager for storing user email locally
+                                    SharedPreferences userInformationPreferences = getApplicationContext().getSharedPreferences(
+                                            LoginActivity.class.getSimpleName(),
+                                            Context.MODE_PRIVATE);
+                                    SharedPreferences.Editor userInformationPreferencesEditor = userInformationPreferences.edit();
+
+//                            userInformationPreferencesEditor.putString("userEmail", registerAppUserJSONObject.getString("user"));
+                                    userInformationPreferencesEditor.putString("userEmail", userEmail);
+                                    userInformationPreferencesEditor.commit();
                                     goToMainAppActivity(userEmail);
                                 }
                             });
@@ -680,124 +699,148 @@ public class LoginActivity extends Activity {
     }
 
     private void goToMainAppActivity(final String userEmail) {
+        Log.d(TAG, "goToMainAppActivity called");
+
         // Disabling the initialize button
 //        Log.d(TAG, "Disabling login button.");
 //        logStatus("Disabling login button.");
         initializeButton.setEnabled(false);
 
         logStatus("I can move now to next Activity.\nHave to make a new GoogleAPIClient there.");
+        SharedPreferences userInformationPreferences = getApplicationContext().getSharedPreferences(
+                LoginActivity.class.getSimpleName(),
+                Context.MODE_PRIVATE);
+
+
+        Log.d(TAG, userInformationPreferences.getString("userEmail", "user@example.com"));
 
         // Just being sure by checking one more time about the user being registered already
+        if (!userInformationPreferences.getString("userEmail", "user@example.com").equalsIgnoreCase("user@example.com")) {
+            // User already logged in and confirmed from local storage.
+            // Continue to main activity
+            moveToMainActivity();
+        } else {
+            Thread userVerificationThread = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        // This is sending GET request for checking existance of user
+                        Uri checkUserUri = Uri.parse("https://health-server.herokuapp.com/checkUser").buildUpon()
+                                .appendQueryParameter("email", userEmail)
+                                .build();
+                        URL checkUserURL = null;
+                        checkUserURL = new URL(checkUserUri.toString());
+                        // Create the request to health-server, and open the connection
+                        HttpURLConnection checkUserURLConnection = (HttpURLConnection) checkUserURL.openConnection();
+                        checkUserURLConnection.setRequestMethod("GET");
+                        checkUserURLConnection.connect();
 
-        Thread userVerificationThread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    // This is sending GET request for checking existance of user
-                    Uri checkUserUri = Uri.parse("https://health-server.herokuapp.com/checkUser").buildUpon()
-                            .appendQueryParameter("email", userEmail)
-                            .build();
-                    URL checkUserURL = null;
-                    checkUserURL = new URL(checkUserUri.toString());
-                    // Create the request to health-server, and open the connection
-                    HttpURLConnection checkUserURLConnection = (HttpURLConnection) checkUserURL.openConnection();
-                    checkUserURLConnection.setRequestMethod("GET");
-                    checkUserURLConnection.connect();
+                        // Read the input stream into a String
+                        InputStream checkUserInputStream = checkUserURLConnection.getInputStream();
+                        StringBuffer checkuserStringBuffer = new StringBuffer();
 
-                    // Read the input stream into a String
-                    InputStream checkUserInputStream = checkUserURLConnection.getInputStream();
-                    StringBuffer checkuserStringBuffer = new StringBuffer();
-
-                    if (checkUserInputStream == null) {
-                        // Nothing to do.
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                // display error
-                                logStatus("Not Connected to server");
-//                                    // Hiding Welcome pager
-//                                    welcomePager.setVisibility(View.GONE);
-                                // Displaying error
-                                errorTextView.setText("Cannot connect to our server.\nPlease check your internet first.");
-                                RelativeLayout errorScreen = (RelativeLayout) findViewById(R.id.error_screen);
-                                errorScreen.setVisibility(View.VISIBLE);
-                            }
-                        });
-                        return;
-                    }
-                    BufferedReader checkUserBufferedReader = new BufferedReader(new InputStreamReader(checkUserInputStream));
-                    String line;
-                    while ((line = checkUserBufferedReader.readLine()) != null) {
-                        // Since it's JSON, adding a newline isn't necessary (it won't affect parsing)
-                        // But it does make debugging a *lot* easier if you print out the completed
-                        // checkuserStringBuffer for debugging.
-                        checkuserStringBuffer.append(line + "\n");
-                    }
-
-                    if (checkuserStringBuffer.length() == 0) {
-                        // Stream was empty.  No point in parsing.
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                // display error
-                                logStatus("Not Connected to server");
-//                                    // Hiding Welcome pager
-//                                    welcomePager.setVisibility(View.GONE);
-                                // Displaying error
-                                errorTextView.setText("Cannot connect to our server.\nPlease check your internet first.");
-                                RelativeLayout errorScreen = (RelativeLayout) findViewById(R.id.error_screen);
-                                errorScreen.setVisibility(View.VISIBLE);
-                            }
-                        });
-                    } else {
-                        String checkUserJsonString = checkuserStringBuffer.toString();
-
-                        // Have to extract JSON from string
-                        final JSONObject checkUserJSONObject = new JSONObject(checkUserJsonString);
-
-                        if(checkUserJSONObject.getBoolean("error")) {
-                            // User not registered
+                        if (checkUserInputStream == null) {
+                            // Nothing to do.
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    // Prompting to register by creating newSignInClient
-                                    buildNewSignInFitnessClient();
-                                    newSignInClient.connect();
+                                    // display error
+                                    logStatus("Not Connected to server");
+//                                    // Hiding Welcome pager
+//                                    welcomePager.setVisibility(View.GONE);
+                                    // Displaying error
+                                    errorTextView.setText("Cannot connect to our server.\nPlease check your internet first.");
+                                    RelativeLayout errorScreen = (RelativeLayout) findViewById(R.id.error_screen);
+                                    errorScreen.setVisibility(View.VISIBLE);
+                                }
+                            });
+                            return;
+                        }
+                        BufferedReader checkUserBufferedReader = new BufferedReader(new InputStreamReader(checkUserInputStream));
+                        String line;
+                        while ((line = checkUserBufferedReader.readLine()) != null) {
+                            // Since it's JSON, adding a newline isn't necessary (it won't affect parsing)
+                            // But it does make debugging a *lot* easier if you print out the completed
+                            // checkuserStringBuffer for debugging.
+                            checkuserStringBuffer.append(line + "\n");
+                        }
+
+                        if (checkuserStringBuffer.length() == 0) {
+                            // Stream was empty.  No point in parsing.
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    // display error
+                                    logStatus("Not Connected to server");
+//                                    // Hiding Welcome pager
+//                                    welcomePager.setVisibility(View.GONE);
+                                    // Displaying error
+                                    errorTextView.setText("Cannot connect to our server.\nPlease check your internet first.");
+                                    RelativeLayout errorScreen = (RelativeLayout) findViewById(R.id.error_screen);
+                                    errorScreen.setVisibility(View.VISIBLE);
                                 }
                             });
                         } else {
-                            // Can skip now to next activity
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    Log.d(TAG, "Can skip now to next activity, because user logged in");
-                                    logStatus("Can skip now to next activity because user logged in");
+                            String checkUserJsonString = checkuserStringBuffer.toString();
 
-                                    // Going to main activity
-                                    Intent mainActivityIntent = new Intent(getApplicationContext(), MainActivity.class);
-                                    // Adding user info to bundle
-                                    Bundle userInfoBundle = new Bundle();
-                                    // Adding Email
-                                    userInfoBundle.putString("email", userEmail);
-                                    mainActivityIntent.putExtra("user-info", userInfoBundle);
-                                    startActivity(mainActivityIntent);
-                                    finish();
-                                }
-                            });
+                            // Have to extract JSON from string
+                            final JSONObject checkUserJSONObject = new JSONObject(checkUserJsonString);
+
+                            if(checkUserJSONObject.getBoolean("error")) {
+                                // User not registered
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        // Prompting to register by creating newSignInClient
+                                        buildNewSignInFitnessClient();
+                                        newSignInClient.connect();
+                                    }
+                                });
+                            } else {
+                                // Can skip now to next activity
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+//                                    Log.d(TAG, "Can skip now to next activity, because user logged in");
+//                                    logStatus("Can skip now to next activity because user logged in");
+//
+//                                    // Going to main activity
+//                                    Intent mainActivityIntent = new Intent(getApplicationContext(), MainActivity.class);
+////                                    // Adding user info to bundle
+////                                    Bundle userInfoBundle = new Bundle();
+////                                    // Adding Email
+////                                    userInfoBundle.putString("email", userEmail);
+////                                    mainActivityIntent.putExtra("user-info", userInfoBundle);
+//                                    startActivity(mainActivityIntent);
+//                                    finish();
+                                        moveToMainActivity();
+                                    }
+                                });
+                            }
                         }
+                    } catch (MalformedURLException e) {
+                        e.printStackTrace();
+                    } catch (ProtocolException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
-                } catch (MalformedURLException e) {
-                    e.printStackTrace();
-                } catch (ProtocolException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (JSONException e) {
-                    e.printStackTrace();
                 }
-            }
-        });
-        userVerificationThread.start();
+            });
+            userVerificationThread.start();
+        }
+    }
+
+    private void moveToMainActivity() {
+        Log.d(TAG, "Can skip now to next activity, because user logged in");
+        logStatus("Can skip now to next activity because user logged in");
+
+        // Going to main activity
+        Intent mainActivityIntent = new Intent(getApplicationContext(), MainActivity.class);
+        startActivity(mainActivityIntent);
+        finish();
     }
 
     private void logStatus(String status) {

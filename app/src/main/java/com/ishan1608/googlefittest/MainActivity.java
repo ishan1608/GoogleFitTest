@@ -166,14 +166,16 @@ public class MainActivity extends Activity {
         userInfoFitnessClient = new GoogleApiClient.Builder(this)
                 // Adding Fitness Sensor API
                 .addApi(Fitness.SENSORS_API)
+                .addApi(Fitness.RECORDING_API)
+                .addApi(Fitness.HISTORY_API)
                         // Adding Plus API
                 .addApi(Plus.API)
                         // Adding Fitness Scopes
-                .addScope(new Scope(Scopes.FITNESS_LOCATION_READ))
+//                .addScope(new Scope(Scopes.FITNESS_LOCATION_READ))
                 .addScope(new Scope(Scopes.FITNESS_LOCATION_READ_WRITE))
-                .addScope(new Scope(Scopes.FITNESS_ACTIVITY_READ))
+//                .addScope(new Scope(Scopes.FITNESS_ACTIVITY_READ))
                 .addScope(new Scope(Scopes.FITNESS_ACTIVITY_READ_WRITE))
-                .addScope(new Scope(Scopes.FITNESS_BODY_READ))
+//                .addScope(new Scope(Scopes.FITNESS_BODY_READ))
                 .addScope(new Scope(Scopes.FITNESS_BODY_READ_WRITE))
                         // Adding Plus Scopes
                 .addScope(Plus.SCOPE_PLUS_LOGIN)
