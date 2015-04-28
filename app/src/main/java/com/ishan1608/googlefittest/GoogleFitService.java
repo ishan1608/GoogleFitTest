@@ -72,14 +72,14 @@ public class GoogleFitService extends IntentService {
         // Connecting the physical fitness client
         physicalFitnessClient.connect();
 
-        // Counting and broadcasting step count now every second
-        handleActionStepsPerSecond();
-        // Counting and broadcasting step count for today
-        handleActionStepCountToday();
-        // Counting and broadcasting miles count for today
-        handleActionMilesCountToday();
-        // Counting and broadcasting calories expended for today
-        handleActionCaloriesExpendedToday();
+//        // Counting and broadcasting step count now every second
+//        handleActionStepsPerSecond();
+//        // Counting and broadcasting step count for today
+//        handleActionStepCountToday();
+//        // Counting and broadcasting miles count for today
+//        handleActionMilesCountToday();
+//        // Counting and broadcasting calories expended for today
+//        handleActionCaloriesExpendedToday();
     }
 
     /**
@@ -102,15 +102,15 @@ public class GoogleFitService extends IntentService {
                 .addApi(Fitness.HISTORY_API)
                 // Adding Plus API
                 // Not required for google fit data
-                .addApi(Plus.API)
+//                .addApi(Plus.API)
                 // Adding Fitness Scopes
                 .addScope(new Scope(Scopes.FITNESS_LOCATION_READ_WRITE))
                 .addScope(new Scope(Scopes.FITNESS_ACTIVITY_READ_WRITE))
                 .addScope(new Scope(Scopes.FITNESS_BODY_READ_WRITE))
                 // Adding Plus Scopes
                 // Not required for google fit data
-                .addScope(Plus.SCOPE_PLUS_LOGIN)
-                .addScope(Plus.SCOPE_PLUS_PROFILE)
+//                .addScope(Plus.SCOPE_PLUS_LOGIN)
+//                .addScope(Plus.SCOPE_PLUS_PROFILE)
                 .addConnectionCallbacks(
                         new GoogleApiClient.ConnectionCallbacks() {
                             @Override
@@ -160,37 +160,41 @@ public class GoogleFitService extends IntentService {
                     handleActionStepsPerSecond();
                     break;
                 case STEP_COUNT_TODAY:
-                    // Broadcasting this information every 2 seconds
-                    TimerTask stepCountTodayBroadcastTask = new TimerTask() {
-                        @Override
-                        public void run() {
-                            handleActionStepCountToday();
-                        }
-                    };
-                    Timer stepCountTodayTimer = new Timer("stepCountTodayTimer");
-                    stepCountTodayTimer.scheduleAtFixedRate(stepCountTodayBroadcastTask, 0, 2000);
+                    handleActionStepCountToday();
+
+//                    // Broadcasting this information every 2 seconds
+//                    TimerTask stepCountTodayBroadcastTask = new TimerTask() {
+//                        @Override
+//                        public void run() {
+//                            handleActionStepCountToday();
+//                        }
+//                    };
+//                    Timer stepCountTodayTimer = new Timer("stepCountTodayTimer");
+//                    stepCountTodayTimer.scheduleAtFixedRate(stepCountTodayBroadcastTask, 0, 2000);
                     break;
                 case MILES_COUNT_TODAY:
-                    // Broadcasting this information every 2 seconds
-                    TimerTask milesCountTodayBroadcastTask = new TimerTask() {
-                        @Override
-                        public void run() {
-                            handleActionMilesCountToday();
-                        }
-                    };
-                    Timer milesCountTodayTimer = new Timer("milesCountTodayTimer");
-                    milesCountTodayTimer.scheduleAtFixedRate(milesCountTodayBroadcastTask, 0, 2000);
+                    handleActionMilesCountToday();
+//                    // Broadcasting this information every 2 seconds
+//                    TimerTask milesCountTodayBroadcastTask = new TimerTask() {
+//                        @Override
+//                        public void run() {
+//                            handleActionMilesCountToday();
+//                        }
+//                    };
+//                    Timer milesCountTodayTimer = new Timer("milesCountTodayTimer");
+//                    milesCountTodayTimer.scheduleAtFixedRate(milesCountTodayBroadcastTask, 0, 2000);
                     break;
                 case CALORIES_EXPENDED_TODAY:
-                    // Broadcasting this information every 2 seconds
-                    TimerTask caloriesExpendedTodayBroadcastTask = new TimerTask() {
-                        @Override
-                        public void run() {
-                            handleActionCaloriesExpendedToday();
-                        }
-                    };
-                    Timer caloriesExpendedTodayTimer = new Timer("caloriesExpendedTodayTimer");
-                    caloriesExpendedTodayTimer.scheduleAtFixedRate(caloriesExpendedTodayBroadcastTask, 0, 2000);
+                    handleActionCaloriesExpendedToday();
+//                    // Broadcasting this information every 2 seconds
+//                    TimerTask caloriesExpendedTodayBroadcastTask = new TimerTask() {
+//                        @Override
+//                        public void run() {
+//                            handleActionCaloriesExpendedToday();
+//                        }
+//                    };
+//                    Timer caloriesExpendedTodayTimer = new Timer("caloriesExpendedTodayTimer");
+//                    caloriesExpendedTodayTimer.scheduleAtFixedRate(caloriesExpendedTodayBroadcastTask, 0, 2000);
                     break;
             }
         }
@@ -382,7 +386,7 @@ public class GoogleFitService extends IntentService {
     }
 
     private void handleActionCaloriesExpendedToday() {
-        Log.d(TAG, "Counting miles for today.");
+        Log.d(TAG, "Counting calories expended for today.");
         Calendar cal = Calendar.getInstance();
         Date now = new Date();
         cal.setTime(now);

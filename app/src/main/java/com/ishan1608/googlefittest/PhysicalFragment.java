@@ -17,6 +17,9 @@ import android.widget.TextView;
 
 import com.google.android.gms.fitness.request.OnDataPointListener;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 public class PhysicalFragment extends Fragment {
 
     private static final int REQUEST_OAUTH = 1;
@@ -40,6 +43,9 @@ public class PhysicalFragment extends Fragment {
     private TextView milesCountTodayTextView;
     private TextView stepsPerSecondTextView;
     private ImageView stepsBannerImageView;
+    private TextView caloriesExpendedTodayTextView;
+    private TimerTask googleFitRequestTask;
+    private Timer googleFitRequestTimer;
     // [END mListener_variable_reference]
 
     public PhysicalFragment() {
@@ -49,6 +55,46 @@ public class PhysicalFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // Registering broadcast receiver
+        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(stepCountTodayReceiver, new IntentFilter(GoogleFitService.STEP_COUNT_TODAY));
+        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(stepCountNowReceiver, new IntentFilter(GoogleFitService.STEPS_PER_SECOND_COUNT));
+        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(milesCountTodayReceiver, new IntentFilter(GoogleFitService.MILES_COUNT_TODAY));
+        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(caloriesCountTodayReceiver, new IntentFilter(GoogleFitService.CALORIES_EXPENDED_TODAY));
+
+        // Starting services, just to be on the safe side
+        // Creates a new Intent to start the step count now IntentService.
+        final Intent stepCountNowIntent;
+        stepCountNowIntent = new Intent(getActivity(), GoogleFitService.class);
+        stepCountNowIntent.setAction(GoogleFitService.STEPS_PER_SECOND_COUNT);
+        getActivity().startService(stepCountNowIntent);
+
+        // Creates a new Intent to start the step count today IntentService.
+        final Intent stepCountTodayIntent;
+        stepCountTodayIntent = new Intent(getActivity(), GoogleFitService.class);
+        stepCountTodayIntent.setAction(GoogleFitService.STEP_COUNT_TODAY);
+
+
+        // Creates a new Intent to start the miles count today IntentService
+        final Intent milesCountTodayIntent;
+        milesCountTodayIntent = new Intent(getActivity(), GoogleFitService.class);
+        milesCountTodayIntent.setAction(GoogleFitService.MILES_COUNT_TODAY);
+
+        // Creates a new Intent to start the calories count for today IntentService
+        final Intent caloriesExpendedTodayIntent;
+        caloriesExpendedTodayIntent = new Intent(getActivity(), GoogleFitService.class);
+        caloriesExpendedTodayIntent.setAction(GoogleFitService.CALORIES_EXPENDED_TODAY);
+
+
+        googleFitRequestTask = new TimerTask() {
+            @Override
+            public void run() {
+                getActivity().startService(stepCountNowIntent);
+                getActivity().startService(stepCountTodayIntent);
+                getActivity().startService(milesCountTodayIntent);
+                getActivity().startService(caloriesExpendedTodayIntent);
+            }
+        };
+        googleFitRequestTimer = new Timer("googleFitRequestTimer");
     }
 
     @Override
@@ -61,6 +107,7 @@ public class PhysicalFragment extends Fragment {
         stepCountTodayTextView = (TextView) returnView.findViewById(R.id.step_count_today);
         milesCountTodayTextView = (TextView) returnView.findViewById(R.id.miles_count_today);
         stepsPerSecondTextView = (TextView) returnView.findViewById(R.id.steps_per_second);
+        caloriesExpendedTodayTextView = (TextView) returnView.findViewById(R.id.calories_expended_today);
 
         // Displaying top image
         stepsBannerImageView = (ImageView) returnView.findViewById(R.id.steps_banner_image);
@@ -71,37 +118,63 @@ public class PhysicalFragment extends Fragment {
 //        buildPhysicalFitnessClient();
 //        physicalFitnessClient.connect();
 
-        // Starting services, just to be on the safe side
-        // Creates a new Intent to start the step count now IntentService.
-        Intent stepCountNowIntent;
-        stepCountNowIntent = new Intent(getActivity(), GoogleFitService.class);
-        stepCountNowIntent.setAction(GoogleFitService.STEPS_PER_SECOND_COUNT);
-        // Calling it twice in the hope that the first count will be erased
-        for(int i = 0; i < 2; i++) {
-            getActivity().startService(stepCountNowIntent);
-        }
+//        // Registering broadcast receiver
+//        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(stepCountTodayReceiver, new IntentFilter(GoogleFitService.STEP_COUNT_TODAY));
+//        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(stepCountNowReceiver, new IntentFilter(GoogleFitService.STEPS_PER_SECOND_COUNT));
+//        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(milesCountTodayReceiver, new IntentFilter(GoogleFitService.MILES_COUNT_TODAY));
+//        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(caloriesCountTodayReceiver, new IntentFilter(GoogleFitService.CALORIES_EXPENDED_TODAY));
+//
+//        // Starting services, just to be on the safe side
+//        // Creates a new Intent to start the step count now IntentService.
+//        final Intent stepCountNowIntent;
+//        stepCountNowIntent = new Intent(getActivity(), GoogleFitService.class);
+//        stepCountNowIntent.setAction(GoogleFitService.STEPS_PER_SECOND_COUNT);
+//        getActivity().startService(stepCountNowIntent);
+//
+//        // Creates a new Intent to start the step count today IntentService.
+//        final Intent stepCountTodayIntent;
+//        stepCountTodayIntent = new Intent(getActivity(), GoogleFitService.class);
+//        stepCountTodayIntent.setAction(GoogleFitService.STEP_COUNT_TODAY);
+//
+//
+//        // Creates a new Intent to start the miles count today IntentService
+//        final Intent milesCountTodayIntent;
+//        milesCountTodayIntent = new Intent(getActivity(), GoogleFitService.class);
+//        milesCountTodayIntent.setAction(GoogleFitService.MILES_COUNT_TODAY);
+//
+//        // Creates a new Intent to start the calories count for today IntentService
+//        final Intent caloriesExpendedTodayIntent;
+//        caloriesExpendedTodayIntent = new Intent(getActivity(), GoogleFitService.class);
+//        caloriesExpendedTodayIntent.setAction(GoogleFitService.CALORIES_EXPENDED_TODAY);
+//
+//
+//        googleFitRequestTask = new TimerTask() {
+//            @Override
+//            public void run() {
+//                getActivity().startService(stepCountNowIntent);
+//                getActivity().startService(stepCountTodayIntent);
+//                getActivity().startService(milesCountTodayIntent);
+//                getActivity().startService(caloriesExpendedTodayIntent);
+//            }
+//        };
+//        googleFitRequestTimer = new Timer("googleFitRequestTimer");
 
-        // Creates a new Intent to start the step count today IntentService.
-        Intent stepCountTodayIntent;
-        stepCountTodayIntent = new Intent(getActivity(), GoogleFitService.class);
-        stepCountTodayIntent.setAction(GoogleFitService.STEP_COUNT_TODAY);
-        getActivity().startService(stepCountTodayIntent);
-
-        // Creates a new Intent to start the miles count today IntentService
-        Intent milesCountTodayIntent;
-        milesCountTodayIntent = new Intent(getActivity(), GoogleFitService.class);
-        milesCountTodayIntent.setAction(GoogleFitService.MILES_COUNT_TODAY);
-        getActivity().startService(milesCountTodayIntent);
-
-        // Registering broadcast receiver
-        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(stepCountTodayReceiver, new IntentFilter(GoogleFitService.STEP_COUNT_TODAY));
-        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(stepCountNowReceiver, new IntentFilter(GoogleFitService.STEPS_PER_SECOND_COUNT));
-        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(milesCountTodayReceiver, new IntentFilter(GoogleFitService.MILES_COUNT_TODAY));
+        googleFitRequestTimer.scheduleAtFixedRate(googleFitRequestTask, 0, 1000);
+//        // Calling it twice in the hope that the first count will be erased
+//        for(int i = 0; i < 2; i++) {
+//            getActivity().startService(stepCountNowIntent);
+//        }
 
         return returnView;
     }
 
-//    @Override
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        googleFitRequestTimer.cancel();
+    }
+
+    //    @Override
 //    public void onActivityResult(int requestCode, int resultCode, Intent data) {
 //        if (requestCode == REQUEST_OAUTH) {
 //            authInProgress = false;
@@ -347,6 +420,23 @@ public class PhysicalFragment extends Fragment {
                 milesCountTodayTextView.setText("Distance : " + milesCountTodayResult + " kilometer");
             } else {
                 milesCountTodayTextView.setText("Distance : " + 0 + " kilometer");
+            }
+        }
+    };
+
+    private BroadcastReceiver caloriesCountTodayReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent resultIntent) {
+            Log.d(TAG, "caloriesCountTodayReceiver called");
+            // Get extra data included in the Intent
+            if (resultIntent.hasExtra(GoogleFitService.CALORIES_EXPENDED_TODAY_RESULT)) {
+                //Recreate the connection result
+                float CaloriesExpendedTodayResult = resultIntent.getFloatExtra(GoogleFitService.CALORIES_EXPENDED_TODAY_RESULT, 0);
+                Log.d(TAG, "CaloriesExpendedToday result " + CaloriesExpendedTodayResult);
+
+                caloriesExpendedTodayTextView.setText("Calories : " + CaloriesExpendedTodayResult);
+            } else {
+                caloriesExpendedTodayTextView.setText("Calories : " + 0 );
             }
         }
     };
