@@ -97,7 +97,7 @@ public class GoogleFitService extends IntentService {
         physicalFitnessClient = new GoogleApiClient.Builder(this)
                 // Adding Fitness Sensor API
                 .addApi(Fitness.SENSORS_API)
-                // TODO: Add recording and histroy api to other clients in the project
+                // TODO: Add recording and history api to other clients in the project
                 .addApi(Fitness.RECORDING_API)
                 .addApi(Fitness.HISTORY_API)
                 // Adding Plus API
@@ -155,12 +155,13 @@ public class GoogleFitService extends IntentService {
         Log.d(TAG, "onHandleIntent called");
         if (intent != null) {
             final String action = intent.getAction();
-            switch (action) {
-                case STEPS_PER_SECOND_COUNT:
-                    handleActionStepsPerSecond();
-                    break;
-                case STEP_COUNT_TODAY:
-                    handleActionStepCountToday();
+            if (action != null) {
+                switch (action) {
+                    case STEPS_PER_SECOND_COUNT:
+                        handleActionStepsPerSecond();
+                        break;
+                    case STEP_COUNT_TODAY:
+                        handleActionStepCountToday();
 
 //                    // Broadcasting this information every 2 seconds
 //                    TimerTask stepCountTodayBroadcastTask = new TimerTask() {
@@ -171,9 +172,9 @@ public class GoogleFitService extends IntentService {
 //                    };
 //                    Timer stepCountTodayTimer = new Timer("stepCountTodayTimer");
 //                    stepCountTodayTimer.scheduleAtFixedRate(stepCountTodayBroadcastTask, 0, 2000);
-                    break;
-                case MILES_COUNT_TODAY:
-                    handleActionMilesCountToday();
+                        break;
+                    case MILES_COUNT_TODAY:
+                        handleActionMilesCountToday();
 //                    // Broadcasting this information every 2 seconds
 //                    TimerTask milesCountTodayBroadcastTask = new TimerTask() {
 //                        @Override
@@ -183,9 +184,9 @@ public class GoogleFitService extends IntentService {
 //                    };
 //                    Timer milesCountTodayTimer = new Timer("milesCountTodayTimer");
 //                    milesCountTodayTimer.scheduleAtFixedRate(milesCountTodayBroadcastTask, 0, 2000);
-                    break;
-                case CALORIES_EXPENDED_TODAY:
-                    handleActionCaloriesExpendedToday();
+                        break;
+                    case CALORIES_EXPENDED_TODAY:
+                        handleActionCaloriesExpendedToday();
 //                    // Broadcasting this information every 2 seconds
 //                    TimerTask caloriesExpendedTodayBroadcastTask = new TimerTask() {
 //                        @Override
@@ -195,7 +196,8 @@ public class GoogleFitService extends IntentService {
 //                    };
 //                    Timer caloriesExpendedTodayTimer = new Timer("caloriesExpendedTodayTimer");
 //                    caloriesExpendedTodayTimer.scheduleAtFixedRate(caloriesExpendedTodayBroadcastTask, 0, 2000);
-                    break;
+                        break;
+                }
             }
         }
     }
