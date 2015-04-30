@@ -92,7 +92,7 @@ public class WeatherForecastFragment extends Fragment implements LoaderManager.L
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.forecastfragment, menu);
+        inflater.inflate(R.menu.menu_weather_forecast_fragment, menu);
     }
 
     @Override
@@ -116,7 +116,7 @@ public class WeatherForecastFragment extends Fragment implements LoaderManager.L
         // use it to populate the ListView it's attached to.
         mWeatherForecastAdapter = new WeatherForecastAdapter(getActivity(), null, 0);
 
-        View rootView = inflater.inflate(R.layout.weatehr_fragment_main, container, false);
+        View rootView = inflater.inflate(R.layout.weather_fragment_main, container, false);
 
         // Get a reference to the ListView, and attach this adapter to it.
         mListView = (ListView) rootView.findViewById(R.id.listview_forecast);
