@@ -50,6 +50,42 @@
             android:name=".DialogActivity"
             android:label="@string/title_activity_dialog" >
         </activity>
+
+        <!-- Weather section -->
+        <activity
+            android:name=".WeatherMainActivity"
+            android:theme="@style/ForecastTheme"
+            android:label="@string/app_name" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
+        <activity
+            android:name=".WeatherDetailActivity"
+            android:label="@string/title_activity_detail"
+            android:theme="@style/ForecastTheme"
+            android:parentActivityName=".WeatherMainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".WeatherMainActivity" />
+        </activity>
+        <activity
+            android:name=".WeatherSettingsActivity"
+            android:label="@string/title_activity_settings"
+            android:parentActivityName=".WeatherMainActivity"
+            android:theme="@style/SettingsTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".WeatherMainActivity" />
+        </activity>
+
+        <provider
+            android:authorities="com.ishan1608.healthifyPlus"
+            android:name=".data.WeatherProvider" />
+
+        <service android:name=".service.WeatherApplicationService"/>
+        <receiver android:name=".service.WeatherApplicationService$AlarmReceiver" android:enabled="true"/>
+
     </application>
 
 </manifest>

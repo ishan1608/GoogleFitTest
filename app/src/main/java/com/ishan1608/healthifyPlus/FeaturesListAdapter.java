@@ -2,6 +2,7 @@ package com.ishan1608.healthifyPlus;
 
 import android.app.Activity;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.support.v4.widget.DrawerLayout;
 import android.view.Gravity;
 import android.view.View;
@@ -76,9 +77,13 @@ public class FeaturesListAdapter extends BaseAdapter implements ListAdapter {
                 featuresListItem.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        FragmentTransaction featureTransaction = activity.getFragmentManager().beginTransaction();
-                        featureTransaction.replace(R.id.main_container, new WeatherFragment());
-                        featureTransaction.commit();
+//                        FragmentTransaction featureTransaction = activity.getFragmentManager().beginTransaction();
+//                        featureTransaction.replace(R.id.main_container, new WeatherFragment());
+//                        featureTransaction.commit();
+                        // Activity transaction to main weather activity
+                        Intent weatherMainIntent = new Intent(activity , WeatherMainActivity.class);
+                        activity.startActivity(weatherMainIntent);
+
                         featuresDrawerLayout.closeDrawer(Gravity.LEFT);
                     }
                 });
