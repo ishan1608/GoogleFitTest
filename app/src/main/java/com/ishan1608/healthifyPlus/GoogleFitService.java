@@ -1,4 +1,4 @@
-package com.ishan1608.googlefittest;
+package com.ishan1608.healthifyPlus;
 
 import android.app.IntentService;
 import android.content.Intent;
@@ -25,12 +25,9 @@ import com.google.android.gms.fitness.request.OnDataPointListener;
 import com.google.android.gms.fitness.request.SensorRequest;
 import com.google.android.gms.fitness.result.DataReadResult;
 import com.google.android.gms.fitness.result.DataSourcesResult;
-import com.google.android.gms.plus.Plus;
 
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Timer;
-import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
 
 
@@ -42,21 +39,21 @@ import java.util.concurrent.TimeUnit;
 public class GoogleFitService extends IntentService {
 
     private static final String TAG = "GOOGLE-FIT-SERVICE";
-    public static final String STEPS_PER_SECOND_COUNT = "com.ishan1608.googlefittest.action.STEPS_PER_SECOND_COUNT";
-    public static final String STEP_COUNT_TODAY = "com.ishan1608.googlefittest.action.STEP_COUNT_TODAY";
-    public static final String STEP_COUNT_TODAY_RESULT = "com.ishan1608.googlefittest.action.STEP_COUNT_TODAY_RESULT";
-    public static final String STEPS_PER_SECOND_COUNT_RESULT = "com.ishan1608.googlefittest.action.STEPS_PER_SECOND_COUNT_RESULT";
-    public static final String MILES_COUNT_TODAY = "com.ishan1608.googlefittest.action.MILES_COUNT_TODAY";
-    public static final String MILES_TODAY_COUNT_RESULT = "com.ishan1608.googlefittest.action.MILES_TODAY_COUNT_RESULT";
-    public static final String CALORIES_EXPENDED_TODAY = "com.ishan1608.googlefittest.action.CALORIES_EXPENDED_TODAY";
-    public static final String CALORIES_EXPENDED_TODAY_RESULT = "com.ishan1608.googlefittest.action.CALORIES_EXPENDED_TODAY_RESULT";
+    public static final String STEPS_PER_SECOND_COUNT = "com.ishan1608.healthifyPlus.action.STEPS_PER_SECOND_COUNT";
+    public static final String STEP_COUNT_TODAY = "com.ishan1608.healthifyPlus.action.STEP_COUNT_TODAY";
+    public static final String STEP_COUNT_TODAY_RESULT = "com.ishan1608.healthifyPlus.action.STEP_COUNT_TODAY_RESULT";
+    public static final String STEPS_PER_SECOND_COUNT_RESULT = "com.ishan1608.healthifyPlus.action.STEPS_PER_SECOND_COUNT_RESULT";
+    public static final String MILES_COUNT_TODAY = "com.ishan1608.healthifyPlus.action.MILES_COUNT_TODAY";
+    public static final String MILES_TODAY_COUNT_RESULT = "com.ishan1608.healthifyPlus.action.MILES_TODAY_COUNT_RESULT";
+    public static final String CALORIES_EXPENDED_TODAY = "com.ishan1608.healthifyPlus.action.CALORIES_EXPENDED_TODAY";
+    public static final String CALORIES_EXPENDED_TODAY_RESULT = "com.ishan1608.healthifyPlus.action.CALORIES_EXPENDED_TODAY_RESULT";
 
     private GoogleApiClient physicalFitnessClient;
     private OnDataPointListener mListener;
 
     // Will use these as bundle parameters if requires and will rename them
-//    public static final String EXTRA_PARAM1 = "com.ishan1608.googlefittest.extra.PARAM1";
-//    public static final String EXTRA_PARAM2 = "com.ishan1608.googlefittest.extra.PARAM2";
+//    public static final String EXTRA_PARAM1 = "com.ishan1608.healthifyPlus.extra.PARAM1";
+//    public static final String EXTRA_PARAM2 = "com.ishan1608.healthifyPlus.extra.PARAM2";
 
     public GoogleFitService() {
         super("GoogleFitService");

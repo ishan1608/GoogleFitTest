@@ -1,4 +1,4 @@
-package com.ishan1608.googlefittest;
+package com.ishan1608.healthifyPlus;
 
 
 import android.os.Bundle;

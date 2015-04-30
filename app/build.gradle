@@ -5,7 +5,7 @@ android {
     buildToolsVersion "22.0.1"
 
     defaultConfig {
-        applicationId "com.ishan1608.googlefittest"
+        applicationId "com.ishan1608.healthifyPlus"
         minSdkVersion 15
         targetSdkVersion 22
         versionCode 1
