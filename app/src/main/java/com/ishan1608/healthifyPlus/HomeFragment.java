@@ -18,7 +18,6 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -44,8 +43,8 @@ public class HomeFragment extends Fragment {
     private ImageButton internetRetryButton;
 
     // Color pallete
-    public static String[] colorPaletteBright = {"FF33842D", "FF5A3541", "FFF10008"};
-    public static String[] colorPaletteLight = {"FFFFC828", "FFFF9809", "FF31BCB4"};
+    public static String[] colorPaletteBright = {"#FF33842D", "#FFC2758B", "#FFF10008"};
+    public static String[] colorPaletteLight = {"#FFFFC828", "#FFFF9809", "#FF31BCB4"};
 
     public HomeFragment() {
         // Required empty public constructor
@@ -233,14 +232,14 @@ public class HomeFragment extends Fragment {
             articleTitleTextView = (TextView) convertView.findViewById(R.id.article_title);
             articleLinkTextView = (TextView) convertView.findViewById(R.id.article_link);
             // Setting background color of article title
-//            int randomColorPoint = new Random().nextInt(3);
-//            if(colorPaletteNumber == 1) {
-//                colorPaletteNumber = 2;
-//                articleTitleTextView.setBackgroundColor(Color.parseColor(colorPaletteBright[randomColorPoint]));
-//            } else {
-//                colorPaletteNumber = 1;
-//                articleTitleTextView.setBackgroundColor(Color.parseColor(colorPaletteLight[randomColorPoint]));
-//            }
+            int randomColorPoint = new Random().nextInt(3);
+            if(colorPaletteNumber == 1) {
+                colorPaletteNumber = 2;
+                articleTitleTextView.setBackgroundColor(Color.parseColor(colorPaletteBright[randomColorPoint]));
+            } else {
+                colorPaletteNumber = 1;
+                articleTitleTextView.setBackgroundColor(Color.parseColor(colorPaletteLight[randomColorPoint]));
+            }
             // TODO: Fix article toggler
 //            // Displaying the URL on click of title
 //            articleTitleTextView.setOnClickListener(new View.OnClickListener() {
