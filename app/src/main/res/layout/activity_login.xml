@@ -67,5 +67,6 @@
         android:src="@drawable/login_button"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:enabled="false"/>
+        android:enabled="false"
+        android:visibility="gone"/>
 </RelativeLayout>

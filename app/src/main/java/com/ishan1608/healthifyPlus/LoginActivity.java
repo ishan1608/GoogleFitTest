@@ -121,6 +121,9 @@ public class LoginActivity extends Activity {
         initializeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // Hiding as soon as the login is clicked so that the user can't click it again
+                initializeButton.setEnabled(false);
+                initializeButton.setVisibility(View.GONE);
                 buildNewSignInFitnessClient();
                 newSignInClient.connect();
             }
