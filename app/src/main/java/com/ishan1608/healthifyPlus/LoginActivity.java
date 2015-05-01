@@ -281,6 +281,7 @@ public class LoginActivity extends Activity {
                                 logStatus("Connection failed. Cause: " + result.toString() + "\nEnabling login button.");
                                 // Enabling the login button
                                 initializeButton.setEnabled(true);
+                                initializeButton.setVisibility(View.VISIBLE);
                             }
                         }
                 )
@@ -483,6 +484,7 @@ public class LoginActivity extends Activity {
                                             welcomePager.setVisibility(View.GONE);
                                             // Hiding Login button
                                             initializeButton.setEnabled(false);
+                                            initializeButton.setVisibility(View.GONE);
 
                                             // Displaying registration form
                                             final View registrationForm = getLayoutInflater().inflate(R.layout.registration_form, null);
@@ -755,6 +757,7 @@ public class LoginActivity extends Activity {
 //        Log.d(TAG, "Disabling login button.");
 //        logStatus("Disabling login button.");
         initializeButton.setEnabled(false);
+        initializeButton.setVisibility(View.GONE);
 
         logStatus("I can move now to next Activity.\nHave to make a new GoogleAPIClient there.");
         SharedPreferences userInformationPreferences = getApplicationContext().getSharedPreferences(

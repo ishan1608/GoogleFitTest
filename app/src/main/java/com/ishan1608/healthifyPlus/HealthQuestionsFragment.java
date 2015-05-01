@@ -1,8 +1,10 @@
 package com.ishan1608.healthifyPlus;
+
 import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 
+import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -85,6 +87,16 @@ public class HealthQuestionsFragment extends Fragment {
         addListenerHealthRadioGroup5();
         addListenerHealthRadioGroup6();
         addListenerHealthRadioGroup7();
+
+        // Moving on to next tab when clicked upon the next tab button
+        Button nextTabButton = (Button) rootView.findViewById(R.id.next_tab_button);
+        nextTabButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ViewPager reportViewPager = (ViewPager) getActivity().findViewById(R.id.report_view_pager);
+                reportViewPager.setCurrentItem((reportViewPager.getCurrentItem() + 1) % reportViewPager.getAdapter().getCount(), true);
+            }
+        });
 
         return rootView;
     }

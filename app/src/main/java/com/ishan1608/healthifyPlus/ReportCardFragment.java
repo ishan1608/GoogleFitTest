@@ -34,15 +34,15 @@ public class ReportCardFragment extends Fragment {
         returnView = inflater.inflate(R.layout.fragment_report_card, container, false);
 
         // Get the ViewPager and set it's PagerAdapter so that it can display items
-        ViewPager viewPager = (ViewPager) returnView.findViewById(R.id.report_view_pager);
-        // viewPager.setAdapter(new SampleFragmentPagerAdapter(getSupportFragmentManager(), this));
-        viewPager.setAdapter(new SampleFragmentPagerAdapter(getFragmentManager(), getActivity().getApplicationContext()));
+        ViewPager reportViewPager = (ViewPager) returnView.findViewById(R.id.report_view_pager);
+        // reportViewPager.setAdapter(new SampleFragmentPagerAdapter(getSupportFragmentManager(), this));
+        reportViewPager.setAdapter(new SampleFragmentPagerAdapter(getFragmentManager(), getActivity().getApplicationContext()));
 
         // Give the SlidingTabLayout the ViewPager
         SlidingTabLayout slidingTabLayout = (SlidingTabLayout) returnView.findViewById(R.id.report_sliding_tabs);
         // Center the tabs in the layout
         slidingTabLayout.setDistributeEvenly(true);
-        slidingTabLayout.setViewPager(viewPager);
+        slidingTabLayout.setViewPager(reportViewPager);
 
 
         return  returnView;
