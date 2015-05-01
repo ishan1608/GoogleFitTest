@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity"
     android:id="@+id/event_details_fragment_container"
-    android:background="#ff067518" >
+    android:background="@drawable/splash_screen" >
 
     <ScrollView
         android:layout_width="match_parent"
@@ -22,8 +22,7 @@
             android:orientation="vertical"
             android:layout_weight="1"
             android:layout_gravity="center_horizontal"
-            android:background="#ff067518"
-            android:padding="5dp"
+            android:padding="7dp"
             android:layout_margin="10dp" >
             <LinearLayout
                 android:orientation="vertical"
@@ -534,7 +533,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" >
                     <TextView
-                        android:text="Question 6"
+                        android:text="Question 7"
                         android:layout_gravity="center_horizontal"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -543,7 +542,7 @@
                 </LinearLayout>
                 <TextView
                     android:id="@+id/question7_content"
-                    android:text="How much sleep do you usually get?"
+                    android:text="Would you rather eat?"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     style="@style/event_details_content" />
@@ -578,7 +577,7 @@
                             android:id="@+id/health_option7_radio1"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="4 to 5"
+                            android:text="Bread"
                             android:textSize="15sp"
                             android:textStyle="italic"
                             android:textColor="#ffadc019"
@@ -587,7 +586,7 @@
                             android:id="@+id/health_option7_radio2"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="6 to 7"
+                            android:text="Salad"
                             android:textSize="15sp"
                             android:textStyle="italic"
                             android:textColor="#ffadc019"
@@ -596,7 +595,7 @@
                             android:id="@+id/health_option7_radio3"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Less than 4"
+                            android:text="Chocolate"
                             android:textSize="15sp"
                             android:textStyle="italic"
                             android:textColor="#ffadc019"

@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity"
 
-    android:background="#ff067518" >
+    android:background="@drawable/splash_screen" >
     <!--android:id="@+id/event_details_fragment_container"-->
 
     <ScrollView
@@ -24,8 +24,7 @@
             android:orientation="vertical"
             android:layout_weight="1"
             android:layout_gravity="center_horizontal"
-            android:background="#ff067518"
-            android:padding="5dp"
+            android:padding="7dp"
             android:layout_margin="10dp" >
             <LinearLayout
                 android:orientation="vertical"
@@ -303,7 +302,7 @@
                 </LinearLayout>
                 <TextView
                     android:id="@+id/medical_question4_content"
-                    android:text="Have you ever had or do you have diabetes or any other endocrine (glandular) problems?"
+                    android:text="Do you have diabetes?"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     style="@style/event_details_content" />
@@ -532,8 +531,7 @@
                 </LinearLayout>
                 <TextView
                     android:id="@+id/medical_question7_content"
-                    android:text="If you are a woman, have you had any breast or
-gynaecological problems"
+                    android:text="Do you smoke any tobacco products or other similar products ?"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     style="@style/event_details_content" />

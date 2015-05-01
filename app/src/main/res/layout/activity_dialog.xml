@@ -1,7 +1,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="255dp"
-    android:layout_height="200dp"
+    android:layout_height="250dp"
     android:background="@color/dark_yellow"
     android:padding="12dip" >
 
@@ -10,10 +10,10 @@
         android:layout_height="wrap_content" >
         <ImageView
             android:id="@+id/inspirations_logo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
             android:src="@drawable/progress_circle"
-            android:layout_centerInParent="true" />
+            android:layout_centerInParent="true"/>
     </RelativeLayout>
 
     <TextView

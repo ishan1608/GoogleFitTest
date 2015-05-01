@@ -3,7 +3,6 @@ package com.ishan1608.healthifyPlus;
 import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +11,9 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+
+
+
 
 public class DietQuestionsFragment extends Fragment {
     View rootView;
@@ -106,12 +108,12 @@ public class DietQuestionsFragment extends Fragment {
                 // Check which radio button was clicked
                 if (checked1) {
                     optionValues[0] = 1;
-                    dialogText = "Good.If you reduce the amount of sugar you eat, you may have more energy, lose weight or stay at a healthy weight more easily";
+                    dialogText = "Good.If you reduce the amount of sugar you eat, you may have more energy, lose weight or stay at a healthy weight more easily.";
                     bundle.putString("key", dialogText);
                 }
                 if (checked2) {
                     optionValues[0] = 2;
-                    dialogText = "High sugar intake can be a cause depression, headaches, weight gain, fluid retention, hormonal imbalances and hypertension";
+                    dialogText = "High sugar intake can be a cause depression, headaches, weight gain, fluid retention, hormonal imbalances and hypertension.";
                     bundle.putString("key", dialogText);
                 }
                 Intent developerIntent = new Intent(getActivity(), DialogActivity.class);
@@ -144,12 +146,12 @@ public class DietQuestionsFragment extends Fragment {
                 // Check which radio button was clicked
                 if (checked1) {
                     optionValues[1] = 1;
-                    dialogText = "Fibre can help in lowering cholesterol and blood glucose levels,Controlling your weight and can make you healthy";
+                    dialogText = "Fibre can help in lowering cholesterol and blood glucose levels,Controlling your weight and can make you healthy.";
                     bundle.putString("key", dialogText);
                 }
                 if (checked2) {
                     optionValues[1] = 2;
-                    dialogText = "Lack of fibre in your diet can lead to many diseases like high blood pressure,diabetes,cardiovascular disease and obesity";
+                    dialogText = "Lack of fibre in your diet can lead to many diseases like high blood pressure,diabetes,cardiovascular disease and obesity.";
                     bundle.putString("key", dialogText);
                 }
                 Intent developerIntent = new Intent(getActivity(), DialogActivity.class);
@@ -180,12 +182,12 @@ public class DietQuestionsFragment extends Fragment {
                 // Check which radio button was clicked
                 if (checked1) {
                     optionValues[2] = 1;
-                    dialogText = "Good.Limited intake of saturated fat make it easier to lose weight,reduce the risk of  heart disease and keeps you fit";
+                    dialogText = "Good.Limited intake of saturated fat make it easier to lose weight,reduce the risk of  heart disease and keeps you fit.";
                     bundle.putString("key", dialogText);
                 }
                 if (checked2) {
                     optionValues[2] = 2;
-                    dialogText = "Eating foods that contain saturated fats raises the level of cholestrol in your blood and can be high in calories too";
+                    dialogText = "Eating foods that contain saturated fats raises the level of cholestrol in your blood and can be high in calories too.";
                     bundle.putString("key", dialogText);
                 }
                 Intent developerIntent = new Intent(getActivity(), DialogActivity.class);
@@ -216,12 +218,12 @@ public class DietQuestionsFragment extends Fragment {
                 // Check which radio button was clicked
                 if (checked1) {
                     optionValues[3] = 1;
-                    dialogText = "People who eat fruit and vegetables as part of their daily diet have a reduced risk of many chronic diseases and the nutrients in vegetables are vital for health and maintenance of your body";
+                    dialogText = "People who eat fruit and vegetables as part of their daily diet have a reduced risk of many chronic diseases and the nutrients in vegetables are vital for health and maintenance of your body.";
                     bundle.putString("key", dialogText);
                 }
                 if (checked2) {
                     optionValues[3] = 2;
-                    dialogText = "Having a low intake of fruit and vegetables is estimated to cause about 19% of cancers of the digestive system, 31% of heart disease and 11% of stroke";
+                    dialogText = "Having a low intake of fruit and vegetables is estimated to cause about 19% of cancers of the digestive system, 31% of heart disease and 11% of stroke.";
                     bundle.putString("key", dialogText);
                 }
                 Intent developerIntent = new Intent(getActivity(), DialogActivity.class);
@@ -252,12 +254,12 @@ public class DietQuestionsFragment extends Fragment {
                 // Check which radio button was clicked
                 if (checked1) {
                     optionValues[4] = 1;
-                    dialogText = "Drinking water helps maintain the balance of body fluids,treats headaches,helps in digestion and aids weight loss";
+                    dialogText = "Drinking water helps maintain the balance of body fluids,treats headaches,helps in digestion and aids weight loss.";
                     bundle.putString("key", dialogText);
                 }
                 if (checked2) {
                     optionValues[4] = 2;
-                    dialogText = "Lack of water can lead to dehydration, a condition that occurs when you don't have enough water in your body to carry out normal functions";
+                    dialogText = "Lack of water can lead to dehydration, a condition that occurs when you don't have enough water in your body to carry out normal functions.";
                     bundle.putString("key", dialogText);
                 }
                 Intent developerIntent = new Intent(getActivity(), DialogActivity.class);
@@ -287,12 +289,12 @@ public class DietQuestionsFragment extends Fragment {
                 // Check which radio button was clicked
                 if (checked1) {
                     optionValues[5] = 1;
-                    dialogText = "Moderate amount of caffeine is not harmful";
+                    dialogText = "Moderate amount of caffeine is not harmful.";
                     bundle.putString("key", dialogText);
                 }
                 if (checked2) {
                     optionValues[5] = 2;
-                    dialogText = "Excess caffeine consumption may raise blood pressure,may cause insomnia, indigestion and make you dependent on it";
+                    dialogText = "Excess caffeine consumption may raise blood pressure,may cause insomnia, indigestion and make you dependent on it.";
                     bundle.putString("key", dialogText);
                 }
                 Intent developerIntent = new Intent(getActivity(), DialogActivity.class);
@@ -323,12 +325,12 @@ public class DietQuestionsFragment extends Fragment {
                 // Check which radio button was clicked
                 if (checked1) {
                     optionValues[6] = 1;
-                    dialogText = "";
+                    dialogText = "Green leafy vegetables are useful in reducing the risk of cancer and heart disease since they are low in fat, high in dietary fiber,vitamin C and contain things that are beneficial for health.";
                     bundle.putString("key", dialogText);
                 }
                 if (checked2) {
                     optionValues[6] = 2;
-                    dialogText = "";
+                    dialogText = "Studies have shown that an increment of one daily serving of green leafy vegetables, lowered the risk of cardiovascular disease by 11 percent.So you should eat green leafy vegetables once in a day.";
                     bundle.putString("key", dialogText);
                 }
                 Intent developerIntent = new Intent(getActivity(), DialogActivity.class);
@@ -340,3 +342,22 @@ public class DietQuestionsFragment extends Fragment {
         });
     }
 }
+
+//class contentToggler2 implements View.OnClickListener {
+//    @Override
+//    public void onClick(View v) {
+//        ViewGroup parent = (ViewGroup) v.getParent();
+//        View childView = parent.getChildAt(parent.indexOfChild(v) + 1);
+//        this.viewToggler(childView);
+//    }
+//
+//    private void viewToggler(View view) {
+//        if(view.getVisibility() == View.VISIBLE) {
+//            view.setVisibility(View.GONE);
+//        } else {
+//            view.setVisibility(View.VISIBLE);
+//        }
+//    }
+//}
+
+

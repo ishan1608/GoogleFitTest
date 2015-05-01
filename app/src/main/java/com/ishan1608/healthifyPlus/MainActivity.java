@@ -19,6 +19,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -71,6 +72,8 @@ public class MainActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // Removing title
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main);
 
         // Logging SHA1 fingerprint
@@ -263,7 +266,7 @@ public class MainActivity extends Activity {
                                 userEmailHero.setText(currentUserEmail);
 
                                 Person currentPerson = Plus.PeopleApi.getCurrentPerson(userInfoFitnessClient);
-                                Log.d(TAG, "currentPerson " + currentPerson.toString());
+//                                Log.d(TAG, "currentPerson " + currentPerson.toString());
                                 if (currentPerson != null) {
                                     userNameHero = (TextView) findViewById(R.id.user_name_hero);
                                     String currentPersonName = currentPerson.getDisplayName();
@@ -289,10 +292,11 @@ public class MainActivity extends Activity {
                                 }
 
                                 if (currentPerson != null) {
-                                    Person.Cover.CoverPhoto userCoverPhoto = currentPerson.getCover().getCoverPhoto();
-                                    String userCoverURL = userCoverPhoto.getUrl();
-                                    Log.d(TAG, userCoverURL);
-                                    ImageLoader.getInstance().displayImage(userCoverURL, userCoverHero);
+                                    // TODO: check for the cover photo before applying it
+//                                    Person.Cover.CoverPhoto userCoverPhoto = currentPerson.getCover().getCoverPhoto();
+//                                    String userCoverURL = userCoverPhoto.getUrl();
+//                                    Log.d(TAG, userCoverURL);
+//                                    ImageLoader.getInstance().displayImage(userCoverURL, userCoverHero);
                                 }
 
 

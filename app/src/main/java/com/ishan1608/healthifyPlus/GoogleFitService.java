@@ -1,8 +1,12 @@
 package com.ishan1608.healthifyPlus;
 
 import android.app.IntentService;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
@@ -26,8 +30,11 @@ import com.google.android.gms.fitness.request.SensorRequest;
 import com.google.android.gms.fitness.result.DataReadResult;
 import com.google.android.gms.fitness.result.DataSourcesResult;
 
+import java.sql.Time;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
 
 
@@ -47,9 +54,14 @@ public class GoogleFitService extends IntentService {
     public static final String MILES_TODAY_COUNT_RESULT = "com.ishan1608.healthifyPlus.action.MILES_TODAY_COUNT_RESULT";
     public static final String CALORIES_EXPENDED_TODAY = "com.ishan1608.healthifyPlus.action.CALORIES_EXPENDED_TODAY";
     public static final String CALORIES_EXPENDED_TODAY_RESULT = "com.ishan1608.healthifyPlus.action.CALORIES_EXPENDED_TODAY_RESULT";
+    public static final String ACTIVITY_REMINDER = "com.ishan1608.healthifyPlus.action.ACTIVITY_REMINDER";
+    private static final int NOTIFICATION_ID = 2;
 
     private GoogleApiClient physicalFitnessClient;
     private OnDataPointListener mListener;
+    private TimerTask activityReminderTask;
+    private Timer activityReminderTimer;
+    private NotificationManager mNotificationManager;
 
     // Will use these as bundle parameters if requires and will rename them
 //    public static final String EXTRA_PARAM1 = "com.ishan1608.healthifyPlus.extra.PARAM1";
@@ -194,9 +206,58 @@ public class GoogleFitService extends IntentService {
 //                    Timer caloriesExpendedTodayTimer = new Timer("caloriesExpendedTodayTimer");
 //                    caloriesExpendedTodayTimer.scheduleAtFixedRate(caloriesExpendedTodayBroadcastTask, 0, 2000);
                         break;
+                    case ACTIVITY_REMINDER:
+                        handleActivityReminder();
+                        break;
                 }
             }
         }
+    }
+
+    private void handleActivityReminder() {
+        Log.d(TAG, "handleActivityReminder called");
+        // Making water reminder task
+        activityReminderTask = new TimerTask() {
+            @Override
+            public void run() {
+                Log.d(TAG, "activityReminderTask running");
+                // If current time is between 8AM to 10PM send notification
+                int hour = new Time(System.currentTimeMillis()).getHours();
+                if((hour > 6 && hour < 8) || (hour > 5 && hour < 8)) {
+                    sendNotification("It's time to have some physical activity.");
+                }
+                // Without checking display notification
+                // Only for testing, not to be used
+                // sendNotification("Water or juice, whichever you prefer");
+            }
+        };
+        activityReminderTimer = new Timer("activityReminderTimer");
+        activityReminderTimer.scheduleAtFixedRate(activityReminderTask, 0, 7200000);
+    }
+
+    private void sendNotification(String msg) {
+        Log.d(TAG, "sendNotification called with msg " + msg);
+        mNotificationManager = (NotificationManager) this
+                .getSystemService(Context.NOTIFICATION_SERVICE);
+
+
+        Intent goingIntent = new Intent(this, LoginActivity.class);
+        goingIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+                | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+
+        // PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
+        // goingIntent, 0);
+        PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
+                goingIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(
+                this).setSmallIcon(R.drawable.app_icon)
+                .setContentTitle("Have some water")
+                .setStyle(new NotificationCompat.BigTextStyle().bigText(msg))
+                .setContentText(msg);
+
+        mBuilder.setContentIntent(contentIntent);
+        mNotificationManager.notify(NOTIFICATION_ID, mBuilder.build());
     }
 
     /**

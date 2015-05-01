@@ -1,8 +1,8 @@
 package com.ishan1608.healthifyPlus;
-
 import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +12,9 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+/**
+ * Created by samsung on 30-03-2015.
+ */
 public class HealthQuestionsFragment extends Fragment {
     //new code
     View rootView;
@@ -137,11 +140,11 @@ public class HealthQuestionsFragment extends Fragment {
                 // Check which radio button was clicked
                 if (checked) {
                     optionValues[0] = 1;
-                    dialogText ="If you have too much cholesterol, it starts to build up in your arteries. It is the starting point for some heart and blood flow problems";
+                    dialogText ="If you have too much cholesterol, it starts to build up in your arteries. It is the starting point for some heart and blood flow problems.";
                     bundle.putString("key" ,dialogText);
                 } else {
                     optionValues[0] = 2;
-                    dialogText ="Decreases your chance of plaque formation in your arteries. Plaque in your arteries can lead to strokes, heart attacks, and peripheral artery disease";
+                    dialogText ="Decreases your chance of plaque formation in your arteries. Plaque in your arteries can lead to strokes, heart attacks, and peripheral artery disease.";
                     bundle.putString("key",dialogText);
                 }
 
@@ -169,7 +172,7 @@ public class HealthQuestionsFragment extends Fragment {
                 boolean checked2 = ((RadioButton) rootView.findViewById(R.id.health_option3_radio2)).isChecked();
                 if (checked1) {
                     optionValues[2] = 1;
-                    dialogText ="Alcohol affects the entire body, including the brain, nervous system, liver, heart, and the individual’s emotional well-being";
+                    dialogText ="Alcohol affects the entire body, including the brain, nervous system, liver, heart, and the individual’s emotional well-being.";
                     bundle.putString("key" ,dialogText);
                 }
                 if(checked2) {
@@ -206,17 +209,17 @@ public class HealthQuestionsFragment extends Fragment {
                 // Check which radio button was clicked
                 if (checked1) {
                     optionValues[3] = 1;
-                    dialogText ="Smoking harms nearly every organ of the body";
+                    dialogText ="Smoking harms nearly every organ of the body.";
                     bundle.putString("key" ,dialogText);
                 }
                 if (checked2) {
                     optionValues[3] = 2;
-                    dialogText ="That's good .keeping yourself away from all these will keep you healthy";
+                    dialogText ="That's good .keeping yourself away from all these will keep you healthy.";
                     bundle.putString("key" ,dialogText);
                 }
                 if (checked3) {
                     optionValues[3] = 3;
-                    dialogText ="Its good that finally you took a step and quit smoking but make sure that you have regular check-up to avoid any health related problem";
+                    dialogText ="Its good that finally you took a step and quit smoking but make sure that you have regular check-up to avoid any health related problem.";
                     bundle.putString("key" ,dialogText);
                 }
                 Intent developerIntent = new Intent(getActivity(), DialogActivity.class);
@@ -244,12 +247,12 @@ public class HealthQuestionsFragment extends Fragment {
 
                 if (checked1) {
                     optionValues[4] = 1;
-                    dialogText ="Walking helps you to shed those extra kilos, it also tones your body and shapes you well";
+                    dialogText ="Walking helps you to shed those extra kilos, it also tones your body and shapes you well.";
                     bundle.putString("key" ,dialogText);
                 }
                 if (checked2) {
                     optionValues[4] = 2;
-                    dialogText ="Walking energizes you, awakens you and stills your mind to fully relax.So its beneficial if u indulge yourself in walking activities on daily basis";
+                    dialogText ="Walking energizes you, awakens you and stills your mind to fully relax.So its beneficial if u indulge yourself in walking activities on daily basis.";
                     bundle.putString("key" ,dialogText);
                 }
                 Intent developerIntent = new Intent(getActivity(), DialogActivity.class);
@@ -285,17 +288,17 @@ public class HealthQuestionsFragment extends Fragment {
 
                 if (checked1) {
                     optionValues[5] = 1;
-                    dialogText = "When you’re deprived of sleep, your brain can’t function properly, affecting your cognitive abilities and emotional state";
+                    dialogText = "When you’re deprived of sleep, your brain can’t function properly, affecting your cognitive abilities and emotional state.";
                     bundle.putString("key", dialogText);
                 }
                 if (checked2) {
                     optionValues[5] = 2;
-                    dialogText = "Excess sleep can slow down your brain and can make you more tired";
+                    dialogText = "Excess sleep can slow down your brain and can make you more tired.";
                     bundle.putString("key", dialogText);
                 }
                 if (checked3) {
                     optionValues[5] = 3;
-                    dialogText = "Adequate sleep is a key part of a healthy lifestyle, and can benefit your heart, weight, mind, and more";
+                    dialogText = "Adequate sleep is a key part of a healthy lifestyle, and can benefit your heart, weight, mind, and more.";
                     bundle.putString("key", dialogText);
                 }
 
@@ -329,17 +332,17 @@ public class HealthQuestionsFragment extends Fragment {
                 // Check which radio button was clicked
                 if (checked1) {
                     optionValues[6] = 1;
-                    dialogText = "abc";
+                    dialogText = "Bread, especially white bread and items made from it lack nutrients. You're not getting any fiber, you're not getting the wholesomeness of grains.Basically we get nothing important out of it.";
                     bundle.putString("key", dialogText);
                 }
                 if (checked2) {
                     optionValues[6] = 2;
-                    dialogText = "abc";
+                    dialogText = "Salad won't cause a blood-sugar spike, will help prevent obesity and its health complications.If you're aiming for weight loss, a salad can be one of the most satisfying ways.";
                     bundle.putString("key", dialogText);
                 }
                 if (checked3) {
                     optionValues[6] = 3;
-                    dialogText = "abc";
+                    dialogText = "Excessive consumption of dark chocolate may promote weight gain and obesity which are risk factors for many diseases, including cardiovascular disease.";
                     bundle.putString("key", dialogText);
                 }
 
@@ -370,3 +373,14 @@ class contentToggler implements View.OnClickListener {
         }
     }
 }
+
+/*
+ * A class to contain the details of events.
+ * This must be extended before used.
+ */
+//new code
+
+
+/*
+ * PlaceHolder for the eventDetails sub object, works also as a Sample
+ */

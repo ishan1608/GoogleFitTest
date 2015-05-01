@@ -1,6 +1,6 @@
 package com.ishan1608.healthifyPlus;
-
 import android.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
 
 import android.view.LayoutInflater;
@@ -12,6 +12,9 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+/**
+ * Created by samsung on 10-04-2015.
+ */
 public class LifestyleQuestionsFragment extends Fragment {
 
     View rootView;
@@ -95,30 +98,33 @@ public class LifestyleQuestionsFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 // get selected radio button from radioGroupTutorials
+                String dialogText = null;
+                Bundle bundle = new Bundle();
                 int selected =
                         lifestyleOptionGroup1.getCheckedRadioButtonId();
-                boolean checked = ((RadioButton) v).isChecked();
+                boolean checked1 = ((RadioButton) rootView.findViewById(R.id.lifestyle_option1_radio1)).isChecked();
+                boolean checked2 = ((RadioButton) rootView.findViewById(R.id.lifestyle_option1_radio2)).isChecked();
+                boolean checked3 = ((RadioButton) rootView.findViewById(R.id.lifestyle_option1_radio3)).isChecked();
 
                 // Check which radio button was clicked
-                switch (v.getId()) {
-                    case R.id.lifestyle_option1_radio1:
-                        if (checked)
-                            optionValues[0] = 1;
-                        break;
-                    case R.id.lifestyle_option1_radio2:
-                        if (checked)
-                            optionValues[0] = 2;
-                        break;
-
-                    case R.id.lifestyle_option1_radio3:
-                        if (checked)
-                            optionValues[0] = 3;
-                        break;
-                    case R.id.lifestyle_option1_radio4:
-                        if (checked)
-                            optionValues[0] = 4;
-                        break;
+                if(checked1) {
+                    optionValues[0] = 1;
+                    dialogText ="Research shows that being connected and going out with friends really can help you live longer, lower your Alzheimer’s risk and experience less anxiety and depression.";
+                    bundle.putString("key" ,dialogText);
                 }
+                if(checked2) {
+                    optionValues[0] = 2;
+                    dialogText ="Being social is good but make sure that you plan your schedule properly and manage everthing.";
+                    bundle.putString("key" ,dialogText);
+                }
+                if(checked3) {
+                    optionValues[0] = 3;
+                    dialogText ="That's good.You take time for yourself and enjoy as it is one of your best tools for handling stress.";
+                    bundle.putString("key" ,dialogText);
+                }
+                Intent developerIntent = new Intent(getActivity(), DialogActivity.class);
+                developerIntent.putExtras(bundle);
+                startActivity(developerIntent);
             }
         });
     }
@@ -132,29 +138,27 @@ public class LifestyleQuestionsFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 // get selected radio button from radioGroupTutorials
+                String dialogText = null;
+                Bundle bundle = new Bundle();
                 int selected =
                         lifestyleOptionGroup2.getCheckedRadioButtonId();
-                boolean checked = ((RadioButton) v).isChecked();
+                boolean checked1 = ((RadioButton) rootView.findViewById(R.id.lifestyle_option2_radio1)).isChecked();
+                boolean checked2 = ((RadioButton) rootView.findViewById(R.id.lifestyle_option2_radio2)).isChecked();
 
                 // Check which radio button was clicked
-                switch (v.getId()) {
-                    case R.id.lifestyle_option2_radio1:
-                        if (checked)
-                            optionValues[1] = 1;
-                        break;
-                    case R.id.lifestyle_option2_radio2:
-                        if (checked)
-                            optionValues[1] = 2;
-                        break;
-                    case R.id.lifestyle_option2_radio3:
-                        if (checked)
-                            optionValues[1] = 3;
-                        break;
-                    case R.id.lifestyle_option2_radio4:
-                        if (checked)
-                            optionValues[1] = 4;
-                        break;
+                if(checked1) {
+                    optionValues[1] = 1;
+                    dialogText ="People who are in good spirits tend to eat better, exercise more frequently and get better sleep than those who are not.Being happy can strengthen your immune system and boost positive emotions.";
+                    bundle.putString("key" ,dialogText);
                 }
+                if(checked2) {
+                    optionValues[1] = 2;
+                    dialogText ="Health and happiness are related and can affect each other. Good feelings can come from simple pleasures. Anything you enjoy doing, when done, make you happy.";
+                    bundle.putString("key" ,dialogText);
+                }
+                Intent developerIntent = new Intent(getActivity(), DialogActivity.class);
+                developerIntent.putExtras(bundle);
+                startActivity(developerIntent);
             }
         });
     }
@@ -168,31 +172,27 @@ public class LifestyleQuestionsFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 // get selected radio button from radioGroupTutorials
+                String dialogText = null;
+                Bundle bundle = new Bundle();
                 int selected =
                         lifestyleOptionGroup3.getCheckedRadioButtonId();
-                boolean checked = ((RadioButton) v).isChecked();
+                boolean checked1 = ((RadioButton) rootView.findViewById(R.id.lifestyle_option3_radio1)).isChecked();
+                boolean checked2 = ((RadioButton) rootView.findViewById(R.id.lifestyle_option3_radio2)).isChecked();
 
                 // Check which radio button was clicked
-                switch (v.getId()) {
-                    case R.id.lifestyle_option3_radio1:
-                        if (checked)
-                            optionValues[2] = 1;
-                        break;
-                    case R.id.lifestyle_option3_radio2:
-                        if (checked)
-                            optionValues[2] = 2;
-                        break;
-                    case R.id.lifestyle_option3_radio3:
-                        if (checked)
-                            optionValues[2] = 3;
-                        break;
-                    case R.id.lifestyle_option3_radio4:
-                        if (checked)
-                            optionValues[2] = 4;
-                        break;
-
-
+                if(checked1) {
+                    optionValues[2] = 1;
+                    dialogText ="Exercise control weight,combats health conditions and diseases and improves mood and results in a healthier level of physical fitness and both physical and mental health.";
+                    bundle.putString("key" ,dialogText);
                 }
+                if(checked2) {
+                    optionValues[2] = 2;
+                    dialogText ="Lack of exercise can lead to a plethora of physical and mental health problems and is the leading cause of obesity among adolescents.";
+                    bundle.putString("key" ,dialogText);
+                }
+                Intent developerIntent = new Intent(getActivity(), DialogActivity.class);
+                developerIntent.putExtras(bundle);
+                startActivity(developerIntent);
             }
         });
     }
@@ -206,29 +206,27 @@ public class LifestyleQuestionsFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 // get selected radio button from radioGroupTutorials
+                String dialogText = null;
+                Bundle bundle = new Bundle();
                 int selected =
                         lifestyleOptionGroup4.getCheckedRadioButtonId();
-                boolean checked = ((RadioButton) v).isChecked();
+                boolean checked1 = ((RadioButton) rootView.findViewById(R.id.lifestyle_option4_radio1)).isChecked();
+                boolean checked2 = ((RadioButton) rootView.findViewById(R.id.lifestyle_option4_radio2)).isChecked();
 
                 // Check which radio button was clicked
-                switch (v.getId()) {
-                    case R.id.lifestyle_option4_radio1:
-                        if (checked)
-                            optionValues[3] = 1;
-                        break;
-                    case R.id.lifestyle_option4_radio2:
-                        if (checked)
-                            optionValues[3] = 2;
-                        break;
-                    case R.id.lifestyle_option4_radio3:
-                        if (checked)
-                            optionValues[3] = 3;
-                        break;
-                    case R.id.lifestyle_option4_radio4:
-                        if (checked)
-                            optionValues[3] = 4;
-                        break;
+                if(checked1) {
+                    optionValues[3] = 1;
+                    dialogText ="A little bit of stress is thought to be good for memory and motivation.";
+                    bundle.putString("key" ,dialogText);
                 }
+                if(checked2) {
+                    optionValues[3] = 2;
+                    dialogText ="Too much stress can make the person unhealthy.Stress becomes negative when a person faces continuous challenges without relief or relaxation between challenges.";
+                    bundle.putString("key" ,dialogText);
+                }
+                Intent developerIntent = new Intent(getActivity(), DialogActivity.class);
+                developerIntent.putExtras(bundle);
+                startActivity(developerIntent);
             }
         });
     }
@@ -242,30 +240,28 @@ public class LifestyleQuestionsFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 // get selected radio button from radioGroupTutorials
+                String dialogText = null;
+                Bundle bundle = new Bundle();
                 int selected =
                         lifestyleOptionGroup5.getCheckedRadioButtonId();
-                boolean checked = ((RadioButton) v).isChecked();
+                boolean checked1 = ((RadioButton) rootView.findViewById(R.id.lifestyle_option5_radio1)).isChecked();
+                boolean checked2 = ((RadioButton) rootView.findViewById(R.id.lifestyle_option5_radio2)).isChecked();
+
 
                 // Check which radio button was clicked
-                switch (v.getId()) {
-                    case R.id.lifestyle_option5_radio1:
-                        if (checked)
-                            optionValues[4] = 1;
-                        break;
-                    case R.id.lifestyle_option5_radio2:
-                        if (checked)
-                            optionValues[4] = 2;
-                        break;
-                    case R.id.lifestyle_option5_radio3:
-                        if (checked)
-                            optionValues[4] = 3;
-                        break;
-                    case R.id.lifestyle_option5_radio4:
-                        if (checked)
-                            optionValues[4]=4;
-                        break;
-
+                if(checked1) {
+                    optionValues[4] = 1;
+                    dialogText ="Watching too much television can significantly increase the risk of developing obesity and type 2 diabetes and decreases viewer sense of self-efficacy in maintaining personal health.";
+                    bundle.putString("key" ,dialogText);
                 }
+                if(checked2) {
+                    optionValues[4] = 2;
+                    dialogText ="Looking at still images of nature can lower blood pressure and muscle tension.So it is healthy to watch T.V sometimes.";
+                    bundle.putString("key" ,dialogText);
+                }
+                Intent developerIntent = new Intent(getActivity(), DialogActivity.class);
+                developerIntent.putExtras(bundle);
+                startActivity(developerIntent);
             }
         });
     }
@@ -278,32 +274,27 @@ public class LifestyleQuestionsFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 // get selected radio button from radioGroupTutorials
+                String dialogText = null;
+                Bundle bundle = new Bundle();
                 int selected =
                         lifestyleOptionGroup6.getCheckedRadioButtonId();
-                boolean checked = ((RadioButton) v).isChecked();
+                boolean checked1 = ((RadioButton) rootView.findViewById(R.id.lifestyle_option6_radio1)).isChecked();
+                boolean checked2 = ((RadioButton) rootView.findViewById(R.id.lifestyle_option6_radio2)).isChecked();
 
                 // Check which radio button was clicked
-                switch (v.getId()) {
-                    case R.id.lifestyle_option6_radio1:
-                        if (checked)
-                            optionValues[5] = 1;
-                        break;
-                    case R.id.lifestyle_option6_radio2:
-                        if (checked)
-                            optionValues[5] = 2;
-                        break;
-                    case R.id.lifestyle_option6_radio3:
-                        if (checked)
-                            optionValues[5]=3;
-                        break;
-                    case R.id.lifestyle_option6_radio4:
-                        if (checked)
-                            optionValues[5]=4;
-                        break;
-
-
-
+                if(checked1) {
+                    optionValues[5] = 1;
+                    dialogText ="Eating fast food regularly may decrease your sensory-specific satiety, resulting in overeating can trigger digestive problem.";
+                    bundle.putString("key" ,dialogText);
                 }
+                if(checked2) {
+                    optionValues[5] = 2;
+                    dialogText ="These food items contain many vitamins and minerals that are essential parts of a healthy and balanced diet.";
+                    bundle.putString("key" ,dialogText);
+                }
+                Intent developerIntent = new Intent(getActivity(), DialogActivity.class);
+                developerIntent.putExtras(bundle);
+                startActivity(developerIntent);
             }
         });
     }
@@ -316,28 +307,49 @@ public class LifestyleQuestionsFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 // get selected radio button from radioGroupTutorials
+                String dialogText = null;
+                Bundle bundle = new Bundle();
                 int selected =
                         lifestyleOptionGroup7.getCheckedRadioButtonId();
-                boolean checked = ((RadioButton) v).isChecked();
+                boolean checked1 = ((RadioButton) rootView.findViewById(R.id.lifestyle_option7_radio1)).isChecked();
+                boolean checked2 = ((RadioButton) rootView.findViewById(R.id.lifestyle_option7_radio2)).isChecked();
+
 
                 // Check which radio button was clicked
-                switch (v.getId()) {
-                    case R.id.lifestyle_option7_radio1:
-                        if (checked)
-                            optionValues[6] = 1;
-                        break;
-                    case R.id.lifestyle_option7_radio2:
-                        if (checked)
-                            optionValues[6] = 2;
-                        break;
-                    case R.id.lifestyle_option7_radio3:
-                        if (checked)
-                            optionValues[6] = 3;
-                        break;
-
-
+                if(checked1) {
+                    optionValues[6] = 1;
+                    dialogText ="That's really good because fresh air is essential to make your immune system strong.";
+                    bundle.putString("key" ,dialogText);
                 }
+                if(checked2) {
+                    optionValues[6] = 2;
+                    dialogText ="Fresh air cleans the lungs and helps to bring more oxygen to the cells and improves the cleansing action of your lungs and there are many benefits of inhaling fresh air.";
+                    bundle.putString("key" ,dialogText);
+                }
+                Intent developerIntent = new Intent(getActivity(), DialogActivity.class);
+                developerIntent.putExtras(bundle);
+                startActivity(developerIntent);
             }
         });
     }
 }
+
+//class contentToggler2 implements View.OnClickListener {
+//    @Override
+//    public void onClick(View v) {
+//        ViewGroup parent = (ViewGroup) v.getParent();
+//        View childView = parent.getChildAt(parent.indexOfChild(v) + 1);
+//        this.viewToggler(childView);
+//    }
+//
+//    private void viewToggler(View view) {
+//        if(view.getVisibility() == View.VISIBLE) {
+//            view.setVisibility(View.GONE);
+//        } else {
+//            view.setVisibility(View.VISIBLE);
+//        }
+//    }
+//}
+
+
+

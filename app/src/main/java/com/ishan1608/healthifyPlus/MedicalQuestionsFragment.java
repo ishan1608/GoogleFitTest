@@ -13,6 +13,10 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+
+/**
+ * Created by samsung on 14-04-2015.
+ */
 public class MedicalQuestionsFragment extends Fragment {
 
     View rootView;
@@ -106,12 +110,12 @@ public class MedicalQuestionsFragment extends Fragment {
                 // Check which radio button was clicked
                 if (checked1) {
                     optionValues[0] = 1;
-                    dialogText ="Avoid eating foods that have too much saturated fat and trans fat.Change your eating habits and lose weight. Speak with your doctor to see if you should be taking a cholesterol medicine along with making these lifestyle changes.";
+                    dialogText ="Avoid eating foods that have too much saturated fat and trans fat.Speak with your doctor to see if you should be taking a cholesterol medicine along with making these lifestyle changes.";
                     bundle.putString("key",dialogText);
                 }
                 if(checked2) {
                     optionValues[0] = 2;
-                    dialogText ="Keep your diet balanced and prefer regular checkups";
+                    dialogText ="Keep your diet balanced and prefer regular checkups.";
                     bundle.putString("key",dialogText);
                 }
                 Intent developerIntent = new Intent(getActivity(), DialogActivity.class);
@@ -142,12 +146,12 @@ public class MedicalQuestionsFragment extends Fragment {
                 // Check which radio button was clicked
                 if (checked1) {
                     optionValues[1] = 1;
-                    dialogText ="To take care of your kidney stay away from pre-packaged food,eat fresh fruit and vegetables in addition to low-sodium foods";
+                    dialogText ="To take care of your kidney stay away from pre-packaged food,eat fresh fruit and vegetables in addition to low-sodium foods.";
                     bundle.putString("key",dialogText);
                 }
                 if (checked2) {
                     optionValues[1] = 2;
-                    dialogText ="Kidneys are the organs that help filter waste products from the blood and thus  play vital role in our life.So take care of your kidney  and stay healthy";
+                    dialogText ="Kidneys are the organs that help filter waste products from the blood and thus  play vital role in our life.So take care of your kidney  and stay healthy.";
                     bundle.putString("key",dialogText);
                 }
                 Intent developerIntent = new Intent(getActivity(), DialogActivity.class);
@@ -177,12 +181,12 @@ public class MedicalQuestionsFragment extends Fragment {
                 // Check which radio button was clicked
                 if (checked1) {
                     optionValues[2] = 1;
-                    dialogText ="Survivors who have had one stroke are at high risk of having another one if the treatment recommendations are not followed. Make sure you eat a healthy diet,takes medications as prescribed";
+                    dialogText ="Survivors who have had one stroke are at high risk of having another one if the treatment recommendations are not followed. Make sure you eat a healthy diet,takes medications as prescribed.";
                     bundle.putString("key",dialogText);
                 }
                 if (checked2) {
                     optionValues[2] = 2;
-                    dialogText ="To avoid chances of stroke exercise regularly,control your weight,take a healthy diet and keep your blood pressure under control";
+                    dialogText ="To avoid chances of stroke exercise regularly,control your weight,take a healthy diet and keep your blood pressure under control.";
                     bundle.putString("key",dialogText);
                 }
                 Intent developerIntent = new Intent(getActivity(), DialogActivity.class);
@@ -213,12 +217,12 @@ public class MedicalQuestionsFragment extends Fragment {
                 // Check which radio button was clicked
                 if (checked1) {
                     optionValues[3] = 1;
-                    dialogText ="Prefer healthy eating,keep check on your blood glucose,take medication and be active because being active can help control blood glucose levels";
+                    dialogText ="Prefer healthy eating,keep check on your blood glucose,take medication and be active because being active can help control blood glucose levels.";
                     bundle.putString("key",dialogText);
                 }
                 if (checked2) {
                     optionValues[3] = 2;
-                    dialogText = "Keep your blood pressure and cholestrol under control,schedule regular exercise in order to avoid diabetes in future";
+                    dialogText = "Keep your blood pressure and cholestrol under control,schedule regular exercise in order to avoid diabetes in future.";
                     bundle.putString("key", dialogText);
                 }
                 Intent developerIntent = new Intent(getActivity(), DialogActivity.class);
@@ -249,12 +253,12 @@ public class MedicalQuestionsFragment extends Fragment {
                 // Check which radio button was clicked
                 if (checked1) {
                     optionValues[4] = 1;
-                    dialogText ="Untreated depression can cause trouble with mental tasks such as remembering, concentrating, or making decisions";
+                    dialogText ="Untreated depression can cause trouble with mental tasks such as remembering, concentrating, or making decisions.";
                     bundle.putString("key",dialogText);
                 }
                 if (checked2) {
                     optionValues[4] = 2;
-                    dialogText ="Always opt for a healthy diet,regular exercise,fun and relaxation to keep yourself away from depression";
+                    dialogText ="Always opt for a healthy diet,regular exercise,fun and relaxation to keep yourself away from depression.";
                     bundle.putString("key",dialogText);
                 }
                 Intent developerIntent = new Intent(getActivity(), DialogActivity.class);
@@ -285,12 +289,12 @@ public class MedicalQuestionsFragment extends Fragment {
                 // Check which radio button was clicked
                 if (checked1) {
                     optionValues[5] = 1;
-                    dialogText ="keep your diet healthy,eat plenty of fruits and vegetables and prefer regular health checkups";
+                    dialogText ="keep your diet healthy,eat plenty of fruits and vegetables and prefer regular health checkups.";
                     bundle.putString("key",dialogText);
                 }
                 if (checked2) {
                     optionValues[5] = 2;
-                    dialogText ="Eat plenty of fruits and vegetables,limit fat,maintain a healthy weight and be physically active to lower the risk of various types of cancer";
+                    dialogText ="Eat plenty of fruits and vegetables,limit fat,maintain a healthy weight and be physically active to lower the risk of various types of cancer.";
                     bundle.putString("key",dialogText);
                 }
                 Intent developerIntent = new Intent(getActivity(), DialogActivity.class);
@@ -319,15 +323,37 @@ public class MedicalQuestionsFragment extends Fragment {
                 // Check which radio button was clicked
                 if (checked1) {
                     optionValues[6] = 1;
-                    dialogText ="";
+                    dialogText ="Tobacco is the single greatest cause of preventable death globally.Tobacco use leads most commonly to diseases affecting the heart, liver and lungs.";
                     bundle.putString("key",dialogText);
                 }
                 if (checked2) {
                     optionValues[6] = 2;
-                    dialogText ="";
+                    dialogText ="Great!!Health is the groundwork of all happiness.";
                     bundle.putString("key",dialogText);
                 }
+                Intent developerIntent = new Intent(getActivity(), DialogActivity.class);
+                developerIntent.putExtras(bundle);
+                startActivity(developerIntent);
+
             }
         });
     }
 }
+
+//class contentToggler2 implements View.OnClickListener {
+//    @Override
+//    public void onClick(View v) {
+//        ViewGroup parent = (ViewGroup) v.getParent();
+//        View childView = parent.getChildAt(parent.indexOfChild(v) + 1);
+//        this.viewToggler(childView);
+//    }
+//
+//    private void viewToggler(View view) {
+//        if(view.getVisibility() == View.VISIBLE) {
+//            view.setVisibility(View.GONE);
+//        } else {
+//            view.setVisibility(View.VISIBLE);
+//        }
+//    }
+//}
+

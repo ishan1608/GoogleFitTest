@@ -31,12 +31,13 @@ public class DialogActivity extends Activity {
         Bundle sentBundle = callingIntent.getExtras();
         final String rcvstr1=sentBundle.getString("key");
         // Downloading Library settings
-        DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder().cacheInMemory(true).cacheOnDisk(true).build();
-        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(getApplicationContext()).defaultDisplayImageOptions(defaultOptions).build();
-        ImageLoader.getInstance().init(config);
+//        DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder().cacheInMemory(true).cacheOnDisk(true).build();
+//        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(getApplicationContext()).defaultDisplayImageOptions(defaultOptions).build();
+//        ImageLoader.getInstance().init(config);
 
         inspirationsLogo = (ImageView) findViewById(R.id.inspirations_logo);
-        ImageLoader.getInstance().displayImage("http://youthvibe2014server.herokuapp.com/public/" + "inslogo" + ".png", inspirationsLogo);
+//        ImageLoader.getInstance().displayImage("http://youthvibe2014server.herokuapp.com/public/" + "inslogo" + ".png", inspirationsLogo);
+//        inspirationsLogo.setImageResource(R.drawable.app_icon);
 
         rotation = AnimationUtils.loadAnimation(this, R.anim.rotation);
 

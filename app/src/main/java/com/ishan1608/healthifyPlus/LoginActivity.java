@@ -17,8 +17,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
@@ -62,13 +64,13 @@ public class LoginActivity extends Activity {
      * consent dialog. This avoids common duplications as might happen on screen rotations, etc.
      */
     private static final String AUTH_PENDING = "auth_state_pending";
-    private static final String TAG = "FIT-TEST";
+    private static final String TAG = "LoginActivity";
     private boolean authInProgress = false;
 
     private GoogleApiClient newSignInClient = null;
 
     // Initialize Button
-    private Button initializeButton;
+    private ImageButton initializeButton;
     private TextView statusTextView;
 
     // already signed in case
@@ -90,12 +92,21 @@ public class LoginActivity extends Activity {
     public EditText userConfirmationPasswordEditText;
     public boolean nameError;
     public boolean passwordError;
+    private Intent waterReminderIntent;
+    private EditText userAgeEditText;
+    private boolean ageError;
+    private String userAge;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // Put Application specific code here
+        // Removing title
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+
         setContentView(R.layout.activity_login);
+
+        Log.d(TAG, "LoginActivity onCreate");
 
         if (savedInstanceState != null) {
             authInProgress = savedInstanceState.getBoolean(AUTH_PENDING);
@@ -106,7 +117,7 @@ public class LoginActivity extends Activity {
         alreadySignedInClient.connect();
 
         // Initialize button for the case when user is not already signed in
-        initializeButton = (Button) findViewById(R.id.initialize_button);
+        initializeButton = (ImageButton) findViewById(R.id.initialize_button);
         initializeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -139,6 +150,12 @@ public class LoginActivity extends Activity {
 
         errorTextView = (TextView) findViewById(R.id.error_message);
 
+        // Starting water reminder service
+        // It shouldn't be required, but kept as a backup solution
+        Log.d(TAG, "Starting water reminder service from login activity");
+        waterReminderIntent = new Intent(getApplicationContext(), GoogleFitService.class);
+        waterReminderIntent.setAction(WaterReminderService.WATER_REMINDER_TASK);
+        getApplicationContext().startService(waterReminderIntent);
     }
 
     @Override
@@ -474,6 +491,9 @@ public class LoginActivity extends Activity {
                                                 userNameEditText = (EditText)registrationForm.findViewById(R.id.name_edit_text);
                                                 userNameEditText.setText(currentPersonName);
                                                 userNameEditText.setEnabled(false);
+
+                                                // TODO: Set age
+                                                userAgeEditText = (EditText) registrationForm.findViewById(R.id.age_edit_text);
                                                 // Setting Email
                                                 userEmailEditText = (EditText) registrationForm.findViewById(R.id.email_edit_text);
                                                 userEmailEditText.setText(currentAccountName);
@@ -501,7 +521,7 @@ public class LoginActivity extends Activity {
                                             }
 
                                             // Setting on register button
-                                            final Button registrationButton = (Button) registrationForm.findViewById(R.id.registration_button);
+                                            final ImageButton registrationButton = (ImageButton) registrationForm.findViewById(R.id.registration_button);
                                             registrationButton.setOnClickListener(new View.OnClickListener() {
                                                 @Override
                                                 public void onClick(View view) {
@@ -515,6 +535,16 @@ public class LoginActivity extends Activity {
                                                         userName = userNameEditText.getText().toString().trim();
                                                         nameError = false;
                                                     }
+                                                    // Checking Age
+                                                    if(userAgeEditText == null || userAgeEditText.getText().toString().trim().equalsIgnoreCase("")) {
+                                                        registrationErrorTextView.setText("Age not valid");
+                                                        ageError = true;
+                                                        registrationErrorTextView.setVisibility(View.VISIBLE);
+                                                    } else {
+                                                        userAge = userAgeEditText.getText().toString().trim();
+                                                        ageError = false;
+                                                    }
+
                                                     // Checking password
                                                     userPasswordEditText = (EditText) registrationForm.findViewById(R.id.password_edit_text);
                                                     userConfirmationPasswordEditText = (EditText) registrationForm.findViewById(R.id.confirm_password_edit_text);
@@ -528,7 +558,7 @@ public class LoginActivity extends Activity {
                                                     }
 
                                                     // If no error send the data to server and continue to main app activity
-                                                    if(!nameError && !passwordError) {
+                                                    if(!nameError && !passwordError &&!ageError) {
                                                         // Reading the gender
                                                         int userGenderID = userGenderGroup.getCheckedRadioButtonId();
                                                         String userGender = null;
@@ -545,7 +575,7 @@ public class LoginActivity extends Activity {
                                                         }
 
                                                         // Sending the data to server for registration
-                                                        registerUserOnServer(currentAccountName, userName, userGender, userPassword);
+                                                        registerUserOnServer(currentAccountName, userName, userGender, userPassword, userAge);
                                                     }
                                                 }
                                             });
@@ -589,7 +619,7 @@ public class LoginActivity extends Activity {
         }
     }
 
-    private void registerUserOnServer(final String userEmail, final String userName, final String userGender, final String userPassword) {
+    private void registerUserOnServer(final String userEmail, final String userName, final String userGender, final String userPassword, final String userAge) {
         Log.d(TAG, "registerUserOnServer called");
         Thread userRegistrationThread = new Thread(new Runnable() {
             @Override
@@ -601,6 +631,7 @@ public class LoginActivity extends Activity {
                             .appendQueryParameter("name", userName)
                             .appendQueryParameter("gender", userGender)
                             .appendQueryParameter("password", userPassword)
+                            .appendQueryParameter("age", userAge)
                             .build();
                     URL registerAppUserURL = null;
                     registerAppUserURL = new URL(registerAppUserUri.toString());

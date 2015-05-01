@@ -1,6 +1,10 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" tools:context="com.ishan1608.healthifyPlus.HomeFragment">
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.ishan1608.healthifyPlus.HomeFragment"
+    android:background="@drawable/splash_screen">
 
     <ListView
         android:layout_width="wrap_content"
@@ -9,7 +13,7 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"/>
+        android:layout_marginRight="15dp" />
 
     <LinearLayout
         android:id="@+id/internet_retry_screen"
@@ -18,7 +22,7 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
-        android:visibility="gone">
+        android:visibility="gone" >
 
         <TextView
             android:layout_width="305dp"

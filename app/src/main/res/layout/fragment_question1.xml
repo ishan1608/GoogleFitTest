@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity"
 
-    android:background="#ff067518" >
+    android:background="@drawable/splash_screen" >
     <!--android:id="@+id/event_details_fragment_container"-->
 
     <ScrollView
@@ -23,8 +23,8 @@
             android:orientation="vertical"
             android:layout_weight="1"
             android:layout_gravity="center_horizontal"
-            android:background="#ff067518"
-            android:padding="5dp"
+
+            android:padding="7dp"
             android:layout_margin="10dp" >
             <LinearLayout
                 android:orientation="vertical"
@@ -291,7 +291,7 @@
                             android:id="@+id/hygiene_option3_radio1"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="159 or lower "
+                            android:text="Lots of fruits, veggies and whole grains"
                             android:textSize="15sp"
                             android:textStyle="italic"
                             android:textColor="#ffadc019"
@@ -300,29 +300,12 @@
                             android:id="@+id/hygiene_option3_radio2"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Lots of fruits, veggies and whole grains"
-                            android:textSize="15sp"
-                            android:textStyle="italic"
-                            android:textColor="#ffadc019"
-                            />
-                        <RadioButton
-                            android:id="@+id/hygiene_option3_radio3"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Anything fast and simple"
-                            android:textSize="15sp"
-                            android:textStyle="italic"
-                            android:textColor="#ffadc019"
-                            />
-                        <RadioButton
-                            android:id="@+id/hygiene_option3_radio4"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
                             android:text="I'm a picky eater but try to stay away from junk food"
                             android:textSize="15sp"
                             android:textStyle="italic"
                             android:textColor="#ffadc019"
                             />
+
 
 
                     </RadioGroup>
@@ -386,31 +369,13 @@
                             android:id="@+id/hygiene_option4_radio1"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="I drink coffee or juice"
-                            android:textSize="15sp"
-                            android:textStyle="italic"
-                            android:textColor="#ffadc019"
-                            />
-                        <RadioButton
-                            android:id="@+id/hygiene_option4_radio2"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
                             android:text="Yes, I eat a full breakfast with eggs, toast, fruits"
                             android:textSize="15sp"
                             android:textStyle="italic"
                             android:textColor="#ffadc019"
                             />
                         <RadioButton
-                            android:id="@+id/hygiene_option4_radio3"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Yes, I eat something like cereal or a toast"
-                            android:textSize="15sp"
-                            android:textStyle="italic"
-                            android:textColor="#ffadc019"
-                            />
-                        <RadioButton
-                            android:id="@+id/hygiene_option4_radio4"
+                            android:id="@+id/hygiene_option4_radio2"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="No, I'm never hungry in the morning"
@@ -633,7 +598,7 @@
                 </LinearLayout>
                 <TextView
                     android:id="@+id/hygiene_question7_content"
-                    android:text="How much sleep do you usually get?"
+                    android:text="How many times a day do you brush your teeth?"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     style="@style/event_details_content" />
@@ -666,7 +631,7 @@
                             android:id="@+id/hygiene_option7_radio1"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="4 to 5"
+                            android:text="In the morning and at night"
                             android:textSize="15sp"
                             android:textStyle="italic"
                             android:textColor="#ffadc019"
@@ -675,7 +640,7 @@
                             android:id="@+id/hygiene_option7_radio2"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="6 to 7"
+                            android:text="After every meal"
                             android:textSize="15sp"
                             android:textStyle="italic"
                             android:textColor="#ffadc019"
@@ -684,20 +649,12 @@
                             android:id="@+id/hygiene_option7_radio3"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Less than 4"
+                            android:text="I forget so I chew gum"
                             android:textSize="15sp"
                             android:textStyle="italic"
                             android:textColor="#ffadc019"
                             />
-                        <RadioButton
-                            android:id="@+id/hygiene_option7_radio4"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="8 or more"
-                            android:textSize="15sp"
-                            android:textStyle="italic"
-                            android:textColor="#ffadc019"
-                            />
+
                     </RadioGroup>
                     <Button
                         android:id="@+id/hygiene_radio_submit_group7"
