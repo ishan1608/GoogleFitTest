@@ -242,7 +242,16 @@ public class LoginActivity extends Activity {
 //                                Toast.makeText(getApplicationContext(), "Connected successfully", Toast.LENGTH_LONG).show();
                                 logStatus("alreadySignedInClient Connected successfully");
 
-                                // TODO: Check whether user exists. If not show registration form
+                                // Storing registered user email locally
+                                // Preference Manager for storing user email locally
+                                SharedPreferences userInformationPreferences = getApplicationContext().getSharedPreferences(
+                                        LoginActivity.class.getSimpleName(),
+                                        Context.MODE_PRIVATE);
+                                SharedPreferences.Editor userInformationPreferencesEditor = userInformationPreferences.edit();
+
+//                            userInformationPreferencesEditor.putString("userEmail", registerAppUserJSONObject.getString("user"));
+                                userInformationPreferencesEditor.putString("userEmail", Plus.AccountApi.getAccountName(alreadySignedInClient));
+                                userInformationPreferencesEditor.commit();
 
                                 // Going to next Activity
                                 goToMainAppActivity(Plus.AccountApi.getAccountName(alreadySignedInClient));
@@ -585,6 +594,16 @@ public class LoginActivity extends Activity {
                                             runOnUiThread(new Runnable() {
                                                 @Override
                                                 public void run() {
+                                                    // Storing registered user email locally
+                                                    // Preference Manager for storing user email locally
+                                                    SharedPreferences userInformationPreferences = getApplicationContext().getSharedPreferences(
+                                                            LoginActivity.class.getSimpleName(),
+                                                            Context.MODE_PRIVATE);
+                                                    SharedPreferences.Editor userInformationPreferencesEditor = userInformationPreferences.edit();
+
+//                            userInformationPreferencesEditor.putString("userEmail", registerAppUserJSONObject.getString("user"));
+                                                    userInformationPreferencesEditor.putString("userEmail", currentAccountName);
+                                                    userInformationPreferencesEditor.commit();
                                                     goToMainAppActivity(currentAccountName);
                                                 }
                                             });
@@ -844,6 +863,18 @@ public class LoginActivity extends Activity {
 ////                                    mainActivityIntent.putExtra("user-info", userInfoBundle);
 //                                    startActivity(mainActivityIntent);
 //                                    finish();
+                                        // Storing registered user email locally
+                                        // Preference Manager for storing user email locally
+                                        SharedPreferences userInformationPreferences = getApplicationContext().getSharedPreferences(
+                                                LoginActivity.class.getSimpleName(),
+                                                Context.MODE_PRIVATE);
+                                        SharedPreferences.Editor userInformationPreferencesEditor = userInformationPreferences.edit();
+
+//                            userInformationPreferencesEditor.putString("userEmail", registerAppUserJSONObject.getString("user"));
+                                        userInformationPreferencesEditor.putString("userEmail", userEmail);
+                                        userInformationPreferencesEditor.commit();
+
+                                        // Going to main activity
                                         moveToMainActivity();
                                     }
                                 });

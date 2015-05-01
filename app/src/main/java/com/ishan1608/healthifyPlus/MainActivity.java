@@ -297,9 +297,6 @@ public class MainActivity extends Activity {
                                     Log.d(TAG, userCoverURL);
                                     ImageLoader.getInstance().displayImage(userCoverURL, userCoverHero);
                                 }
-
-
-                                // TODO: Further proceed to get google fit data (Comes a bit later)
                             }
 
                             @Override
