@@ -44,8 +44,11 @@ public class PhysicalFragment extends Fragment {
     private TextView stepsPerSecondTextView;
     private ImageView stepsBannerImageView;
     private TextView caloriesExpendedTodayTextView;
-    private TimerTask googleFitRequestTask;
-    private Timer googleFitRequestTimer;
+    private TimerTask stepCountNowRequestTask;
+    private Timer stepCountNowRequestTimer;
+    private TimerTask googleFitTodayRequestTask;
+    private Timer googleFitTodayRequestTimer;
+    private Intent stepCountNowIntent;
     // [END mListener_variable_reference]
 
     public PhysicalFragment() {
@@ -63,7 +66,6 @@ public class PhysicalFragment extends Fragment {
 
         // Starting services, just to be on the safe side
         // Creates a new Intent to start the step count now IntentService.
-        final Intent stepCountNowIntent;
         stepCountNowIntent = new Intent(getActivity(), GoogleFitService.class);
         stepCountNowIntent.setAction(GoogleFitService.STEPS_PER_SECOND_COUNT);
         getActivity().startService(stepCountNowIntent);
@@ -84,17 +86,25 @@ public class PhysicalFragment extends Fragment {
         caloriesExpendedTodayIntent = new Intent(getActivity(), GoogleFitService.class);
         caloriesExpendedTodayIntent.setAction(GoogleFitService.CALORIES_EXPENDED_TODAY);
 
+        // Disabling stepCountNowTimer
+//        stepCountNowRequestTask = new TimerTask() {
+//            @Override
+//            public void run() {
+//                getActivity().startService(stepCountNowIntent);
+//            }
+//        };
+//        stepCountNowRequestTimer = new Timer("stepCountNowRequestTimer");
 
-        googleFitRequestTask = new TimerTask() {
+
+        googleFitTodayRequestTask = new TimerTask() {
             @Override
             public void run() {
-                getActivity().startService(stepCountNowIntent);
                 getActivity().startService(stepCountTodayIntent);
                 getActivity().startService(milesCountTodayIntent);
                 getActivity().startService(caloriesExpendedTodayIntent);
             }
         };
-        googleFitRequestTimer = new Timer("googleFitRequestTimer");
+        googleFitTodayRequestTimer = new Timer("googleFitTodayRequestTimer");
     }
 
     @Override
@@ -148,7 +158,7 @@ public class PhysicalFragment extends Fragment {
 //        caloriesExpendedTodayIntent.setAction(GoogleFitService.CALORIES_EXPENDED_TODAY);
 //
 //
-//        googleFitRequestTask = new TimerTask() {
+//        stepCountNowRequestTask = new TimerTask() {
 //            @Override
 //            public void run() {
 //                getActivity().startService(stepCountNowIntent);
@@ -157,13 +167,16 @@ public class PhysicalFragment extends Fragment {
 //                getActivity().startService(caloriesExpendedTodayIntent);
 //            }
 //        };
-//        googleFitRequestTimer = new Timer("googleFitRequestTimer");
+//        stepCountNowRequestTimer = new Timer("stepCountNowRequestTimer");
 
-        googleFitRequestTimer.scheduleAtFixedRate(googleFitRequestTask, 0, 1000);
+        // Disabling stepCountNow timer as of now
+//        stepCountNowRequestTimer.scheduleAtFixedRate(stepCountNowRequestTask, 0, 1000);
+        getActivity().startService(stepCountNowIntent);
 //        // Calling it twice in the hope that the first count will be erased
 //        for(int i = 0; i < 2; i++) {
 //            getActivity().startService(stepCountNowIntent);
 //        }
+        googleFitTodayRequestTimer.scheduleAtFixedRate(googleFitTodayRequestTask, 0, 60000);
 
         return returnView;
     }
@@ -171,7 +184,9 @@ public class PhysicalFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        googleFitRequestTimer.cancel();
+        // Disabled stepCountNowTimer as of now
+//        stepCountNowRequestTimer.cancel();
+        googleFitTodayRequestTimer.cancel();
     }
 
     //    @Override
