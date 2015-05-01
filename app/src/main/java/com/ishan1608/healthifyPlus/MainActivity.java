@@ -284,19 +284,18 @@ public class MainActivity extends Activity {
                                             userImageHero.setImageBitmap(userImage);
 
                                             // Making the image circular
-                                            defaultUserImage = ((BitmapDrawable)userImageHero.getDrawable()).getBitmap();
+                                            defaultUserImage = ((BitmapDrawable) userImageHero.getDrawable()).getBitmap();
                                             defaultUserImageRounded = getRoundedShape(defaultUserImage);
                                             userImageHero.setImageBitmap(defaultUserImageRounded);
                                         }
                                     });
                                 }
 
-                                if (currentPerson != null) {
-                                    // TODO: check for the cover photo before applying it
-//                                    Person.Cover.CoverPhoto userCoverPhoto = currentPerson.getCover().getCoverPhoto();
-//                                    String userCoverURL = userCoverPhoto.getUrl();
-//                                    Log.d(TAG, userCoverURL);
-//                                    ImageLoader.getInstance().displayImage(userCoverURL, userCoverHero);
+                                if (currentPerson != null && currentPerson.hasCover()) {
+                                    Person.Cover.CoverPhoto userCoverPhoto = currentPerson.getCover().getCoverPhoto();
+                                    String userCoverURL = userCoverPhoto.getUrl();
+                                    Log.d(TAG, userCoverURL);
+                                    ImageLoader.getInstance().displayImage(userCoverURL, userCoverHero);
                                 }
 
 
