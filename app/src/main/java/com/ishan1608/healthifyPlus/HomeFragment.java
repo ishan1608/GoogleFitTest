@@ -226,11 +226,11 @@ public class HomeFragment extends Fragment {
 
         @Override
         public View getView(final int position, View convertView, ViewGroup parent) {
-            if(convertView == null) {
-                convertView = activity.getLayoutInflater().inflate(R.layout.article_list_item, null);
-            }
+            convertView = activity.getLayoutInflater().inflate(R.layout.article_list_item, null);
+            // Getting handle for article heading and URL
             articleTitleTextView = (TextView) convertView.findViewById(R.id.article_title);
             articleLinkTextView = (TextView) convertView.findViewById(R.id.article_link);
+
             // Setting background color of article title
             int randomColorPoint = new Random().nextInt(3);
             if(colorPaletteNumber == 1) {
@@ -240,36 +240,23 @@ public class HomeFragment extends Fragment {
                 colorPaletteNumber = 1;
                 articleTitleTextView.setBackgroundColor(Color.parseColor(colorPaletteLight[randomColorPoint]));
             }
-            // TODO: Fix article toggler
-//            // Displaying the URL on click of title
-//            articleTitleTextView.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View view) {
-////                    Toast.makeText(activity, "ArticleTextView on click", Toast.LENGTH_SHORT).show();
-////                    Toast.makeText(activity, "article link visibility" + articleLinkTextView.getVisibility(), Toast.LENGTH_SHORT).show();
-//                    Log.d(TAG, "article link visibility" + articleLinkTextView.getVisibility());
-//                    Log.d(TAG, "GONE = " + View.GONE);
-//                    Log.d(TAG, "VISIBLE = " + View.VISIBLE);
-//
-//                    if((articleLinkTextView.getVisibility() == View.GONE) || (articleLinkTextView.getVisibility() == View.INVISIBLE)) {
-//                        articleLinkTextView.setVisibility(View.VISIBLE);
-//                    } else {
-//                        articleLinkTextView.setVisibility(View.GONE);
-//                    }
-//
-//                }
-//            });
+
+            // Setting content toggler for article URL
+            articleTitleTextView.setOnClickListener(new ContentToggler());
+
             try {
                 // Setting title of article title
                 articleTitleTextView.setText(articleList.getJSONObject(position).getString("title"));
-                // Temporary:
+                // Setting link of article link
+                articleLinkTextView.setText(articleList.getJSONObject(position).getString("link"));
 
-                articleTitleTextView.setOnClickListener(new View.OnClickListener() {
+                // On click opening browser
+                articleLinkTextView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         Intent articleBrowserIntent = new Intent(Intent.ACTION_VIEW);
-//                            Log.d(TAG, "Intent-URL " + articleList.getJSONObject(position).getString("link"));
                         try {
+                            Log.d(TAG, "Intent-URL " + articleList.getJSONObject(position).getString("link"));
                             articleBrowserIntent.setData(Uri.parse(articleList.getJSONObject(position).getString("link")));
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -278,68 +265,17 @@ public class HomeFragment extends Fragment {
                         startActivity(articleBrowserIntent);
                     }
                 });
-
-                // TODO: Fix artile link text url
-                // Setting url of article link
-//                articleLinkTextView.setText(articleList.getJSONObject(position).getString("link"));
-//
-//                // Opening the browser on click of link
-//                articleLinkTextView.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View view) {
-//                        Toast.makeText(activity, "articleLinkTextView on click", Toast.LENGTH_SHORT).show();
-//                        Intent articleBrowserIntent = new Intent(Intent.ACTION_VIEW);
-////                            Log.d(TAG, "Intent-URL " + articleList.getJSONObject(position).getString("link"));
-//                        try {
-//                            articleBrowserIntent.setData(Uri.parse(articleList.getJSONObject(position).getString("link")));
-//                        } catch (JSONException e) {
-//                            e.printStackTrace();
-//                            articleBrowserIntent.setData(Uri.parse("https://encrypted.google.com"));
-//                        }
-//                        startActivity(articleBrowserIntent);
-//                    }
-//                });
-
-
-//                Log.d(TAG, articleList.getJSONObject(position).getString("title"));
-//                Log.d(TAG, articleList.getJSONObject(position).getString("link"));
-//                articleHolder = (LinearLayout) convertView.findViewById(R.id.article_holder);
-//                articleHolder.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View view) {
-////                        try {
-////                            Intent articleBrowserIntent = new Intent(Intent.ACTION_VIEW);
-//////                            Log.d(TAG, "Intent-URL " + articleList.getJSONObject(position).getString("link"));
-////                            articleBrowserIntent.setData(Uri.parse(articleList.getJSONObject(position).getString("link")));
-////                            startActivity(articleBrowserIntent);
-////                        } catch (JSONException e) {
-////                            e.printStackTrace();
-////                            Intent articleBrowserIntent = new Intent(Intent.ACTION_VIEW);
-//////                            Log.d(TAG, "Intent-URL " + "https://encrypted.google.com");
-////                            articleBrowserIntent.setData(Uri.parse("https://encrypted.google.com"));
-////                            startActivity(articleBrowserIntent);
-////                        };
-//                    }
-//                });
             } catch (JSONException e) {
                 e.printStackTrace();
                 articleTitleTextView.setText("Title");
                 articleLinkTextView.setText("https://encrypted.google.com");
-//                articleHolder = (LinearLayout) convertView.findViewById(R.id.article_holder);
-//                articleHolder.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View view) {
-//                        Intent articleBrowserIntent = new Intent(Intent.ACTION_VIEW);
-////                        Log.d(TAG, "Intent-URL " + "https://encrypted.google.com");
-//                        articleBrowserIntent.setData(Uri.parse("https://encrypted.google.com"));
-//                        startActivity(articleBrowserIntent);
-//                    }
-//                });
+
+                // On click opening browser
                 articleLinkTextView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         Intent articleBrowserIntent = new Intent(Intent.ACTION_VIEW);
-//                        Log.d(TAG, "Intent-URL " + "https://encrypted.google.com");
+                        Log.d(TAG, "Intent-URL " + "https://encrypted.google.com");
                         articleBrowserIntent.setData(Uri.parse("https://encrypted.google.com"));
                         startActivity(articleBrowserIntent);
                     }
