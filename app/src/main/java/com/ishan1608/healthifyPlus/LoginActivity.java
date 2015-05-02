@@ -153,12 +153,13 @@ public class LoginActivity extends Activity {
 
         errorTextView = (TextView) findViewById(R.id.error_message);
 
-        // Starting water reminder service
-        // It shouldn't be required, but kept as a backup solution
-        Log.d(TAG, "Starting water reminder service from login activity");
-        waterReminderIntent = new Intent(getApplicationContext(), GoogleFitService.class);
-        waterReminderIntent.setAction(WaterReminderService.WATER_REMINDER_TASK);
-        getApplicationContext().startService(waterReminderIntent);
+//        // Starting water reminder service
+//        // It shouldn't be required, but kept as a backup solution
+//        Log.d(TAG, "Starting water reminder service from login activity");
+//        waterReminderIntent = new Intent(getApplicationContext(), WaterReminderService.class);
+//        waterReminderIntent.setAction(WaterReminderService.WATER_REMINDER_TASK);
+//        getApplicationContext().startService(waterReminderIntent);
+//        Log.d(TAG, "water reminder service called from login activity");
     }
 
     @Override

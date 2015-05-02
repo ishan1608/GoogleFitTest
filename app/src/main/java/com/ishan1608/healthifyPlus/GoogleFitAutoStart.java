@@ -29,9 +29,11 @@ public class GoogleFitAutoStart extends BroadcastReceiver {
         // TODO: Starting Google Fit movement reminder.
 
         // Starting reminder for water intake
-        Log.d(TAG, "calling water reminder service");
-        waterReminderIntent = new Intent(context, GoogleFitService.class);
+        // Starting water reminder service
+        Log.d(TAG, "calling water reminder service from google fit auto start");
+        waterReminderIntent = new Intent(context, WaterReminderService.class);
         waterReminderIntent.setAction(WaterReminderService.WATER_REMINDER_TASK);
         context.startService(waterReminderIntent);
+        Log.d(TAG, "water reminder service called from google fit auto start");
     }
 }

@@ -45,6 +45,7 @@ public class WaterReminderService extends IntentService {
                                 Log.d(TAG, "waterReminderTask running");
                                 // If current time is between 8AM to 10PM send notification
                                 int hour = new Time(System.currentTimeMillis()).getHours();
+                                Log.d(TAG, "current hour : " + hour);
                                 if(hour > 8 && hour < 22) {
                                     sendNotification("Water or juice, whichever you prefer");
                                 }
@@ -54,7 +55,7 @@ public class WaterReminderService extends IntentService {
                             }
                         };
                         waterReminderTimer = new Timer("waterReminderTimer");
-                        waterReminderTimer.scheduleAtFixedRate(waterReminderTask, 0, 7200000);
+                        waterReminderTimer.scheduleAtFixedRate(waterReminderTask, 0, 300000);
                         break;
                     default:
                         break;
@@ -64,8 +65,6 @@ public class WaterReminderService extends IntentService {
     }
 
     // Put the message into a notification and post it.
-    // This is just one simple example of what you might choose to do with
-    // a GCM message.
     private void sendNotification(String msg) {
         Log.d(TAG, "sendNotification called with msg " + msg);
         mNotificationManager = (NotificationManager) this
