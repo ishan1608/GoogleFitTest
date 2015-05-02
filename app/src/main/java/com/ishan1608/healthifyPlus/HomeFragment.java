@@ -44,8 +44,8 @@ public class HomeFragment extends Fragment {
     private ImageButton internetRetryButton;
 
     // Color pallete
-    public static String[] colorPaletteBright = {"#FF33842D", "#FFC2758B", "#FFF10008"};
-    public static String[] colorPaletteLight = {"#FFFFC828", "#FFFF9809", "#FF31BCB4"};
+    public static String[] colorPaletteBright = {"#9C33842D", "#9CC2758B", "#9CF10008"};
+    public static String[] colorPaletteLight = {"#9CFFC828", "#9CFF9809", "#9C31BCB4"};
     private ProgressDialog articleProgressDialog;
 
     public HomeFragment() {
@@ -85,7 +85,7 @@ public class HomeFragment extends Fragment {
     private void fetchArticles() {
         // Progress Dialog
         articleProgressDialog = ProgressDialog.show(getActivity(), "Fetching Articles", "We are fetching article suggestions for you. Please Wait.", true);
-        
+
         // Connect to internet and grab
         Thread articleListThread = new Thread(new Runnable() {
             @Override

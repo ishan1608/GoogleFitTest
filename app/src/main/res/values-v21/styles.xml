@@ -6,4 +6,5 @@
         <item name="android:colorPrimary">@color/sunshine_blue</item>
         <item name="android:colorPrimaryDark">@color/sunshine_dark_blue</item>
     </style>
+    
 </resources>
