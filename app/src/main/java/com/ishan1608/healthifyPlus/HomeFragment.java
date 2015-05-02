@@ -2,6 +2,7 @@ package com.ishan1608.healthifyPlus;
 
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
@@ -45,6 +46,7 @@ public class HomeFragment extends Fragment {
     // Color pallete
     public static String[] colorPaletteBright = {"#FF33842D", "#FFC2758B", "#FFF10008"};
     public static String[] colorPaletteLight = {"#FFFFC828", "#FFFF9809", "#FF31BCB4"};
+    private ProgressDialog articleProgressDialog;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -81,6 +83,9 @@ public class HomeFragment extends Fragment {
 
     // Fetching articles list from the internet
     private void fetchArticles() {
+        // Progress Dialog
+        articleProgressDialog = ProgressDialog.show(getActivity(), "Fetching Articles", "We are fetching article suggestions for you. Please Wait.", true);
+        
         // Connect to internet and grab
         Thread articleListThread = new Thread(new Runnable() {
             @Override
@@ -150,6 +155,9 @@ public class HomeFragment extends Fragment {
                             public void run() {
                                 // Setting the list of adapter
                                 articlesListView.setAdapter(new articleListAdapter(getActivity(), articleListJSONArray));
+
+                                // Dismissing the article progress dialog
+                                articleProgressDialog.dismiss();
                             }
                         });
                     }
