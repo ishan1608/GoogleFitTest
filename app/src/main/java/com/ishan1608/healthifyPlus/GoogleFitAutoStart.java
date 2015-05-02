@@ -14,6 +14,9 @@ public class GoogleFitAutoStart extends BroadcastReceiver {
     private NotificationManager mNotificationManager;
     private Intent waterReminderIntent;
     static final String TAG = "GoogleFitAutoStart";
+    private Intent activityReminderIntent;
+    private Intent waterReminderCheckerIntent;
+    private Intent googleFitCheckerIntent;
 
     public GoogleFitAutoStart() {
     }
@@ -26,7 +29,12 @@ public class GoogleFitAutoStart extends BroadcastReceiver {
         Log.i(TAG, "started on boot");
         Toast.makeText(context, "GoogleFitAutoStart" + " started on boot", Toast.LENGTH_LONG).show();
 
-        // TODO: Starting Google Fit movement reminder.
+        // Starting movement reminder for physical activity
+        Log.d(TAG, "calling activity reminder service from google fit auto start");
+        activityReminderIntent = new Intent(context, GoogleFitService.class);
+        activityReminderIntent.setAction(GoogleFitService.ACTIVITY_REMINDER);
+        context.startService(activityReminderIntent);
+        Log.d(TAG, "activity reminder service called from google fit auto start");
 
         // Starting reminder for water intake
         // Starting water reminder service
@@ -35,5 +43,17 @@ public class GoogleFitAutoStart extends BroadcastReceiver {
         waterReminderIntent.setAction(WaterReminderService.WATER_REMINDER_TASK);
         context.startService(waterReminderIntent);
         Log.d(TAG, "water reminder service called from google fit auto start");
+
+        // Starting service checker for water reminder using google fit service
+        Log.d(TAG, "Starting service checker for water using google fit");
+        waterReminderCheckerIntent = new Intent(context, GoogleFitService.class);
+        waterReminderCheckerIntent.setAction(GoogleFitService.WATER_REMINDER_SERVICE_CHECKER);
+        context.startService(waterReminderCheckerIntent);
+
+        // Starting service checker for google fit using water reminder service
+        Log.d(TAG, "Starting service checker for google fit using water");
+        googleFitCheckerIntent = new Intent(context, WaterReminderService.class);
+        googleFitCheckerIntent.setAction(WaterReminderService.GOOGLE_FIT_SERVICE_CHECKER);
+        context.startService(googleFitCheckerIntent);
     }
 }

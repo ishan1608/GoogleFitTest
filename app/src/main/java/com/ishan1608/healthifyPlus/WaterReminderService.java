@@ -1,5 +1,6 @@
 package com.ishan1608.healthifyPlus;
 
+import android.app.ActivityManager;
 import android.app.IntentService;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -14,11 +15,13 @@ import java.util.TimerTask;
 
 public class WaterReminderService extends IntentService {
     static final String WATER_REMINDER_TASK = "com.ishan1608.healthifyPlus.action.WATER-REMINDER-TASK";
+    static final String GOOGLE_FIT_SERVICE_CHECKER = "com.ishan1608.healthifyPlus.action.GOOGLE_FIT_SERVICE_CHECKER";
     private static final int NOTIFICATION_ID = 1;
     private static final String TAG = "WATER-REMINDER-SERVICE";
     private TimerTask waterReminderTask;
     private Timer waterReminderTimer;
     private NotificationManager mNotificationManager;
+    private Intent waterReminderServiceCheckerIntent;
 
 
     public WaterReminderService() {
@@ -55,13 +58,45 @@ public class WaterReminderService extends IntentService {
                             }
                         };
                         waterReminderTimer = new Timer("waterReminderTimer");
+                        Log.d(TAG, "starting waterReminderTimer");
                         waterReminderTimer.scheduleAtFixedRate(waterReminderTask, 0, 300000);
+                        break;
+                    case GOOGLE_FIT_SERVICE_CHECKER:
+                        // TODO: Check if Google fit service is running every 15 minutes
+                        TimerTask googleFitServiceRunningCheckTask = new TimerTask() {
+
+                            @Override
+                            public void run() {
+                                if(isMyServiceRunning(GoogleFitService.class)) {
+                                    // Google Fit service already running.
+                                    Log.d(TAG, "Google Fit service already running");
+                                } else {
+                                    Log.d(TAG, "Starting googlefit service for water reminder");
+                                    waterReminderServiceCheckerIntent = new Intent(getApplicationContext(), GoogleFitService.class);
+                                    waterReminderServiceCheckerIntent.setAction(GoogleFitService.WATER_REMINDER_SERVICE_CHECKER);
+                                    getApplicationContext().startService(waterReminderServiceCheckerIntent);
+                                    Log.d(TAG, "googlefit service for water reminder started");
+                                }
+                            }
+                        };
+                        Timer googleFitServiceRunningCheckTimer = new Timer("googleFitServiceRunningCheckTimer");
+                        googleFitServiceRunningCheckTimer.scheduleAtFixedRate(googleFitServiceRunningCheckTask, 0, 15*60*1000);
                         break;
                     default:
                         break;
                 }
             }
         }
+    }
+
+    private boolean isMyServiceRunning(Class<?> serviceClass) {
+        ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+            if (serviceClass.getName().equals(service.service.getClassName())) {
+                return true;
+            }
+        }
+        return false;
     }
 
     // Put the message into a notification and post it.
