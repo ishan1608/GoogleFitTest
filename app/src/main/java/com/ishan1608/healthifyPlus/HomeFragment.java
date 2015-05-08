@@ -255,10 +255,10 @@ public class HomeFragment extends Fragment {
             int randomColorPoint = new Random().nextInt(3);
             if(colorPaletteNumber == 1) {
                 colorPaletteNumber = 2;
-                articleTitleTextView.setBackgroundColor(Color.parseColor(colorPaletteBright[randomColorPoint]));
+                articleHolderRelativeLayout.setBackgroundColor(Color.parseColor(colorPaletteBright[randomColorPoint]));
             } else {
                 colorPaletteNumber = 1;
-                articleTitleTextView.setBackgroundColor(Color.parseColor(colorPaletteLight[randomColorPoint]));
+                articleHolderRelativeLayout.setBackgroundColor(Color.parseColor(colorPaletteLight[randomColorPoint]));
             }
 
 //            // Setting content toggler for article URL
