@@ -18,8 +18,6 @@ public class GoogleFitAutoStart extends BroadcastReceiver {
     private Intent waterReminderCheckerIntent;
     private Intent googleFitCheckerIntent;
 
-    private AlarmManager waterReminderAlarmManager;
-
     public GoogleFitAutoStart() {
     }
 
@@ -29,22 +27,29 @@ public class GoogleFitAutoStart extends BroadcastReceiver {
         Intent googleFitIntent = new Intent(context, GoogleFitService.class);
         context.startService(googleFitIntent);
         Log.i(TAG, "started on boot");
-        Toast.makeText(context, "GoogleFitAutoStart" + " started on boot", Toast.LENGTH_LONG).show();
+//        Toast.makeText(context, "GoogleFitAutoStart" + " started on boot", Toast.LENGTH_LONG).show();
 
         // Starting movement reminder for physical activity
-        Log.d(TAG, "calling activity reminder service from google fit auto start");
-        activityReminderIntent = new Intent(context, GoogleFitService.class);
-        activityReminderIntent.setAction(GoogleFitService.ACTIVITY_REMINDER);
-        context.startService(activityReminderIntent);
-        Log.d(TAG, "activity reminder service called from google fit auto start");
+        // Starting activity reminder alarm
+        Log.d(TAG, "Starting activity reminder alarm");
+        AlarmManager activityReminderAlarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        Intent activityReminderAlarmIntent = new Intent(context, ActivityReminderAlarmReceiver.class);
+        PendingIntent activityAlarmPendingIntent = PendingIntent.getBroadcast(context, 1, activityReminderAlarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        activityReminderAlarmManager.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime(), 3600 * 1000, activityAlarmPendingIntent);
+
+//        Log.d(TAG, "calling activity reminder service from google fit auto start");
+//        activityReminderIntent = new Intent(context, GoogleFitService.class);
+//        activityReminderIntent.setAction(GoogleFitService.ACTIVITY_REMINDER);
+//        context.startService(activityReminderIntent);
+//        Log.d(TAG, "activity reminder service called from google fit auto start");
 
         // Starting reminder for water intake
         // Starting water reminder alarm
         Log.d(TAG, "Starting water reminder alarm");
-        waterReminderAlarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        AlarmManager waterReminderAlarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         Intent waterReminderAlarmIntent = new Intent(context, WaterReminderAlarmReceiver.class);
         PendingIntent waterAlarmPendingIntent = PendingIntent.getBroadcast(context, 0, waterReminderAlarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-        waterReminderAlarmManager.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime(), 15 * 1000, waterAlarmPendingIntent);
+        waterReminderAlarmManager.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime(), 7200 * 1000, waterAlarmPendingIntent);
 
         // // Starting water reminder service
         // Log.d(TAG, "calling water reminder service from google fit auto start");

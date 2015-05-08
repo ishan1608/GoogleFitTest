@@ -10,22 +10,27 @@ import android.util.Log;
 
 import java.util.Calendar;
 
-public class WaterReminderAlarmReceiver extends BroadcastReceiver {
-	
-	private static final int WATER_REMINDER_TASK_NOTIFICATION_ID = 1;
-    private String TAG = WaterReminderAlarmReceiver.class.getSimpleName();
+public class ActivityReminderAlarmReceiver extends BroadcastReceiver {
 
-	@Override
+    private static final int WATER_REMINDER_TASK_NOTIFICATION_ID = 2;
+    private String TAG = ActivityReminderAlarmReceiver.class.getSimpleName();
+
+    public ActivityReminderAlarmReceiver() {
+    }
+
+    @Override
     public void onReceive(Context context, Intent intent) {
-        Log.i(TAG, "WaterReminderAlarmReceiver -> onReceive called");
-        
+        Log.i(TAG, "ActivityReminderAlarmReceiver -> onReceive called");
+
         Calendar nowCalendar = Calendar.getInstance();
         int hour = nowCalendar.get(Calendar.HOUR_OF_DAY);
         Log.d(TAG, "Current Hour : " + hour);
-        if (hour > 8 && hour < 22) {
-            sendNotification(context, "Stay Hydrated", "Drinking water is good for health.\nDrink some.");
+        if ((hour > 6 && hour < 8) || (hour > 17 && hour < 22)) {
+            // TODO: Check for recent step count before sending notification (special case for activity reminder and not water reminder)
+            sendNotification(context, "Get Moving", "It is important to have some physical activity in your life.");
         }
     }
+
     // Put the message into a notification and post it.
     private void sendNotification(Context context, String title, String msg) {
         Log.d(TAG, "sendNotification called with msg " + msg);
