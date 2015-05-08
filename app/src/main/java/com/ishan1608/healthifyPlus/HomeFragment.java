@@ -16,9 +16,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -203,13 +209,17 @@ public class HomeFragment extends Fragment {
         Activity activity;
         JSONArray articleList;
         private TextView articleTitleTextView;
-//        private LinearLayout articleHolder;
         private int colorPaletteNumber;
         private TextView articleLinkTextView;
 
         public articleListAdapter(Activity activity, JSONArray articleList) {
             this.activity = activity;
             this.articleList = articleList;
+
+            // Initializing Image Downloader library
+            DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder().cacheInMemory(true).cacheOnDisk(true).build();
+            ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(getActivity().getApplicationContext()).defaultDisplayImageOptions(defaultOptions).build();
+            ImageLoader.getInstance().init(config);
         }
 
         @Override
@@ -238,6 +248,8 @@ public class HomeFragment extends Fragment {
             // Getting handle for article heading and URL
             articleTitleTextView = (TextView) convertView.findViewById(R.id.article_title);
             articleLinkTextView = (TextView) convertView.findViewById(R.id.article_link);
+            RelativeLayout articleHolderRelativeLayout = (RelativeLayout) convertView.findViewById(R.id.article_holder);
+            ImageView articleIconImageView = (ImageView) convertView.findViewById(R.id.article_site_icon);
 
             // Setting background color of article title
             int randomColorPoint = new Random().nextInt(3);
@@ -249,42 +261,43 @@ public class HomeFragment extends Fragment {
                 articleTitleTextView.setBackgroundColor(Color.parseColor(colorPaletteLight[randomColorPoint]));
             }
 
-            // Setting content toggler for article URL
-            articleTitleTextView.setOnClickListener(new ContentToggler());
+//            // Setting content toggler for article URL
+//            articleTitleTextView.setOnClickListener(new ContentToggler());
 
             try {
                 // Setting title of article title
                 articleTitleTextView.setText(articleList.getJSONObject(position).getString("title"));
                 // Setting link of article link
-                articleLinkTextView.setText(articleList.getJSONObject(position).getString("link"));
+                final String articleLink = articleList.getJSONObject(position).getString("link");
+                String articleHost = articleLink.substring(articleLink.indexOf("//") + 2, articleLink.length());
+                articleHost = articleHost.substring(0, articleHost.indexOf("/"));
+                articleLinkTextView.setText(articleHost);
+
+                // Setting icon for article
+                String articleProtocolLink = articleLink.substring(0, articleLink.indexOf("//") + 2);
+                ImageLoader.getInstance().displayImage(articleProtocolLink + articleHost + "/favicon.ico", articleIconImageView);
 
                 // On click opening browser
-                articleLinkTextView.setOnClickListener(new View.OnClickListener() {
+                articleHolderRelativeLayout.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         Intent articleBrowserIntent = new Intent(Intent.ACTION_VIEW);
-                        try {
-                            Log.d(TAG, "Intent-URL " + articleList.getJSONObject(position).getString("link"));
-                            articleBrowserIntent.setData(Uri.parse(articleList.getJSONObject(position).getString("link")));
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                            articleBrowserIntent.setData(Uri.parse("https://encrypted.google.com"));
-                        }
+                        articleBrowserIntent.setData(Uri.parse(articleLink));
                         startActivity(articleBrowserIntent);
                     }
                 });
             } catch (JSONException e) {
                 e.printStackTrace();
                 articleTitleTextView.setText("Title");
-                articleLinkTextView.setText("https://encrypted.google.com");
+                articleLinkTextView.setText("encrypted.google.com");
 
                 // On click opening browser
-                articleLinkTextView.setOnClickListener(new View.OnClickListener() {
+                articleHolderRelativeLayout.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         Intent articleBrowserIntent = new Intent(Intent.ACTION_VIEW);
                         Log.d(TAG, "Intent-URL " + "https://encrypted.google.com");
-                        articleBrowserIntent.setData(Uri.parse("https://encrypted.google.com"));
+                        articleBrowserIntent.setData(Uri.parse("encrypted.google.com"));
                         startActivity(articleBrowserIntent);
                     }
                 });

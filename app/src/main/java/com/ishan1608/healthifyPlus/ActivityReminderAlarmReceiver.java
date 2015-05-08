@@ -25,7 +25,7 @@ public class ActivityReminderAlarmReceiver extends BroadcastReceiver {
         Calendar nowCalendar = Calendar.getInstance();
         int hour = nowCalendar.get(Calendar.HOUR_OF_DAY);
         Log.d(TAG, "Current Hour : " + hour);
-        if ((hour > 6 && hour < 8) || (hour > 17 && hour < 22)) {
+        if ((hour > 6 && hour < 8) || (hour > 17 && hour < 20)) {
             // TODO: Check for recent step count before sending notification (special case for activity reminder and not water reminder)
             sendNotification(context, "Get Moving", "It is important to have some physical activity in your life.");
         }
