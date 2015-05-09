@@ -44,6 +44,11 @@ import java.util.Random;
 public class HomeFragment extends Fragment {
 
     private static final String TAG = "HOME-FRAGMENT";
+    public static final String ARTICLE_TITLE_KEY = "title";
+    public static final String ARTICLE_FAVICON_KEY = "favicon";
+    public static final String ARTICLE_LINK_KEY = "link";
+    public static final String ARTICLE_BUNDLE_KEY = "info";
+
     private View returnView;
     private ListView articlesListView;
     private LinearLayout internetRetryScreen;
@@ -266,7 +271,8 @@ public class HomeFragment extends Fragment {
 
             try {
                 // Setting title of article title
-                articleTitleTextView.setText(articleList.getJSONObject(position).getString("title"));
+                final String articleTitle = articleList.getJSONObject(position).getString("title");
+                articleTitleTextView.setText(articleTitle);
                 // Setting link of article link
                 final String articleLink = articleList.getJSONObject(position).getString("link");
                 String articleHost = articleLink.substring(articleLink.indexOf("//") + 2, articleLink.length());
@@ -274,16 +280,30 @@ public class HomeFragment extends Fragment {
                 articleLinkTextView.setText(articleHost);
 
                 // Setting icon for article
-                String articleProtocolLink = articleLink.substring(0, articleLink.indexOf("//") + 2);
-                ImageLoader.getInstance().displayImage(articleProtocolLink + articleHost + "/favicon.ico", articleIconImageView);
+                final String articleProtocolLink = articleLink.substring(0, articleLink.indexOf("//") + 2);
+                final String articleFavIcon = articleProtocolLink + articleHost + "/favicon.ico";
+                ImageLoader.getInstance().displayImage(articleFavIcon, articleIconImageView);
 
                 // On click opening browser
+                // TODO: Display the article in a new window and then provide the options via menu
                 articleHolderRelativeLayout.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Intent articleBrowserIntent = new Intent(Intent.ACTION_VIEW);
-                        articleBrowserIntent.setData(Uri.parse(articleLink));
-                        startActivity(articleBrowserIntent);
+                        // Collecting data in bundle
+                        Bundle articleInfoBundle = new Bundle();
+                        articleInfoBundle.putString(ARTICLE_TITLE_KEY, articleTitle);
+                        articleInfoBundle.putString(ARTICLE_FAVICON_KEY, articleFavIcon);
+                        articleInfoBundle.putString(ARTICLE_LINK_KEY, articleLink);
+
+                        // Intent to open the article in detail
+                        Intent articleIntent = new Intent(getActivity(), ArticleView.class);
+                        articleIntent.putExtra(ARTICLE_BUNDLE_KEY, articleInfoBundle);
+                        startActivity(articleIntent);
+
+//                        // Opening browser
+//                        Intent articleBrowserIntent = new Intent(Intent.ACTION_VIEW);
+//                        articleBrowserIntent.setData(Uri.parse(articleLink));
+//                        startActivity(articleBrowserIntent);
                     }
                 });
             } catch (JSONException e) {

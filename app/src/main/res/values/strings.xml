@@ -90,5 +90,6 @@
     <!-- Strings related to Notification preference -->
     <string name="pref_last_notification">last_notification</string>
     <string name="title_activity_splash">SplashActivity</string>
+    <string name="title_activity_article_view">ArticleView</string>
 
 </resources>

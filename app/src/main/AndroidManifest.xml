@@ -85,11 +85,6 @@
             android:name=".service.WeatherApplicationService$AlarmReceiver"
             android:enabled="true" />
 
-        <service
-            android:name=".WaterReminderService"
-            android:exported="false" >
-        </service>
-
         <activity
             android:name=".SplashActivity"
             android:label="@string/app_name"
@@ -111,6 +106,16 @@
             android:enabled="true"
             android:exported="false" >
         </receiver>
+
+        <activity
+            android:name=".ArticleView"
+            android:label="@string/title_activity_article_view"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/Theme.AppCompat.Light.DarkActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.ishan1608.healthifyPlus.MainActivity" />
+        </activity>
     </application>
 
 </manifest>
