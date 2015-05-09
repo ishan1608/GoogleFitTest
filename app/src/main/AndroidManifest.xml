@@ -111,7 +111,7 @@
             android:name=".ArticleView"
             android:label="@string/title_activity_article_view"
             android:parentActivityName=".MainActivity"
-            android:theme="@style/Theme.AppCompat.Light.DarkActionBar">
+            android:theme="@android:style/Theme.DeviceDefault.Light.DarkActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.ishan1608.healthifyPlus.MainActivity" />

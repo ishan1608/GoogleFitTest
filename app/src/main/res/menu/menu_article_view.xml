@@ -1,7 +1,28 @@
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.ishan1608.healthifyPlus.ArticleView">
-    <item android:id="@+id/action_settings" android:title="@string/action_settings"
-        android:orderInCategory="100" app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_share"
+        android:title="Share"
+        android:orderInCategory="1"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_open_in_browser"
+        android:title="Open in browser"
+        android:orderInCategory="2"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_copy_link"
+        android:title="Copy Link"
+        android:orderInCategory="3"
+        app:showAsAction="never"/>
+    <item
+        android:id="@+id/action_email_link"
+        android:title="Email"
+        android:orderInCategory="4"
+        app:showAsAction="never"/>
+
 </menu>

@@ -1,17 +1,28 @@
 package com.ishan1608.healthifyPlus;
 
+import android.app.ActionBar;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
-public class ArticleView extends ActionBarActivity {
+
+public class ArticleView extends Activity {
+
+    private String articleLink;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,7 +34,10 @@ public class ArticleView extends ActionBarActivity {
         Bundle articleInfoBundle = callingIntent.getBundleExtra(HomeFragment.ARTICLE_BUNDLE_KEY);
         String articleTitle = articleInfoBundle.getString(HomeFragment.ARTICLE_TITLE_KEY);
         String articleFavIcon = articleInfoBundle.getString(HomeFragment.ARTICLE_FAVICON_KEY);
-        String articleLink = articleInfoBundle.getString(HomeFragment.ARTICLE_LINK_KEY);
+        articleLink = articleInfoBundle.getString(HomeFragment.ARTICLE_LINK_KEY);
+
+        // Setting up a custom action bar
+        setupCustomActionBar(articleFavIcon, articleTitle, articleLink);
 
         // Displaying the article inside our application
         WebView articleWebView = (WebView) findViewById(R.id.article_webView);
@@ -54,6 +68,32 @@ public class ArticleView extends ActionBarActivity {
 
     }
 
+    private void setupCustomActionBar(String articleFavIcon, String articleTitle, String articleLink) {
+        ActionBar articleActionBar = getActionBar();
+        // Setting Custom View
+        articleActionBar.setDisplayShowTitleEnabled(false);
+        articleActionBar.setDisplayShowCustomEnabled(true);
+        LayoutInflater actionBarLayoutInflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View actionBarView = actionBarLayoutInflater.inflate(R.layout.article_view_action_bar, null);
+
+        // Image Loader library settings
+        DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder().cacheInMemory(true).cacheOnDisk(true).build();
+        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(getApplicationContext().getApplicationContext()).defaultDisplayImageOptions(defaultOptions).build();
+        ImageLoader.getInstance().init(config);
+        // Setting image
+        ImageView articleFavIconImageView = (ImageView) actionBarView.findViewById(R.id.action_bar_article_site_icon);
+        ImageLoader.getInstance().displayImage(articleFavIcon, articleFavIconImageView);
+        // Setting title and link
+        TextView articleTitleTextView = (TextView) actionBarView.findViewById(R.id.action_bar_article_title);
+        articleTitleTextView.setText(articleTitle);
+        TextView articleLinkTextView = (TextView) actionBarView.findViewById(R.id.action_bar_article_link);
+        articleLinkTextView.setText(articleLink);
+        // Displaying the custom View
+        articleActionBar.setCustomView(actionBarView);
+        articleActionBar.setDisplayHomeAsUpEnabled(true);
+
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -63,16 +103,24 @@ public class ArticleView extends ActionBarActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch (id) {
+            case R.id.action_share:
+//                Toast.makeText(this, "share", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(Intent.ACTION_SEND);
+                intent.setType("text/plain");
+                intent.putExtra(Intent.EXTRA_TEXT, articleLink);
+                startActivity(Intent.createChooser(intent, "Share with"));
+                break;
+            case R.id.action_open_in_browser:
+//                Toast.makeText(this, "open", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.action_copy_link:
+                break;
+            case R.id.action_email_link:
+                break;
         }
-
         return super.onOptionsItemSelected(item);
     }
 }
