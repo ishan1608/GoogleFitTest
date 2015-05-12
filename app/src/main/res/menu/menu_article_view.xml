@@ -19,10 +19,5 @@
         android:title="Copy Link"
         android:orderInCategory="3"
         app:showAsAction="never"/>
-    <item
-        android:id="@+id/action_email_link"
-        android:title="Email"
-        android:orderInCategory="4"
-        app:showAsAction="never"/>
 
 </menu>

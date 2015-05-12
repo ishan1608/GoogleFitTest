@@ -86,27 +86,28 @@ public class ArticleView extends Activity {
     private void setupCustomActionBar(String articleFavIcon, String articleTitle, String articleLink) {
         ActionBar articleActionBar = getActionBar();
         // Setting Custom View
-        articleActionBar.setDisplayShowTitleEnabled(false);
-        articleActionBar.setDisplayShowCustomEnabled(true);
-        LayoutInflater actionBarLayoutInflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View actionBarView = actionBarLayoutInflater.inflate(R.layout.article_view_action_bar, null);
+        if (articleActionBar != null) {
+            articleActionBar.setDisplayShowTitleEnabled(false);
+            articleActionBar.setDisplayShowCustomEnabled(true);
+            LayoutInflater actionBarLayoutInflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            View actionBarView = actionBarLayoutInflater.inflate(R.layout.article_view_action_bar, null);
 
-        // Image Loader library settings
-        DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder().cacheInMemory(true).cacheOnDisk(true).build();
-        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(getApplicationContext().getApplicationContext()).defaultDisplayImageOptions(defaultOptions).build();
-        ImageLoader.getInstance().init(config);
-        // Setting image
-        ImageView articleFavIconImageView = (ImageView) actionBarView.findViewById(R.id.action_bar_article_site_icon);
-        ImageLoader.getInstance().displayImage(articleFavIcon, articleFavIconImageView);
-        // Setting title and link
-        TextView articleTitleTextView = (TextView) actionBarView.findViewById(R.id.action_bar_article_title);
-        articleTitleTextView.setText(articleTitle);
-        TextView articleLinkTextView = (TextView) actionBarView.findViewById(R.id.action_bar_article_link);
-        articleLinkTextView.setText(articleLink);
-        // Displaying the custom View
-        articleActionBar.setCustomView(actionBarView);
-        articleActionBar.setDisplayHomeAsUpEnabled(true);
-
+            // Image Loader library settings
+            DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder().cacheInMemory(true).cacheOnDisk(true).build();
+            ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(getApplicationContext().getApplicationContext()).defaultDisplayImageOptions(defaultOptions).build();
+            ImageLoader.getInstance().init(config);
+            // Setting image
+            ImageView articleFavIconImageView = (ImageView) actionBarView.findViewById(R.id.action_bar_article_site_icon);
+            ImageLoader.getInstance().displayImage(articleFavIcon, articleFavIconImageView);
+            // Setting title and link
+            TextView articleTitleTextView = (TextView) actionBarView.findViewById(R.id.action_bar_article_title);
+            articleTitleTextView.setText(articleTitle);
+            TextView articleLinkTextView = (TextView) actionBarView.findViewById(R.id.action_bar_article_link);
+            articleLinkTextView.setText(articleLink);
+            // Displaying the custom View
+            articleActionBar.setCustomView(actionBarView);
+            articleActionBar.setDisplayHomeAsUpEnabled(true);
+        }
     }
 
     @Override
@@ -163,62 +164,7 @@ public class ArticleView extends Activity {
                 // Telling the user that the contents are copied
                 Toast.makeText(getApplicationContext(), "Link copied", Toast.LENGTH_SHORT).show();
                 break;
-            case R.id.action_email_link:
-                Intent emailDummyIntent = new Intent(Intent.ACTION_SENDTO);
-                emailDummyIntent.setData(Uri.parse("mailto:some@emaildomain.com"));
-
-                List<ResolveInfo> emailActivities = packageManager.queryIntentActivities(emailDummyIntent, 0);
-
-                if (emailActivities != null) {
-                    final List<ResolveInfo> emailActivitiesForDialog = emailActivities;
-
-                    String[] availableEmailAppsName = new String[emailActivitiesForDialog.size()];
-                    for (int i = 0; i < emailActivitiesForDialog.size(); i++)
-                    {
-                        availableEmailAppsName[i] = emailActivitiesForDialog.get(i).activityInfo.applicationInfo.loadLabel(packageManager).toString();
-                    }
-
-                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                    builder.setTitle("Email with : ");
-                    builder.setItems(availableEmailAppsName, new DialogInterface.OnClickListener()
-                    {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which)
-                        {
-                            sendEmailUsingSelectedEmailApp(context, articleTitle, "Hey, I found this great article using Healthify Plus\n" + articleLink + "\n\nThought you should know", emailActivitiesForDialog.get(which));
-                        }
-                    });
-
-                    builder.create().show();
-                } else {
-                    Toast.makeText(context, "There are no email providers on your phone.", Toast.LENGTH_LONG).show();
-                }
-
-                break;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    protected static void sendEmailUsingSelectedEmailApp(Context p_context, String p_subject, String p_body,ResolveInfo p_selectedEmailApp)
-    {
-        Intent emailIntent = new Intent(Intent.ACTION_SEND);
-        // The intent does not have a URI, so declare the "text/plain" MIME type
-        emailIntent.setType("text/plain");
-//                emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[] {"jon@example.com"}); // recipients
-        emailIntent.putExtra(Intent.EXTRA_SUBJECT, p_subject);
-        emailIntent.putExtra(Intent.EXTRA_TEXT, p_body);
-
-        if (null != p_selectedEmailApp)
-        {
-            Log.d(ArticleView.class.getSimpleName(), "Sending email using " + p_selectedEmailApp);
-            emailIntent.setComponent(new ComponentName(p_selectedEmailApp.activityInfo.packageName, p_selectedEmailApp.activityInfo.name));
-
-            p_context.startActivity(emailIntent);
-        }
-        else
-        {
-            Intent emailAppChooser = Intent.createChooser(emailIntent, "Email using ");
-            p_context.startActivity(emailAppChooser);
-        }
     }
 }
