@@ -560,11 +560,21 @@ public class LoginActivity extends Activity {
                                                         ageError = false;
                                                     }
 
-                                                    // Checking password
+                                                    // Checking passwords for inconsistency
                                                     userPasswordEditText = (EditText) registrationForm.findViewById(R.id.password_edit_text);
                                                     userConfirmationPasswordEditText = (EditText) registrationForm.findViewById(R.id.confirm_password_edit_text);
                                                     if(userPasswordEditText == null || userConfirmationPasswordEditText == null || ! userPasswordEditText.getText().toString().equals(userConfirmationPasswordEditText.getText().toString())) {
                                                         registrationErrorTextView.setText("Passwords do not match.");
+                                                        passwordError = true;
+                                                        registrationErrorTextView.setVisibility(View.VISIBLE);
+                                                    } else {
+                                                        userPassword = userPasswordEditText.getText().toString();
+                                                        passwordError = false;
+                                                    }
+
+                                                    // Checking password for length
+                                                    if ((userPasswordEditText.getText().toString().length() <= 6) || (userConfirmationPasswordEditText.getText().toString().length() <= 6)) {
+                                                        registrationErrorTextView.setText("Password should be more than 6 characters long.");
                                                         passwordError = true;
                                                         registrationErrorTextView.setVisibility(View.VISIBLE);
                                                     } else {
