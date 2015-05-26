@@ -18,6 +18,7 @@ import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Scope;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.fitness.Fitness;
+import com.google.android.gms.fitness.FitnessStatusCodes;
 import com.google.android.gms.fitness.data.DataPoint;
 import com.google.android.gms.fitness.data.DataSet;
 import com.google.android.gms.fitness.data.DataSource;
@@ -85,6 +86,9 @@ public class GoogleFitService extends IntentService {
         // Connecting the physical fitness client
         physicalFitnessClient.connect();
 
+        // Initiating recording of data
+        initiateRecordingOfData(physicalFitnessClient);
+
 //        // Counting and broadcasting step count now every second
 //        handleActionStepsPerSecond();
 //        // Counting and broadcasting step count for today
@@ -93,6 +97,62 @@ public class GoogleFitService extends IntentService {
 //        handleActionMilesCountToday();
 //        // Counting and broadcasting calories expended for today
 //        handleActionCaloriesExpendedToday();
+    }
+
+    private void initiateRecordingOfData(GoogleApiClient mClient) {
+        // Initiating Step Count Delta
+        Fitness.RecordingApi.subscribe(mClient, DataType.TYPE_STEP_COUNT_DELTA)
+                .setResultCallback(new ResultCallback<Status>() {
+                    @Override
+                    public void onResult(Status status) {
+                        if (status.isSuccess()) {
+                            if (status.getStatusCode()
+                                    == FitnessStatusCodes.SUCCESS_ALREADY_SUBSCRIBED) {
+                                Log.i(TAG, "Existing subscription for activity detected. TYPE_STEP_COUNT_DELTA");
+                            } else {
+                                Log.i(TAG, "Successfully subscribed! to TYPE_STEP_COUNT_DELTA");
+                            }
+                        } else {
+                            Log.i(TAG, "There was a problem subscribing. TYPE_STEP_COUNT_DELTA");
+                        }
+                    }
+                });
+
+        // Initiating TYPE_DISTANCE_DELTA
+        Fitness.RecordingApi.subscribe(mClient, DataType.TYPE_DISTANCE_DELTA)
+                .setResultCallback(new ResultCallback<Status>() {
+                    @Override
+                    public void onResult(Status status) {
+                        if (status.isSuccess()) {
+                            if (status.getStatusCode()
+                                    == FitnessStatusCodes.SUCCESS_ALREADY_SUBSCRIBED) {
+                                Log.i(TAG, "Existing subscription for activity detected. TYPE_DISTANCE_DELTA");
+                            } else {
+                                Log.i(TAG, "Successfully subscribed! to TYPE_DISTANCE_DELTA");
+                            }
+                        } else {
+                            Log.i(TAG, "There was a problem subscribing. TYPE_DISTANCE_DELTA");
+                        }
+                    }
+                });
+
+        // Initating TYPE_CALORIES_EXPENDED
+        Fitness.RecordingApi.subscribe(mClient, DataType.TYPE_CALORIES_EXPENDED)
+                .setResultCallback(new ResultCallback<Status>() {
+                    @Override
+                    public void onResult(Status status) {
+                        if (status.isSuccess()) {
+                            if (status.getStatusCode()
+                                    == FitnessStatusCodes.SUCCESS_ALREADY_SUBSCRIBED) {
+                                Log.i(TAG, "Existing subscription for activity detected. TYPE_CALORIES_EXPENDED");
+                            } else {
+                                Log.i(TAG, "Successfully subscribed! to TYPE_CALORIES_EXPENDED");
+                            }
+                        } else {
+                            Log.i(TAG, "There was a problem subscribing. TYPE_CALORIES_EXPENDED");
+                        }
+                    }
+                });
     }
 
     /**
@@ -240,15 +300,15 @@ public class GoogleFitService extends IntentService {
         }
     }
 
-    private boolean isMyServiceRunning(Class<?> serviceClass) {
-        ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
-        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
-            if (serviceClass.getName().equals(service.service.getClassName())) {
-                return true;
-            }
-        }
-        return false;
-    }
+//    private boolean isMyServiceRunning(Class<?> serviceClass) {
+//        ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+//        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+//            if (serviceClass.getName().equals(service.service.getClassName())) {
+//                return true;
+//            }
+//        }
+//        return false;
+//    }
 
 //    private void handleActivityReminder() {
 //        Log.d(TAG, "handleActivityReminder called");

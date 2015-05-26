@@ -18,7 +18,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -34,9 +33,13 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.Scopes;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Scope;
+import com.google.android.gms.common.api.Status;
 import com.google.android.gms.fitness.Fitness;
 import com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks;
+import com.google.android.gms.fitness.FitnessStatusCodes;
+import com.google.android.gms.fitness.data.DataType;
 import com.google.android.gms.plus.Plus;
 import com.google.android.gms.plus.model.people.Person;
 
@@ -116,6 +119,9 @@ public class LoginActivity extends Activity {
         buildAlreadySignedInFitnessClient();
         alreadySignedInClient.connect();
 
+        // Initiate recording of data
+        initiateRecordingOfData(alreadySignedInClient);
+
         // Initialize button for the case when user is not already signed in
         initializeButton = (ImageButton) findViewById(R.id.initialize_button);
         initializeButton.setOnClickListener(new View.OnClickListener() {
@@ -126,6 +132,9 @@ public class LoginActivity extends Activity {
                 initializeButton.setVisibility(View.GONE);
                 buildNewSignInFitnessClient();
                 newSignInClient.connect();
+
+                // Initiate recording of data
+                initiateRecordingOfData(newSignInClient);
             }
         });
 
@@ -162,6 +171,62 @@ public class LoginActivity extends Activity {
 //        Log.d(TAG, "water reminder service called from login activity");
     }
 
+    private void initiateRecordingOfData(GoogleApiClient mClient) {
+        // Initiating Step Count Delta
+        Fitness.RecordingApi.subscribe(mClient, DataType.TYPE_STEP_COUNT_DELTA)
+                .setResultCallback(new ResultCallback<Status>() {
+                    @Override
+                    public void onResult(Status status) {
+                        if (status.isSuccess()) {
+                            if (status.getStatusCode()
+                                    == FitnessStatusCodes.SUCCESS_ALREADY_SUBSCRIBED) {
+                                Log.i(TAG, "Existing subscription for activity detected. TYPE_STEP_COUNT_DELTA");
+                            } else {
+                                Log.i(TAG, "Successfully subscribed! to TYPE_STEP_COUNT_DELTA");
+                            }
+                        } else {
+                            Log.i(TAG, "There was a problem subscribing. TYPE_STEP_COUNT_DELTA");
+                        }
+                    }
+                });
+
+        // Initiating TYPE_DISTANCE_DELTA
+        Fitness.RecordingApi.subscribe(mClient, DataType.TYPE_DISTANCE_DELTA)
+                .setResultCallback(new ResultCallback<Status>() {
+                    @Override
+                    public void onResult(Status status) {
+                        if (status.isSuccess()) {
+                            if (status.getStatusCode()
+                                    == FitnessStatusCodes.SUCCESS_ALREADY_SUBSCRIBED) {
+                                Log.i(TAG, "Existing subscription for activity detected. TYPE_DISTANCE_DELTA");
+                            } else {
+                                Log.i(TAG, "Successfully subscribed! to TYPE_DISTANCE_DELTA");
+                            }
+                        } else {
+                            Log.i(TAG, "There was a problem subscribing. TYPE_DISTANCE_DELTA");
+                        }
+                    }
+                });
+
+        // Initating TYPE_CALORIES_EXPENDED
+        Fitness.RecordingApi.subscribe(mClient, DataType.TYPE_CALORIES_EXPENDED)
+                .setResultCallback(new ResultCallback<Status>() {
+                    @Override
+                    public void onResult(Status status) {
+                        if (status.isSuccess()) {
+                            if (status.getStatusCode()
+                                    == FitnessStatusCodes.SUCCESS_ALREADY_SUBSCRIBED) {
+                                Log.i(TAG, "Existing subscription for activity detected. TYPE_CALORIES_EXPENDED");
+                            } else {
+                                Log.i(TAG, "Successfully subscribed! to TYPE_CALORIES_EXPENDED");
+                            }
+                        } else {
+                            Log.i(TAG, "There was a problem subscribing. TYPE_CALORIES_EXPENDED");
+                        }
+                    }
+                });
+    }
+
     @Override
     protected void onStart() {
         super.onStart();
@@ -170,6 +235,9 @@ public class LoginActivity extends Activity {
             Log.i(TAG, "Connecting...");
             logStatus("Connecting...");
             newSignInClient.connect();
+
+            // Initiate recording of data
+            initiateRecordingOfData(newSignInClient);
         }
     }
 
@@ -197,6 +265,9 @@ public class LoginActivity extends Activity {
                 // Make sure the app is not already connected or attempting to connect
                 if (!newSignInClient.isConnecting() && !newSignInClient.isConnected()) {
                     newSignInClient.connect();
+
+                    // Initiate recording of data
+                    initiateRecordingOfData(newSignInClient);
                 }
             }
         }
@@ -861,6 +932,9 @@ public class LoginActivity extends Activity {
                                         // Prompting to register by creating newSignInClient
                                         buildNewSignInFitnessClient();
                                         newSignInClient.connect();
+
+                                        // Initiate recording of data
+                                        initiateRecordingOfData(newSignInClient);
                                     }
                                 });
                             } else {

@@ -35,7 +35,9 @@ public class GoogleFitAutoStart extends BroadcastReceiver {
         AlarmManager activityReminderAlarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         Intent activityReminderAlarmIntent = new Intent(context, ActivityReminderAlarmReceiver.class);
         PendingIntent activityAlarmPendingIntent = PendingIntent.getBroadcast(context, 1, activityReminderAlarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-        activityReminderAlarmManager.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime(), 3600 * 1000, activityAlarmPendingIntent);
+//        activityReminderAlarmManager.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime(), 3600 * 1000, activityAlarmPendingIntent);
+        // Every five minutes for (presentation only)
+        activityReminderAlarmManager.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime(), 5 * 60 * 1000, activityAlarmPendingIntent);
 
 //        Log.d(TAG, "calling activity reminder service from google fit auto start");
 //        activityReminderIntent = new Intent(context, GoogleFitService.class);
@@ -49,7 +51,9 @@ public class GoogleFitAutoStart extends BroadcastReceiver {
         AlarmManager waterReminderAlarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         Intent waterReminderAlarmIntent = new Intent(context, WaterReminderAlarmReceiver.class);
         PendingIntent waterAlarmPendingIntent = PendingIntent.getBroadcast(context, 0, waterReminderAlarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-        waterReminderAlarmManager.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime(), 7200 * 1000, waterAlarmPendingIntent);
+//        waterReminderAlarmManager.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime(), 7200 * 1000, waterAlarmPendingIntent);
+        // Every five minutes for (presentation only)
+        waterReminderAlarmManager.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime(), 5 * 60 * 1000, waterAlarmPendingIntent);
 
         // // Starting water reminder service
         // Log.d(TAG, "calling water reminder service from google fit auto start");
