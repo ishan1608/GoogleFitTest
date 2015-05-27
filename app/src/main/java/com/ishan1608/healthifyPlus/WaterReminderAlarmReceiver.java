@@ -22,7 +22,7 @@ public class WaterReminderAlarmReceiver extends BroadcastReceiver {
         Calendar nowCalendar = Calendar.getInstance();
         int hour = nowCalendar.get(Calendar.HOUR_OF_DAY);
         Log.d(TAG, "Current Hour : " + hour);
-        if (hour > 8 && hour < 22) {
+        if (hour > 7 && hour < 22) {
             sendNotification(context, "Stay Hydrated", "Drinking water is good for health.\nDrink some.");
         }
     }
